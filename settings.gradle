@@ -1,0 +1,2 @@
+include ':app', ':hulk'
+rootProject.name='AACHulk'
