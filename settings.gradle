@@ -1,2 +1,2 @@
-include ':app', ':hulk'
+include ':app', ':libhulk'
 rootProject.name='AACHulk'

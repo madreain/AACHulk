@@ -36,5 +36,5 @@ dependencies {
     api rootProject.ext.dependencies["annotations"]
     api rootProject.ext.dependencies["constraintlayout"]
     //hulk引入
-    api project(':hulk')
+    api project(':libhulk')
 }
