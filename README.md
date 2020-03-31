@@ -10,4 +10,6 @@ Lifecycles 生命周期管理
 WordManager 后台任务管理
 
 
+kotlin-android-extensions 这个插件可能只管自己module的资源文件
 
+toolbar.xml（toolbar、tv_left、tv_title、tv_right、toolbarShadow）

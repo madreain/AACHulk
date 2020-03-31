@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">aachulk</string>
+    <string name="loading">正在加载中...</string>
+    <string name="refresh">刷新</string>
+    <string name="network_error">网络异常</string>
+    <string name="network_error_please_refresh">网络状态异常，请刷新重试</string>
+    <string name="no_data">暂无数据</string>
 </resources>

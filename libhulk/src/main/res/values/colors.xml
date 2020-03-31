@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#cccccc</color>
+    <color name="colorAccent">@color/mC8EBCA</color>
+    <color name="windowBackground">#ffffff</color>
+    <color name="m494949">#494949</color>
+    <color name="m444444">#444444</color>
+    <color name="m33cccccc">#33cccccc</color>
+    <color name="m00000000">#00000000</color>
+    <color name="m484848">#484848</color>
+    <color name="mFFFFFF">#FFFFFF</color>
+    <color name="mA2A2A2">#A2A2A2</color>
+    <color name="m888888">#888888</color>
+    <color name="mC8EBCA">#C8EBCA</color>
+    <color name="m90EE90">#90ee90</color>
+    <color name="m1D7BEA">#1D7BEA</color>
+    <color name="m177AE6">#177AE6</color>
+    <color name="mCCE4FF">#CCE4FF</color>
+</resources>

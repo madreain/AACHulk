@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <import type="com.madreain.aachulk.module.list.ListData" />
+
+        <variable
+            name="listDataS"
+            type="List&lt;ListData>" />
+
+        <variable
+            name="listData"
+            type="ListData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/single_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.madreain.aachulk.module.main.MainActivity">
+
+        <include
+            android:id="@+id/tbar"
+            layout="@layout/toolbar" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="@dimen/dp60"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@{listData.code,default=`接口调用之前`}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="接口调用结果" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

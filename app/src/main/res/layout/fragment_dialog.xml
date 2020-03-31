@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp270"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_mffffff_8"
+        android:elevation="@dimen/dp24">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/SP16_2F2F39"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/dp24"
+            android:paddingBottom="@dimen/dp16"
+            tools:text="确定取消预约？" />
+
+        <TextView
+            android:id="@+id/tv_desc"
+            style="@style/SP14_2F2F39"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:gravity="center"
+            android:paddingStart="@dimen/dp24"
+            android:paddingLeft="@dimen/dp24"
+            android:paddingEnd="@dimen/dp24"
+            android:paddingRight="@dimen/dp24"
+            android:paddingBottom="@dimen/dp8"
+            tools:text="成功预约「2019-07-26 22:15-22:45」请准时到场。" />
+
+        <TextView
+            android:id="@+id/tv_remind"
+            style="@style/SP14_2F2F39"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_desc"
+            android:drawableStart="@drawable/ic_unselect"
+            android:drawableLeft="@drawable/ic_unselect"
+            android:drawablePadding="@dimen/dp18"
+            android:paddingStart="@dimen/dp24"
+            android:paddingLeft="@dimen/dp24"
+            android:paddingTop="@dimen/dp16"
+            android:paddingEnd="@dimen/dp24"
+            android:paddingRight="@dimen/dp24"
+            android:paddingBottom="@dimen/dp16"
+            android:text="不再提醒" />
+
+        <View
+            android:id="@+id/v_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp1"
+            android:layout_below="@+id/tv_remind"
+            android:layout_marginTop="@dimen/dp8"
+            android:background="@color/m042F2F39" />
+
+        <View
+            android:id="@+id/v_vertical"
+            android:layout_width="@dimen/dp1"
+            android:layout_height="@dimen/dp48"
+            android:layout_below="@+id/v_horizontal"
+            android:layout_centerHorizontal="true"
+            android:background="@color/m042F2F39" />
+
+        <TextView
+            android:id="@+id/tv_left"
+            style="@style/SP16_2F2F39"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp48"
+            android:layout_below="@+id/v_horizontal"
+            android:layout_toStartOf="@+id/v_vertical"
+            android:layout_toLeftOf="@+id/v_vertical"
+            android:gravity="center"
+            tools:text="取消" />
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp48"
+            android:layout_below="@+id/v_horizontal"
+            android:layout_toEndOf="@+id/v_vertical"
+            android:layout_toRightOf="@+id/v_vertical"
+            android:gravity="center"
+            android:textColor="@color/m007AFF"
+            android:textSize="@dimen/sp16"
+            tools:text="取消" />
+
+    </RelativeLayout>
+
+</FrameLayout>

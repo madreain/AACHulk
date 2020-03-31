@@ -11,7 +11,26 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //ARouter添加的
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        //定义网络请求成功返回码 baseurl  日志打印  切换环境  在代码中BuildConfig.BASE_URL去使用
+        buildConfigField "String", "CODE_SUCCESS", getCodeSuccess()
+        buildConfigField "String", "CODELIST_SUCCESS", getCodeListSuccess()
+        buildConfigField "String", "BASE_URL", getBaseUrl()
+        buildConfigField "boolean", "OPEN_LOG", getOpenLog()
+        buildConfigField "boolean", "OPEN_CHANGE", getOpenChange()
     }
+
+    dataBinding {
+        enabled true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -24,17 +43,47 @@ android {
     }
 }
 
+//相关配置的获取方法及其处理
+def getOpenLog() {
+    return "${OPEN_LOG}"
+}
+
+def getOpenChange() {
+    return "${OPEN_CHANGE}"
+}
+
+def getBaseUrl() {
+    //最后没有斜杠，需要手动拼接
+    return "\"" + String.valueOf(BASE_URL).trim() + "/\""
+}
+
+def getCodeSuccess() {
+    return "\"" + String.valueOf(CODE_SUCCESS) + "\""
+}
+
+def getCodeListSuccess() {
+    return "\"" + String.valueOf(CODELIST_SUCCESS) + "\""
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //hulk引入
+    api project(':libhulk')
     //androidx
     api rootProject.ext.dependencies["support-v4"]
     api rootProject.ext.dependencies["appcompat"]
-    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["material"]
     api rootProject.ext.dependencies["recyclerview"]
     api rootProject.ext.dependencies["annotations"]
     api rootProject.ext.dependencies["constraintlayout"]
-    //hulk引入
-    api project(':libhulk')
+    api rootProject.ext.dependencies["vectordrawable"]
+    api rootProject.ext.dependencies["lifecycle"]
+    api rootProject.ext.dependencies["navigation-fragment"]
+    api rootProject.ext.dependencies["navigation-ui"]
+    api rootProject.ext.dependencies["navigation-fragment-ktx"]
+    api rootProject.ext.dependencies["navigation-ui-ktx"]
+
+
 }

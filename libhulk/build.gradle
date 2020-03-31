@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     defaultConfig {
@@ -8,9 +9,17 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
+        //ARouter添加的
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    dataBinding {
+        enabled true
     }
 
     buildTypes {
@@ -30,14 +39,42 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //androidx
     api rootProject.ext.dependencies["support-v4"]
     api rootProject.ext.dependencies["appcompat"]
-    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["material"]
     api rootProject.ext.dependencies["recyclerview"]
     api rootProject.ext.dependencies["annotations"]
     api rootProject.ext.dependencies["constraintlayout"]
     //ktx扩展库
     api rootProject.ext.dependencies["ktx"]
+//    api rootProject.ext.dependencies["ktx-stdlib"]
+    api rootProject.ext.dependencies["ktx-jdk"]
+    api rootProject.ext.dependencies["ktx-coroutines"]
+    api rootProject.ext.dependencies["ktx-coroutines-android"]
+    //okhttp
+    api rootProject.ext.dependencies["okhttp"]
+    api rootProject.ext.dependencies["okhttp-log"]
+    //retrofit
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["retrofit-converter-gson"]
+    api rootProject.ext.dependencies["retrofit-adapter-kt"]
+    //room
+    api rootProject.ext.dependencies["room"]
+    annotationProcessor rootProject.ext.dependencies["room-compiler"]
+    //lifecycle
+    api rootProject.ext.dependencies["lifecycle"]
+    api rootProject.ext.dependencies["lifecycle-ktx"]
+    annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
+    //arouter
+    api rootProject.ext.dependencies["arouter"]
+    annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
+    //SmartRefreshLayout
+    api rootProject.ext.dependencies["SmartRefreshLayout"]
+    api rootProject.ext.dependencies["SmartRefreshHeader"]
+    //topsnackbar
+    api rootProject.ext.dependencies["topsnackbar"]
+    //brvah
+    api rootProject.ext.dependencies["brvah"]
+
 }
