@@ -39,11 +39,11 @@ object HulkConfig {
     private var cacheOpen = false
     private var configBuilder: ConfigBuilder? = null
     @Synchronized
-    fun builder(): ConfigBuilder? {
+    fun builder(): ConfigBuilder {
         if (configBuilder == null) {
             configBuilder = ConfigBuilder()
         }
-        return configBuilder
+        return configBuilder as ConfigBuilder
     }
 
     /**

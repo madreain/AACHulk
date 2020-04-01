@@ -25,24 +25,24 @@ class AACHulkApplication : HulkApplication() {
 
     override fun initHulkConfig() { //配置项
         HulkConfig.builder() //这里只需要选择设置一个
-            ?.setRetSuccess(BuildConfig.CODE_SUCCESS)
-            ?.setRetSuccessList(BuildConfig.CODELIST_SUCCESS)
-            ?.setBaseUrl(BuildConfig.BASE_URL)
-            ?.setLogOpen(BuildConfig.OPEN_LOG)
-            ?.addOkHttpInterceptor(RequestHeaderInterceptor()) //请求头拦截器
-            ?.addOkHttpInterceptor(
+            .setRetSuccess(BuildConfig.CODE_SUCCESS)
+            .setRetSuccessList(BuildConfig.CODELIST_SUCCESS)
+            .setBaseUrl(BuildConfig.BASE_URL)
+            .setLogOpen(BuildConfig.OPEN_LOG)
+            .addOkHttpInterceptor(RequestHeaderInterceptor()) //请求头拦截器
+            .addOkHttpInterceptor(
                 BuildConfig.OPEN_LOG,
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             ) //okhttp请求日志开关+消息拦截器.md
-            ?.addRetCodeInterceptors(SessionInterceptor()) // returnCode非正常态拦截器
-            ?.setRetrofit(
+            .addRetCodeInterceptors(SessionInterceptor()) // returnCode非正常态拦截器
+            .setRetrofit(
                 ApiClient.instance!!.getRetrofit(
                     ApiClient.instance!!.getOkHttpClient(
                         HulkConfig.getOkHttpInterceptors()
                     )
                 )
             )
-            ?.build()
+            .build()
         //application 上下文
         Utils.init(this)
         //SmartRefreshLayout的统一设置
@@ -55,7 +55,7 @@ class AACHulkApplication : HulkApplication() {
     private fun initSmartRefreshLayout() {
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator({ context: Context, refreshLayout: RefreshLayout ->
-//            refreshLayout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white)
+            //            refreshLayout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white)
             return@setDefaultRefreshHeaderCreator MaterialHeader(context)
         })
 
