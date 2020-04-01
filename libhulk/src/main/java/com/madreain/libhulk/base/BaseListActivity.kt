@@ -187,14 +187,6 @@ abstract class BaseListActivity<VM : BaseListViewModel<*>, DB : ViewDataBinding,
         })
     }
 
-    /**
-     * 销毁
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        ActivityUtils.get()!!.remove(this)
-    }
-
 
     /**
      * 相关view替换
@@ -458,5 +450,37 @@ abstract class BaseListActivity<VM : BaseListViewModel<*>, DB : ViewDataBinding,
         getSmartRefreshLayout()!!.finishLoadMore()
         getSmartRefreshLayout()!!.finishRefresh()
     }
+
+
+
+    /**
+     * 销毁
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityUtils.get()!!.remove(this)
+        //相关销毁，相关事件置空
+        if (mViewModel != null) {
+            mViewModel == null
+        }
+        if (mBinding != null) {
+            mBinding == null
+        }
+        if (viewController != null) {
+            viewController == null
+        }
+        if (dialog != null) {
+            dialog == null
+        }
+        if (adapter!=null){
+            adapter==null
+        }
+        if (getSmartRefreshLayout() != null) {
+            getSmartRefreshLayout()!!.setOnRefreshListener(null)
+            getSmartRefreshLayout()!!.setOnLoadMoreListener(null)
+            getSmartRefreshLayout() == null
+        }
+    }
+
 
 }

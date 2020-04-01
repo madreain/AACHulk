@@ -445,4 +445,29 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
         getSmartRefreshLayout()!!.finishRefresh()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        //相关销毁，相关事件置空
+        if (mViewModel != null) {
+            mViewModel == null
+        }
+        if (mBinding != null) {
+            mBinding == null
+        }
+        if (viewController != null) {
+            viewController == null
+        }
+        if (dialog != null) {
+            dialog == null
+        }
+        if (adapter!=null){
+            adapter==null
+        }
+        if (getSmartRefreshLayout() != null) {
+            getSmartRefreshLayout()!!.setOnRefreshListener(null)
+            getSmartRefreshLayout()!!.setOnLoadMoreListener(null)
+            getSmartRefreshLayout() == null
+        }
+    }
+
 }

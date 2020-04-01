@@ -21,6 +21,7 @@ import com.madreain.hulk.R
 import com.madreain.libhulk.mvvm.BaseViewModel
 import com.madreain.libhulk.mvvm.IView
 import com.madreain.libhulk.utils.ActivityUtils
+import com.madreain.libhulk.utils.LogUtils
 import com.madreain.libhulk.utils.StringUtils
 import com.madreain.libhulk.utils.ToastUtils
 import com.madreain.libhulk.view.IVaryViewHelperController
@@ -177,14 +178,6 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
     }
 
 
-    /**
-     * 销毁
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        ActivityUtils.get()!!.remove(this)
-    }
-
 
     /**
      * 相关view替换
@@ -339,5 +332,34 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
             getSmartRefreshLayout()!!.isEnabled = mRefreshEnable
         }
     }
+
+
+    /**
+     * 销毁
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        //activity出栈
+        ActivityUtils.get()!!.remove(this)
+        //相关销毁，相关事件置空
+        if (mViewModel != null) {
+            mViewModel == null
+        }
+        if (mBinding != null) {
+            mBinding == null
+        }
+        if (viewController != null) {
+            viewController == null
+        }
+        if (dialog != null) {
+            dialog == null
+        }
+        if (getSmartRefreshLayout() != null) {
+            getSmartRefreshLayout()!!.setOnRefreshListener(null)
+            getSmartRefreshLayout()!!.setOnLoadMoreListener(null)
+            getSmartRefreshLayout() == null
+        }
+    }
+
 
 }
