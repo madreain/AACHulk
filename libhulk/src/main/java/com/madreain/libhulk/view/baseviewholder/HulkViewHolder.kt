@@ -3,8 +3,6 @@ package com.madreain.libhulk.view.baseviewholder
 import android.view.View
 import androidx.annotation.IntDef
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
 /**
  * @author madreain
@@ -18,7 +16,7 @@ import java.lang.annotation.RetentionPolicy
  */
 class HulkViewHolder(view: View) : BaseViewHolder(view) {
     @IntDef(View.VISIBLE, View.INVISIBLE, View.GONE)
-    @Retention(RetentionPolicy.SOURCE)
+    @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
     internal annotation class Visibility
 
     fun setVisibility(viewId: Int, @Visibility visibility: Int): HulkViewHolder {

@@ -243,18 +243,18 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
     /**
      * 无数据，空白页
      */
-    override fun showEmpty(content: String?) {
-        viewController!!.showEmpty(content)
+    override fun showEmpty(emptyMsg: String?) {
+        viewController!!.showEmpty(emptyMsg)
     }
 
     /**
      * 无数据，空白页
      */
     override fun showEmpty(
-        content: String?,
-        clickListener: View.OnClickListener?
+        emptyMsg: String?,
+        listener: View.OnClickListener?
     ) {
-        viewController!!.showEmpty(content, clickListener)
+        viewController!!.showEmpty(emptyMsg, listener)
     }
 
     /**

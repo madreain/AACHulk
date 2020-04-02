@@ -136,7 +136,7 @@ class StringUtils private constructor() {
                     s[0]
                 )
             ) return s
-            return (s[0].toInt() - 32) as String + s.substring(1)
+            return (s[0].toInt() - 32).toString() + s.substring(1)
         }
 
         /**
@@ -150,7 +150,7 @@ class StringUtils private constructor() {
                     s[0]
                 )
             ) return s
-            return (s[0].toInt() + 32) as String + s.substring(1)
+            return (s[0].toInt() + 32).toString() + s.substring(1)
         }
 
         /**
@@ -185,9 +185,9 @@ class StringUtils private constructor() {
             var i = 0
             val len = chars.size
             while (i < len) {
-                if (chars[i] as Int == 12288) {
+                if (chars[i].toInt() == 12288) {
                     chars[i] = ' '
-                } else if (65281 <= chars[i] as Int && chars[i] as Int <= 65374) {
+                } else if (65281 <= chars[i].toInt() && chars[i].toInt() <= 65374) {
                     chars[i] = (chars[i] - 65248)
                 } else {
                     chars[i] = chars[i]
@@ -211,7 +211,7 @@ class StringUtils private constructor() {
             while (i < len) {
                 if (chars[i] == ' ') {
                     chars[i] = 12288.toChar()
-                } else if (33 <= chars[i] as Int && chars[i] as Int <= 126) {
+                } else if (33 <= chars[i].toInt() && chars[i].toInt() <= 126) {
                     chars[i] = (chars[i] + 65248)
                 } else {
                     chars[i] = chars[i]

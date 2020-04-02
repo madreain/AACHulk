@@ -72,7 +72,7 @@ abstract class Indicator : Drawable(), Animatable {
     private fun stopAnimators() {
         if (mAnimators != null) {
             for (animator in mAnimators!!) {
-                if (animator != null && animator.isStarted) {
+                if (animator.isStarted) {
                     animator.removeAllUpdateListeners()
                     animator.end()
                 }
@@ -92,7 +92,7 @@ abstract class Indicator : Drawable(), Animatable {
     }
 
     private val isStarted: Boolean
-        private get() {
+        get() {
             for (animator in mAnimators!!) {
                 return animator.isStarted
             }
