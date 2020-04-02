@@ -338,9 +338,6 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         //activity出栈
         ActivityUtils.get()!!.remove(this)
         //相关销毁，相关事件置空
-        if (mViewModel != null) {
-            mViewModel == null
-        }
         if (mBinding != null) {
             mBinding == null
         }

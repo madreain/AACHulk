@@ -294,9 +294,6 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
     override fun onDestroy() {
         super.onDestroy()
         //相关销毁，相关事件置空
-        if (mViewModel != null) {
-            mViewModel == null
-        }
         if (mBinding != null) {
             mBinding == null
         }

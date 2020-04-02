@@ -161,7 +161,7 @@ class AVLoadingIndicatorView : View {
         try {
             val drawableClass =
                 Class.forName(drawableClassName.toString())
-            var indicator = drawableClass.newInstance() as Indicator
+            drawableClass.newInstance() as Indicator
         } catch (e: ClassNotFoundException) {
             Log.e(
                 TAG,
