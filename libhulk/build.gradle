@@ -3,9 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-//上传到jcenter
-apply from: "jcenter.gradle"
-
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     defaultConfig {
@@ -82,3 +79,6 @@ dependencies {
     api rootProject.ext.dependencies["brvah"]
 
 }
+
+//上传到jcenter
+apply from: "jcenter.gradle"
