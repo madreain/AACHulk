@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.androidadvance.topsnackbar.TSnackbar
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.madreain.hulk.R
 import com.madreain.libhulk.mvvm.BaseListViewModel
 import com.madreain.libhulk.mvvm.IListView
@@ -26,6 +27,7 @@ import com.madreain.libhulk.utils.ListUtils
 import com.madreain.libhulk.utils.ToastUtils
 import com.madreain.libhulk.view.IVaryViewHelperController
 import com.madreain.libhulk.view.VaryViewHelperController
+import com.madreain.libhulk.view.baseviewholder.HulkViewHolder
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import java.lang.reflect.ParameterizedType
 
@@ -35,7 +37,7 @@ import java.lang.reflect.ParameterizedType
  * module：
  * description：
  */
-abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding, A : BaseAdapter<T>, T> :
+abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding, A : BaseQuickAdapter<T, HulkViewHolder>, T> :
     Fragment(),
     IListView<T> {
 
@@ -460,8 +462,8 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
         if (dialog != null) {
             dialog == null
         }
-        if (adapter!=null){
-            adapter==null
+        if (adapter != null) {
+            adapter == null
         }
         if (getSmartRefreshLayout() != null) {
             getSmartRefreshLayout()!!.setOnRefreshListener(null)

@@ -4,6 +4,7 @@ import com.madreain.aachulk.module.base.BaseRes
 import com.madreain.aachulk.module.dashboard.DashboardData
 import com.madreain.aachulk.module.detailList.DetailListData
 import com.madreain.aachulk.module.list.ListData
+import com.madreain.aachulk.module.multi.MultiListData
 import com.madreain.aachulk.module.notifications.NotificationsData
 import com.madreain.aachulk.module.refreshSingle.RefreshSingleData
 import com.madreain.aachulk.module.single.SingleData
@@ -36,5 +37,7 @@ interface ApiService {
     @GET("api/address/search?type=0&")
     suspend fun searDashboardchCity(@Query("value") value: String): BaseRes<List<DashboardData>>
 
+    @GET("api/address/list")
+    suspend fun getMultiList(): BaseRes<List<MultiListData>>
 
 }

@@ -103,7 +103,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_nodata" />
-     <TextView
+
+        <TextView
             android:id="@+id/tv_custom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,6 +115,18 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_nodatalist" />
+
+        <TextView
+            android:id="@+id/tv_multi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="多布局展示"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_custom" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -16,5 +16,6 @@ object ARouterUri {
     const val NoDataListActivity = "/aachulk/ui/NoDataListActivity"
     const val CustomActivity = "/aachulk/ui/CustomActivity"
     const val Main2Activity = "/aachulk/ui/Main2Activity"
+    const val MultiActivity = "/aachulk/ui/MultiActivity"
 
 }
