@@ -2,7 +2,6 @@ package com.madreain.aachulk.module.notifications
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.madreain.aachulk.R
 import com.madreain.aachulk.databinding.FragmentNotificationsBinding

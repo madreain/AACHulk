@@ -7,11 +7,9 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -21,8 +19,6 @@ import com.madreain.hulk.R
 import com.madreain.libhulk.mvvm.BaseViewModel
 import com.madreain.libhulk.mvvm.IView
 import com.madreain.libhulk.utils.ActivityUtils
-import com.madreain.libhulk.utils.LogUtils
-import com.madreain.libhulk.utils.StringUtils
 import com.madreain.libhulk.utils.ToastUtils
 import com.madreain.libhulk.view.IVaryViewHelperController
 import com.madreain.libhulk.view.VaryViewHelperController

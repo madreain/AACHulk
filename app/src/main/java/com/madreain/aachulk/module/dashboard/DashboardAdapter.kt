@@ -3,7 +3,6 @@ package com.madreain.aachulk.module.dashboard
 import androidx.databinding.DataBindingUtil
 import com.madreain.aachulk.R
 import com.madreain.aachulk.databinding.ItemDashboardBinding
-import com.madreain.aachulk.databinding.ItemListBinding
 import com.madreain.libhulk.base.BaseAdapter
 import com.madreain.libhulk.view.baseviewholder.HulkViewHolder
 import java.util.*

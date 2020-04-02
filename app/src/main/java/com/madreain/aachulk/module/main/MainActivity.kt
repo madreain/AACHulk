@@ -1,25 +1,21 @@
 package com.madreain.aachulk.module.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.madreain.aachulk.R
+import com.madreain.aachulk.consts.ARouterUri
 import com.madreain.aachulk.consts.HulkKey
-import com.madreain.aachulk.module.custom.CustomActivity
-import com.madreain.aachulk.module.detailList.DetailListActivity
 import com.madreain.aachulk.module.dialog.DialogFragment
-import com.madreain.aachulk.module.list.ListActivity
-import com.madreain.aachulk.module.main2.Main2Activity
-import com.madreain.aachulk.module.noData.NoDataActivity
-import com.madreain.aachulk.module.noDataList.NoDataListActivity
-import com.madreain.aachulk.module.refreshSingle.RefreshSingleActivity
 import com.madreain.aachulk.utils.ActionBarUtils
 import com.madreain.libhulk.base.BaseActivity
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 
+@Route(path = ARouterUri.MainActivity)
 class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
 
     override fun getLayoutId(): Int {
@@ -34,23 +30,28 @@ class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
         ActionBarUtils.setToolBarTitleText(toolbar, "AACHulk项目展示")
         //single展示
         tv_single.setOnClickListener {
-            startActivity(Intent(hulkActivity, NoDataActivity::class.java))
+//            startActivity(Intent(hulkActivity, SingleActivity::class.java))
+            ARouter.getInstance().build(ARouterUri.SingleActivity).navigation()
         }
         //single刷新功能展示
         tv_refresh_single.setOnClickListener {
-            startActivity(Intent(hulkActivity, RefreshSingleActivity::class.java))
+//            startActivity(Intent(hulkActivity, RefreshSingleActivity::class.java))
+            ARouter.getInstance().build(ARouterUri.RefreshSingleActivity).navigation()
         }
         //list展示
         tv_list.setOnClickListener {
-            startActivity(Intent(hulkActivity, ListActivity::class.java))
+//            startActivity(Intent(hulkActivity, ListActivity::class.java))
+            ARouter.getInstance().build(ARouterUri.ListActivity).navigation()
         }
         //Detaillist展示
         tv_detail_list.setOnClickListener {
-            startActivity(Intent(hulkActivity, DetailListActivity::class.java))
+//            startActivity(Intent(hulkActivity, DetailListActivity::class.java))
+            ARouter.getInstance().build(ARouterUri.DetailListActivity).navigation()
         }
         //Detaillist展示
         tv_main2.setOnClickListener {
-            startActivity(Intent(hulkActivity, Main2Activity::class.java))
+            //            startActivity(Intent(hulkActivity, Main2Activity::class.java))
+            ARouter.getInstance().build(ARouterUri.Main2Activity).navigation()
         }
         //dialog
         tv_dialog.setOnClickListener {
@@ -77,15 +78,18 @@ class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
         }
         //无数据
         tv_nodata.setOnClickListener {
-            startActivity(Intent(hulkActivity, NoDataActivity::class.java))
+//            startActivity(Intent(hulkActivity, NoDataActivity::class.java))
+            ARouter.getInstance().build(ARouterUri.NoDataActivity).navigation()
         }
         //无数据list
         tv_nodatalist.setOnClickListener {
-            startActivity(Intent(hulkActivity, NoDataListActivity::class.java))
+//            startActivity(Intent(hulkActivity, NoDataListActivity::class.java))
+            ARouter.getInstance().build(ARouterUri.NoDataListActivity).navigation()
         }
         //自定义view替换
         tv_custom.setOnClickListener {
-            startActivity(Intent(hulkActivity, CustomActivity::class.java))
+//            startActivity(Intent(hulkActivity, CustomActivity::class.java))
+            ARouter.getInstance().build(ARouterUri.CustomActivity).navigation()
         }
     }
 

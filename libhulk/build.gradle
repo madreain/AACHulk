@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -10,9 +11,9 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
         //ARouter添加的
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
 
@@ -37,7 +38,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
 
     //androidx
     api rootProject.ext.dependencies["support-v4"]
@@ -60,15 +61,15 @@ dependencies {
     api rootProject.ext.dependencies["retrofit-converter-gson"]
     api rootProject.ext.dependencies["retrofit-adapter-kt"]
     //room
-    api rootProject.ext.dependencies["room"]
-    annotationProcessor rootProject.ext.dependencies["room-compiler"]
+//    api rootProject.ext.dependencies["room"]
+//    kapt rootProject.ext.dependencies["room-compiler"]
     //lifecycle
     api rootProject.ext.dependencies["lifecycle"]
     api rootProject.ext.dependencies["lifecycle-ktx"]
-    annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
+    kapt rootProject.ext.dependencies["lifecycle-compiler"]
     //arouter
     api rootProject.ext.dependencies["arouter"]
-    annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
+    kapt rootProject.ext.dependencies["arouter-compiler"]
     //SmartRefreshLayout
     api rootProject.ext.dependencies["SmartRefreshLayout"]
     api rootProject.ext.dependencies["SmartRefreshHeader"]

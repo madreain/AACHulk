@@ -2,7 +2,6 @@ package com.madreain.aachulk.utils
 
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.madreain.hulk.R
 import com.madreain.libhulk.utils.StringUtils

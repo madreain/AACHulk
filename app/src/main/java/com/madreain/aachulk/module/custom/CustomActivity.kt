@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.madreain.aachulk.R
+import com.madreain.aachulk.consts.ARouterUri
 import com.madreain.aachulk.databinding.ActivityListBinding
 import com.madreain.aachulk.module.list.ListAdapter
 import com.madreain.aachulk.module.list.ListData
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.toolbar.*
  * module：
  * description：
  */
+@Route(path = ARouterUri.CustomActivity)
 class CustomActivity :
     BaseListActivity<CustomViewModel, ActivityListBinding, ListAdapter, ListData>() {
 

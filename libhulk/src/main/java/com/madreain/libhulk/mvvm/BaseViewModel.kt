@@ -11,14 +11,10 @@ import com.madreain.libhulk.http.exception.NetWorkException
 import com.madreain.libhulk.http.exception.ResultException
 import com.madreain.libhulk.http.exception.ReturnCodeException
 import com.madreain.libhulk.http.interceptor.IReturnCodeErrorInterceptor
-import com.madreain.libhulk.utils.ListUtils
-import com.madreain.libhulk.utils.LogUtils
 import com.madreain.libhulk.utils.NetworkUtils
-import com.madreain.libhulk.utils.StringUtils
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.lang.ClassCastException
 import java.lang.reflect.ParameterizedType
 
 /**

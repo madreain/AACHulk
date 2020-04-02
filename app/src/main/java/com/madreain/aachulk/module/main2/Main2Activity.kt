@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.madreain.aachulk.R
+import com.madreain.aachulk.consts.ARouterUri
 import com.madreain.aachulk.module.dashboard.DashboardFragment
 import com.madreain.aachulk.module.home.HomeFragment
 import com.madreain.aachulk.module.main.MainViewModel
@@ -19,6 +21,7 @@ import com.madreain.libhulk.base.BaseActivity
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import kotlinx.android.synthetic.main.activity_main2.*
 
+@Route(path = ARouterUri.Main2Activity)
 class Main2Activity : BaseActivity<MainViewModel, ViewDataBinding>(),
     BottomNavigationView.OnNavigationItemSelectedListener {
 

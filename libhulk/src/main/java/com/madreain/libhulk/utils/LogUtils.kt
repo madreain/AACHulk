@@ -1,11 +1,6 @@
 package com.madreain.libhulk.utils
 
 import android.util.Log
-import java.io.BufferedWriter
-import java.io.FileWriter
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * @author madreain

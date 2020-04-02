@@ -27,6 +27,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".module.single.SingleActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
             android:name=".module.custom.CustomActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity

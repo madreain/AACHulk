@@ -1,6 +1,7 @@
 package com.madreain.aachulk
 
 import android.content.Context
+import com.alibaba.android.arouter.launcher.ARouter
 import com.madreain.aachulk.interceptor.RequestHeaderInterceptor
 import com.madreain.aachulk.interceptor.SessionInterceptor
 import com.madreain.libhulk.base.HulkApplication
@@ -11,7 +12,6 @@ import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
-import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import okhttp3.logging.HttpLoggingInterceptor
 
 /**
@@ -45,8 +45,22 @@ class AACHulkApplication : HulkApplication() {
             .build()
         //application 上下文
         Utils.init(this)
+        //ARouter的初始化
+        initArouter()
         //SmartRefreshLayout的统一设置
         initSmartRefreshLayout()
+    }
+
+    /**
+     * ARouter的初始化
+     */
+    private fun initArouter() {
+        //测试环境
+        if (BuildConfig.OPEN_LOG) {
+            ARouter.openLog() // 打印日志
+            ARouter.openDebug() // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+        }
+        ARouter.init(this)
     }
 
     /**

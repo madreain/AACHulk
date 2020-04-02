@@ -17,4 +17,10 @@ abstract class HulkApplication : Application() {
         //ARouter的初始化
         ARouter.init(this)
     }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        ARouter.getInstance().destroy()
+    }
+
 }

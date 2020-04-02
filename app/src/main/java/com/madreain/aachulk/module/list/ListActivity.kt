@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.madreain.aachulk.R
+import com.madreain.aachulk.consts.ARouterUri
 import com.madreain.aachulk.databinding.ActivityListBinding
 import com.madreain.aachulk.utils.ActionBarUtils
 import com.madreain.libhulk.base.BaseListActivity
-import com.madreain.libhulk.utils.LogUtils
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.toolbar.*
  * module：
  * description：
  */
+@Route(path = ARouterUri.ListActivity)
 class ListActivity :
     BaseListActivity<ListViewModel, ActivityListBinding, ListAdapter, ListData>() {
 

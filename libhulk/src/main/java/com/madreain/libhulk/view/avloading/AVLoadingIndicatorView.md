@@ -1,1 +1,0 @@
-https://github.com/81813780/AVLoadingIndicatorView

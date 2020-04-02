@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.madreain.aachulk.R
+import com.madreain.aachulk.consts.ARouterUri
 import com.madreain.aachulk.databinding.ActivityDetailListBinding
 import com.madreain.aachulk.utils.ActionBarUtils
 import com.madreain.libhulk.base.BaseListActivity
@@ -20,6 +22,7 @@ import kotlinx.android.synthetic.main.toolbar.*
  * module：
  * description：
  */
+@Route(path = ARouterUri.DetailListActivity)
 class DetailListActivity :
     BaseListActivity<DetailListViewModel, ActivityDetailListBinding, DetailListAdapter, DetailListData>() {
 

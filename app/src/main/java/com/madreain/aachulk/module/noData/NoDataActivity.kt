@@ -3,9 +3,10 @@ package com.madreain.aachulk.module.noData
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.madreain.aachulk.R
+import com.madreain.aachulk.consts.ARouterUri
 import com.madreain.aachulk.databinding.ActivityNodataBinding
-import com.madreain.aachulk.databinding.ActivitySingleBinding
 import com.madreain.aachulk.utils.ActionBarUtils
 import com.madreain.libhulk.base.BaseActivity
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.toolbar.*
  * module：
  * description：
  */
+@Route(path = ARouterUri.NoDataActivity)
 class NoDataActivity : BaseActivity<NoDataViewModel, ActivityNodataBinding>() {
 
     override fun getLayoutId(): Int {
