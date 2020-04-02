@@ -8,6 +8,9 @@ classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 2.jcenter.gradle
 Android Library上传到jcenter的相关配置
 
+3.lib的build.gradle最后一行配置jcenter.gradle
+apply from: "jcenter.gradle"
+
 3.Terminal中执行上传到jcenter的命令
 ./gradlew install
 ./gradlew bintrayUpload
