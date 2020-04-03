@@ -76,6 +76,7 @@ ext {
             "SmartRefreshHeader"     : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-15",
             //view
             "topsnackbar"            : "com.androidadvance:topsnackbar:1.1.1",
+            "aachulk"                : "com.madreain:libhulk:1.0.0",
     ]
 
     /**

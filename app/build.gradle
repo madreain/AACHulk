@@ -67,25 +67,13 @@ def getCodeListSuccess() {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //hulk引入
-    api project(':libhulk')
-    //androidx
-    api rootProject.ext.dependencies["support-v4"]
-    api rootProject.ext.dependencies["appcompat"]
-    api rootProject.ext.dependencies["material"]
-    api rootProject.ext.dependencies["recyclerview"]
-    api rootProject.ext.dependencies["annotations"]
-    api rootProject.ext.dependencies["constraintlayout"]
-    api rootProject.ext.dependencies["vectordrawable"]
-    api rootProject.ext.dependencies["lifecycle"]
-    api rootProject.ext.dependencies["navigation-fragment"]
-    api rootProject.ext.dependencies["navigation-ui"]
-    api rootProject.ext.dependencies["navigation-fragment-ktx"]
-    api rootProject.ext.dependencies["navigation-ui-ktx"]
+//    api project(':libhulk')
+    api rootProject.ext.dependencies["aachulk"]
     //arouter
     api rootProject.ext.dependencies["arouter"]
     kapt rootProject.ext.dependencies["arouter-compiler"]
 
 }
+
+

@@ -18,3 +18,5 @@ apply from: "jcenter.gradle"
 ⚠️bash: ./gradlew: Permission denied错误执行
 chmod +x gradlew
 
+4.上传到bintray中记得点击改lib->Actions->Add to JCenter
+
