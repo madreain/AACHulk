@@ -11,10 +11,15 @@ AACHulk(Android Architecture Components Hulk)
 ## 功能介绍
 
 1.支持服务器地址、成功码、各种超时时间、各种拦截器、Arouter、EventBus等的配置
+
 2.支持自定义各种非正常态View替换
+
 3.支持接口调用出错时重试
+
 4.支持多种Activity、Fragment展示，满足业务需求
+
 5.支持多布局适配器
+
 6.支持通用代码生成[AACHulkTemplate模版](https://github.com/madreain/AACHulkTemplate)
 
 ## 第三方库
