@@ -235,7 +235,6 @@ class SingleViewModel : BaseViewModel<ApiService>() {
             success = {
                 //成功回调
                 result.value = it
-                //通知ui刷新
             }, type = RequestDisplay.REPLACE
         )
     }
