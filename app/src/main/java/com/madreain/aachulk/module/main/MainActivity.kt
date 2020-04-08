@@ -8,9 +8,11 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.madreain.aachulk.R
 import com.madreain.aachulk.consts.ARouterUri
 import com.madreain.aachulk.consts.HulkKey
+import com.madreain.aachulk.module.EventBus.EventBusData
 import com.madreain.aachulk.module.dialog.DialogFragment
 import com.madreain.aachulk.utils.ActionBarUtils
 import com.madreain.libhulk.base.BaseActivity
+import com.madreain.libhulk.utils.EventBusUtils
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -89,12 +91,21 @@ class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
         //自定义view替换
         tv_custom.setOnClickListener {
             //            startActivity(Intent(hulkActivity, CustomActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.CustomActivity).navigation()
+            ARouter.getInstance().build(ARouterUri.CustomActivity)
+                .withString(HulkKey.CustomKey, "测试Arouter")
+                .navigation()
         }
         //多布局展示
         tv_multi.setOnClickListener {
             //            startActivity(Intent(hulkActivity, MultiActivity::class.java))
             ARouter.getInstance().build(ARouterUri.MultiActivity).navigation()
+        }
+        //EventBus
+        tv_event.setOnClickListener {
+            //传递参数
+            EventBusUtils.post(EventBusData("我是一个EventBus测试"))
+            //            startActivity(Intent(hulkActivity, EventBusActivity::class.java))
+            ARouter.getInstance().build(ARouterUri.EventBusActivity).navigation()
         }
     }
 

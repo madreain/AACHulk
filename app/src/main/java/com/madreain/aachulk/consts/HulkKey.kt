@@ -14,4 +14,7 @@ object HulkKey {
     const val CommonRight = "commonright"
     const val CommonRemind = "commonremind"
     const val CommonExternalArea = "commonExternalArea"
+    //arouter参数传递
+    const val CustomKey = "CustomKey"
+
 }

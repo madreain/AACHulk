@@ -76,6 +76,8 @@ ext {
             "SmartRefreshHeader"     : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-15",
             //view
             "topsnackbar"            : "com.androidadvance:topsnackbar:1.1.1",
+            //eventbus
+            "eventbus"               : "org.greenrobot:eventbus:3.2.0",
             "aachulk"                : "com.madreain:libhulk:1.0.0",
     ]
 
@@ -88,6 +90,10 @@ ext {
     //开启切换环境
     OPEN_CHANGE = true
 //    OPEN_CHANGE = false
+    //开启arouter
+    OPEN_AROUTER = true
+    //开启eventbus
+    OPEN_EVENTBUS = true
     //baseurl
     BASE_URL = "https://www.mxnzp.com"
     //统一返回网络请求成功

@@ -5,6 +5,7 @@ import com.madreain.libhulk.http.interceptor.IVersionDifInterceptor
 import okhttp3.Interceptor
 import retrofit2.Retrofit
 import java.util.*
+import java.util.function.BinaryOperator
 
 /**
  * @author madreain
@@ -38,6 +39,11 @@ object HulkConfig {
     //是否开启缓存
     private var cacheOpen = false
     private var configBuilder: ConfigBuilder? = null
+    //是否开启arouter
+    private var arouterOpen = true
+    //是否开启eventbus
+    private var eventBusOpen = true
+
     @Synchronized
     fun builder(): ConfigBuilder {
         if (configBuilder == null) {
@@ -89,6 +95,22 @@ object HulkConfig {
 
     fun setLogOpen(logOpen: Boolean) {
         HulkConfig.logOpen = logOpen
+    }
+
+    fun isEventBusOpen(): Boolean {
+        return eventBusOpen
+    }
+
+    fun setEventBusOpen(eventBusOpen: Boolean) {
+        HulkConfig.eventBusOpen = eventBusOpen
+    }
+
+    fun isArouterOpen(): Boolean {
+        return arouterOpen
+    }
+
+    fun setArouterOpen(arouterOpen: Boolean) {
+        HulkConfig.arouterOpen = arouterOpen
     }
 
     fun getConnectTimeout(): Long {
@@ -184,6 +206,16 @@ object HulkConfig {
 
         fun setLogOpen(logOpen: Boolean): ConfigBuilder {
             HulkConfig.logOpen = logOpen
+            return this
+        }
+
+        fun setEventBusOpen(eventBusOpen: Boolean): ConfigBuilder {
+            HulkConfig.eventBusOpen = eventBusOpen
+            return this
+        }
+
+        fun setArouterOpen(arouterOpen: Boolean): ConfigBuilder {
+            HulkConfig.arouterOpen = arouterOpen
             return this
         }
 

@@ -29,6 +29,8 @@ class AACHulkApplication : HulkApplication() {
             .setRetSuccessList(BuildConfig.CODELIST_SUCCESS)
             .setBaseUrl(BuildConfig.BASE_URL)
             .setLogOpen(BuildConfig.OPEN_LOG)
+            .setArouterOpen(BuildConfig.OPEN_AROUTER)
+            .setEventBusOpen(BuildConfig.OPEN_EVENTBUS)
             .addOkHttpInterceptor(RequestHeaderInterceptor()) //请求头拦截器
             .addOkHttpInterceptor(
                 BuildConfig.OPEN_LOG,

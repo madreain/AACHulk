@@ -16,12 +16,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.androidadvance.topsnackbar.TSnackbar
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.madreain.hulk.R
+import com.madreain.libhulk.config.HulkConfig
 import com.madreain.libhulk.mvvm.BaseListViewModel
 import com.madreain.libhulk.mvvm.IListView
 import com.madreain.libhulk.utils.ActivityUtils
+import com.madreain.libhulk.utils.EventBusUtils
 import com.madreain.libhulk.utils.ListUtils
 import com.madreain.libhulk.utils.ToastUtils
 import com.madreain.libhulk.view.IVaryViewHelperController
@@ -88,6 +91,12 @@ abstract class BaseListActivity<VM : BaseListViewModel<*>, DB : ViewDataBinding,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ActivityUtils.get()!!.addActivity(this)
+        if (HulkConfig.isArouterOpen()) {
+            ARouter.getInstance().inject(this)
+        }
+        if (HulkConfig.isEventBusOpen()) {
+            EventBusUtils.register(this)
+        }
         super.onCreate(savedInstanceState)
         initViewDataBinding()
         createViewModel()
@@ -461,6 +470,10 @@ abstract class BaseListActivity<VM : BaseListViewModel<*>, DB : ViewDataBinding,
     override fun onDestroy() {
         super.onDestroy()
         ActivityUtils.get()!!.remove(this)
+        //event注销
+        if (HulkConfig.isEventBusOpen()){
+            EventBusUtils.unRegister(this)
+        }
         //相关销毁，相关事件置空
         if (mBinding != null) {
             mBinding == null

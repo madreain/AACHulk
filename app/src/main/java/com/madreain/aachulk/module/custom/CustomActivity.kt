@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.madreain.aachulk.R
 import com.madreain.aachulk.consts.ARouterUri
+import com.madreain.aachulk.consts.HulkKey
 import com.madreain.aachulk.databinding.ActivityListBinding
 import com.madreain.aachulk.module.list.ListAdapter
 import com.madreain.aachulk.module.list.ListData
@@ -25,8 +27,12 @@ import kotlinx.android.synthetic.main.toolbar.*
  * description：
  */
 @Route(path = ARouterUri.CustomActivity)
-class CustomActivity :
+public class CustomActivity :
     BaseListActivity<CustomViewModel, ActivityListBinding, ListAdapter, ListData>() {
+
+    @Autowired(name = HulkKey.CustomKey)
+    @JvmField
+    var customValue: String? = null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_list
@@ -37,6 +43,7 @@ class CustomActivity :
     }
 
     override fun init(savedInstanceState: Bundle?) {
+        showToast("这是Arouter传递过来的值: " + customValue)
         //ActionBar相关设置
         ActionBarUtils.setSupportActionBarWithBack(toolbar, null, View.OnClickListener {
             onBackPressed()
