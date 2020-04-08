@@ -78,8 +78,8 @@ def getCodeListSuccess() {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     //hulk引入
-    api project(':libhulk')
-//    api rootProject.ext.dependencies["aachulk"]
+//    api project(':libhulk')
+    api rootProject.ext.dependencies["aachulk"]
     //arouter
     api rootProject.ext.dependencies["arouter"]
     kapt rootProject.ext.dependencies["arouter-compiler"]
