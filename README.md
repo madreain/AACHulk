@@ -6,6 +6,17 @@ AACHulk(Android Architecture Components Hulk)
 开发语言是Kotlin，再结合[AACHulkTemplate模版开发](https://github.com/madreain/AACHulkTemplate)进行开发，
 避免一些繁琐的操作，提供开发效率
 
+
+
+## 功能介绍
+
+1.支持服务器地址、成功码、各种超时时间、各种拦截器、Arouter、EventBus等的配置
+2.支持自定义各种非正常态View替换
+3.支持接口调用出错时重试
+4.支持多种Activity、Fragment展示，满足业务需求
+5.支持多布局适配器
+6.支持通用代码生成[AACHulkTemplate模版](https://github.com/madreain/AACHulkTemplate)
+
 ## 第三方库
 
 1. [`Okhttp` 一个用于Android、Kotlin和Java的HTTP客户端](https://github.com/square/okhttp)
@@ -15,15 +26,413 @@ AACHulk(Android Architecture Components Hulk)
 5. [`EventBus` Android和Java的事件总线，简化了活动、片段、线程、服务等之间的通信。代码越少，质量越好](https://github.com/greenrobot/EventBus)
 6. [`ARouter` 帮助 Android App 进行组件化改造的路由框架](https://github.com/alibaba/ARouter)
 
+## 基础功能
+
+1.主项目启用dataBinding
+
+```
+    dataBinding {
+        enabled true
+    }
+```
+
+2.添加依赖
+
+在project的build.grade加入
+
+```
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        google()
+        jcenter()
+    }
+}
+```
+
+在主项目app的build.grade加入
+
+```
+api 'com.madreain:libhulk:1.0.0'
+```
+
+3.继承HulkApplication，配置相关配置项
+
+```
+HulkConfig.builder() //这里只需要选择设置一个
+            .setRetSuccess(BuildConfig.CODE_SUCCESS)//单一的成功响应码
+            .setRetSuccessList(BuildConfig.CODELIST_SUCCESS)////多种请求对应不同成功响应码
+            .setBaseUrl(BuildConfig.BASE_URL)//服务器地址
+            .setLogOpen(BuildConfig.OPEN_LOG)//网络日志开关
+            .setArouterOpen(BuildConfig.OPEN_AROUTER)//Arouter的开关
+            .setEventBusOpen(BuildConfig.OPEN_EVENTBUS)//EventBus的开关
+            .addOkHttpInterceptor(RequestHeaderInterceptor()) //请求头拦截器
+            .addOkHttpInterceptor(
+                BuildConfig.OPEN_LOG,
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            ) //okhttp请求日志开关+消息拦截器
+            .addRetCodeInterceptors(SessionInterceptor()) // returnCode非正常态拦截器
+            .setRetrofit(
+                ApiClient.instance!!.getRetrofit(
+                    ApiClient.instance!!.getOkHttpClient(
+                        HulkConfig.getOkHttpInterceptors()
+                    )
+                )
+            )//
+            .build()
+```
+上面这些配置项的配置可参考demo进行自身项目的配置
+
+这里还可根据[SmartRefreshLayout相关文档](https://github.com/scwang90/SmartRefreshLayout)配置统一样式，也可单独设置，也可自定义，根据自身项目选择
+
+4.继承IRes，根据自身项目封装统一的数据接受
+
+5.编写ApiService，放接口
+
+6.编写通用的Toolbar(自行选择)
+因受kotlin-android-extensions这个插件可能只管自己module的资源文件的影响，没法将通用的toolbar.xml写在libhulk中供app使用，因此只能在app项目中写通用的toolbar.xml
+
+⚠️ 如果大佬们有好的实现方法欢迎指教
+
+️🔥️🔥️🔥 [AACHulkTemplate模版](https://github.com/madreain/AACHulkTemplate),此模版使用得保证ApiService、toolbar.xml已创建，使用者也可根据自身项目进行修改
+
+## 快速开发
+
+AACHulkTemplate模版用起来是相当香的，接下来讲一下自已手动的步骤，以SingleActivity举例
+
+1.新建SingleActivity继承BaseActivity
+
+```
+class SingleActivity : BaseActivity<BaseViewModel, ViewDataBinding>() {
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_single
+    }
+
+    override fun getReplaceView(): View {
+        return layout
+    }
+
+    override fun init(savedInstanceState: Bundle?) {
+
+    }
+
+    /**
+     * 设置SmartRefreshLayout
+     */
+    override fun getSmartRefreshLayout(): SmartRefreshLayout? {
+        return null
+    }
+
+    override fun refreshData() {
+
+    }
+
+}
+```
+
+ViewDataBinding将会用在activity_single.xml中关联ActivitySingleBinding替换掉
+BaseViewModel将会用新建的SingleViewModel继承BaseViewModel替换掉
+
+2.创建对应的对象
+
+```
+@Keep
+class SingleData {
+    var code: String? = null
+    var name: String? = null
+}
+```
+
+3.关联ViewDataBing
+
+在activity_single.xml中关联ActivitySingleBinding
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <import type="com.madreain.aachulk.module.single.SingleData" />
+
+        <variable
+            name="singleDataS"
+            type="List&lt;SingleData>" />
+
+        <variable
+            name="singleData"
+            type="SingleData" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/single_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.madreain.aachulk.module.main.MainActivity">
+
+        <include
+            android:id="@+id/tbar"
+            layout="@layout/toolbar" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="@dimen/dp60"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@{singleData.code,default=`接口调用之前`}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="接口调用结果" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+```
 
-Navigation 页面路由
-LiveData  基于生命周期的消息订阅
-ViewModel 数据共享
-DataBinding 数据双向绑定
-Lifecycles 生命周期管理
+4.新建SingleViewModel继承BaseViewModel
 
-kotlin-android-extensions 这个插件可能只管自己module的资源文件
+```
+class SingleViewModel : BaseViewModel<ApiService>() {
 
-toolbar.xml（toolbar、tv_left、tv_title、tv_right、toolbarShadow）
+    public override fun onStart() {
+        cityList()
+    }
+
+    //这里举例的是相关接口的调用，具体可参考demo
+    var result = MutableLiveData<List<SingleData>>()
+    private fun cityList() {
+        launchOnlyresult(
+            //调用接口方法
+            block = {
+                getApiService().getCityList()
+            },
+            //重试
+            reTry = {
+                //调用重试的方法
+                cityList()
+            },
+            //成功
+            success = {
+                //成功回调
+                result.value = it
+                //通知ui刷新
+            }, type = RequestDisplay.REPLACE
+        )
+    }
+}
+
+```
+
+5.替换ViewDataBinding、BaseViewModel
+ActivitySingleBinding替换掉ViewDataBinding
+SingleViewModel替换掉BaseViewModel
+
+6.调用接口
+
+```
+        //请求接口
+        mViewModel.onStart()
+        //接口请求的数据变化
+        mViewModel.result.observe(this, Observer {
+            mBinding!!.singleDataS = it
+            mBinding!!.singleData = it[0]
+        })
+```
+
+7.ARoute的配置
+
+根据自身项目需求来决定是否配置ARoute来进行路由控制
+
+```
+@Route(path = "/aachulk/ui/SingleActivity")
+```
+
+到此为止，简单的一个接口调用到数据展示就完成了
+
+⚠️⚠️⚠️ 带适配器的demo参考[ListActivity](https://github.com/madreain/AACHulk/tree/master/app/src/main/java/com/madreain/aachulk/module/list)
+
+## 用法进阶
+
+1.自定义各种非正常态View替换
+
+以demo中的MyVaryViewHelperController举例，只是修改了showLoading，其他的都可根据自身项目需求进行修改
+```
+class MyVaryViewHelperController private constructor(private val helper: VaryViewHelper) :
+    IVaryViewHelperController {
+
+    //是否已经调用过restore方法
+    private var hasRestore: Boolean = false
+
+    constructor(replaceView: View) : this(VaryViewHelper(replaceView)) {}
+
+    override fun showNetworkError(onClickListener: View.OnClickListener?) {
+        showNetworkError("网络状态异常，请刷新重试", onClickListener)
+    }
+
+    override fun showNetworkError(
+        msg: String?,
+        onClickListener: View.OnClickListener?
+    ) {
+        hasRestore = false
+        val layout = helper.inflate(R.layout.hulk_page_error)
+        val againBtn =
+            layout.findViewById<Button>(R.id.pager_error_loadingAgain)
+        val tv_title = layout.findViewById<TextView>(R.id.tv_title)
+        tv_title.visibility = View.GONE
+        val tv_msg = layout.findViewById<TextView>(R.id.tv_msg)
+        tv_msg.text = msg
+        if (null != onClickListener) {
+            againBtn.setOnClickListener(onClickListener)
+        }
+        helper.showView(layout)
+    }
+
+    override fun showCustomView(
+        drawableInt: Int,
+        title: String?,
+        msg: String?,
+        btnText: String?,
+        listener: View.OnClickListener?
+    ) {
+        hasRestore = false
+        val layout = helper.inflate(R.layout.hulk_page_error)
+        val iv_flag =
+            layout.findViewById<ImageView>(R.id.iv_flag)
+        val tv_title = layout.findViewById<TextView>(R.id.tv_title)
+        val tv_msg = layout.findViewById<TextView>(R.id.tv_msg)
+        val againBtn =
+            layout.findViewById<Button>(R.id.pager_error_loadingAgain)
+        iv_flag.setImageResource(drawableInt)
+        if (TextUtils.isEmpty(title)) {
+            tv_title.visibility = View.GONE
+        } else {
+            tv_title.visibility = View.VISIBLE
+            tv_title.text = title
+        }
+        if (TextUtils.isEmpty(msg)) {
+            tv_msg.visibility = View.GONE
+        } else {
+            tv_msg.visibility = View.VISIBLE
+            tv_msg.text = msg
+        }
+        if (TextUtils.isEmpty(btnText)) {
+            againBtn.visibility = View.GONE
+        } else {
+            againBtn.text = btnText
+            if (null != listener) {
+                againBtn.setOnClickListener(listener)
+            }
+        }
+        helper.showView(layout)
+    }
+
+    override fun showEmpty(emptyMsg: String?) {
+        hasRestore = false
+        val layout = helper.inflate(R.layout.hulk_page_no_data)
+        val textView = layout.findViewById<TextView>(R.id.tv_no_data)
+        if (!TextUtils.isEmpty(emptyMsg)) {
+            textView.text = emptyMsg
+        }
+        helper.showView(layout)
+    }
+
+    override fun showEmpty(
+        emptyMsg: String?,
+        onClickListener: View.OnClickListener?
+    ) {
+        hasRestore = false
+        val layout = helper.inflate(R.layout.hulk_page_no_data_click)
+        val againBtn =
+            layout.findViewById<Button>(R.id.pager_error_loadingAgain)
+        val textView = layout.findViewById<TextView>(R.id.tv_no_data)
+        if (!TextUtils.isEmpty(emptyMsg)) {
+            textView.text = emptyMsg
+        }
+        if (null != onClickListener) {
+            againBtn.setOnClickListener(onClickListener)
+            //            againBtn.setVisibility(View.VISIBLE);
+            againBtn.visibility = View.GONE //按钮都隐藏，空页面没有刷新 2018.9.5
+        } else {
+            againBtn.visibility = View.GONE
+        }
+        helper.showView(layout)
+    }
+
+    override fun showLoading() {
+        hasRestore = false
+        val layout = helper.inflate(R.layout.view_page_loading)
+        helper.showView(layout)
+    }
+
+    override fun showLoading(msg: String?) {
+        hasRestore = false
+        val layout = helper.inflate(R.layout.view_page_loading)
+        val tv_msg = layout.findViewById<TextView>(R.id.tv_msg)
+        tv_msg.text = msg
+        helper.showView(layout)
+    }
+
+    override fun restore() {
+        hasRestore = true
+        helper.restoreView()
+    }
+
+    override val isHasRestore: Boolean
+        get() = hasRestore
+
+}
+```
+
+2.拦截器
+
+2.1 请求头拦截器
+
+```
+class RequestHeaderInterceptor : Interceptor {
+    //统一请求头的封装根据自身项目添加
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        val authorised: Request
+        val headers = Headers.Builder()
+            .add("app_id", "wpkxpsejggapivjf")
+            .add("app_secret", "R3FzaHhSSXh4L2tqRzcxWFBmKzBvZz09")
+            .build()
+        authorised = request.newBuilder().headers(headers).build()
+        return chain.proceed(authorised)
+    }
+}
+```
+
+2.2  非正常态响应码拦截器
+
+实际应用：可应用于App中用户的互踢
+
+```
+class SessionInterceptor : IReturnCodeErrorInterceptor {
+    //和接口定义互踢的相关参数返回，然后在todo方法进行跳转
+    override fun intercept(returnCode: String?): Boolean {
+        return "-100" == returnCode
+    }
+
+    override fun doWork(returnCode: String?, msg: String?) {
+
+    }
+
+}
+```
