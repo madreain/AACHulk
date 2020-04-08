@@ -6,7 +6,7 @@ AACHulk(Android Architecture Components Hulk)
 开发语言是Kotlin，再结合[AACHulkTemplate模版开发](https://github.com/madreain/AACHulkTemplate)进行开发，
 避免一些繁琐的操作，提供开发效率
 
-
+(https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 ## 功能介绍
 
