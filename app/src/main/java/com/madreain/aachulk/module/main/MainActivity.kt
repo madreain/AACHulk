@@ -102,10 +102,12 @@ class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
         }
         //EventBus
         tv_event.setOnClickListener {
-            //传递参数
-            EventBusUtils.post(EventBusData("我是一个EventBus测试"))
             //            startActivity(Intent(hulkActivity, EventBusActivity::class.java))
             ARouter.getInstance().build(ARouterUri.EventBusActivity).navigation()
+            //传递参数
+            tv_event.postDelayed({
+                EventBusUtils.post(EventBusData("我是一个EventBus测试"))
+            }, 1000)
         }
     }
 
