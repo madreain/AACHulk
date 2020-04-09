@@ -1,4 +1,4 @@
-AACHulk(Android Architecture Components Hulk)
+AACHulk
 
 ---
 > AACHulk是以Google的ViewModel+DataBinding+LiveData+Lifecycles框架为基础，
