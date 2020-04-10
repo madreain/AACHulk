@@ -429,7 +429,7 @@ class RequestHeaderInterceptor : Interceptor {
 
 ```
 class SessionInterceptor : IReturnCodeErrorInterceptor {
-    //和接口定义互踢的相关参数返回，然后在todo方法进行跳转
+    //和接口定义互踢的相关参数返回，然后在doWork方法进行跳转
     override fun intercept(returnCode: String?): Boolean {
         return "-100" == returnCode
     }
