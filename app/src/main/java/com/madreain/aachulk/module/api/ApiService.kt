@@ -1,6 +1,11 @@
 package com.madreain.aachulk.module.api
 
+import com.madreain.aachulk.consts.HulkKey
+import com.madreain.aachulk.module.changeBaseUrl.ChangeBaseUrlData
 import com.madreain.aachulk.module.base.BaseRes
+import com.madreain.aachulk.module.base.GankBaseRes
+import com.madreain.aachulk.module.base.WanAndroidBaseRes
+import com.madreain.aachulk.module.changeBaseUrlTwo.ChangeBaseUrlTwoListData
 import com.madreain.aachulk.module.dashboard.DashboardData
 import com.madreain.aachulk.module.detailList.DetailListData
 import com.madreain.aachulk.module.list.ListData
@@ -8,7 +13,10 @@ import com.madreain.aachulk.module.multi.MultiListData
 import com.madreain.aachulk.module.notifications.NotificationsData
 import com.madreain.aachulk.module.refreshSingle.RefreshSingleData
 import com.madreain.aachulk.module.single.SingleData
+import com.madreain.libhulk.config.HulkConfig
+import com.madreain.libhulk.config.HulkConfig.IDENTIFICATION_PATH_SIZE
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 /**
@@ -39,5 +47,20 @@ interface ApiService {
 
     @GET("api/address/list")
     suspend fun getMultiList(): BaseRes<List<MultiListData>>
+
+    /**
+     * 玩 Android的api
+     */
+    @Headers(HulkConfig.DOMAIN_NAME_HEADER + HulkKey.WANANDROID_DOMAIN_NAME)
+    @GET("wxarticle/chapters/json" + IDENTIFICATION_PATH_SIZE + 0)
+    suspend fun getWxArticle(): WanAndroidBaseRes<List<ChangeBaseUrlData>>
+
+    /**
+     * gank的api
+     */
+    @Headers(HulkConfig.DOMAIN_NAME_HEADER + HulkKey.GANK_DOMAIN_NAME)
+    @GET("api/v2/categories/GanHuo" + IDENTIFICATION_PATH_SIZE + 0)
+    suspend fun getCategories(): GankBaseRes<List<ChangeBaseUrlTwoListData>>
+
 
 }

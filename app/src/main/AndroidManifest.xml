@@ -14,7 +14,12 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".module.EventBus.EventBusActivity"
+        <activity android:name=".module.changeBaseUrlTwo.ChangeBaseUrlTwoActivity"></activity>
+        <activity
+            android:name=".module.changeBaseUrl.ChangeBaseUrlActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".module.EventBus.EventBusActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.multi.MultiActivity"

@@ -2,10 +2,14 @@ package com.madreain.libhulk.config
 
 import com.madreain.libhulk.http.interceptor.IReturnCodeErrorInterceptor
 import com.madreain.libhulk.http.interceptor.IVersionDifInterceptor
+import com.madreain.libhulk.utils.LogUtils
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import retrofit2.Retrofit
 import java.util.*
-import java.util.function.BinaryOperator
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * @author madreain
@@ -43,6 +47,18 @@ object HulkConfig {
     private var arouterOpen = true
     //是否开启eventbus
     private var eventBusOpen = true
+    //设置多个BaseUrl，配合默认的DOMAIN_NAME
+    private var mDomainNameHub: HashMap<String, HttpUrl>? = null
+    private var isMoreBaseUrl = false
+    //设置默认的DOMAIN_NAME
+    const val DOMAIN_NAME = "HULK_DOMAIN_NAME"
+    const val DOMAIN_NAME_HEADER = DOMAIN_NAME + ": "
+    /**
+     * 如果在 Url 地址中加入此标识符, 意味着您想对此 Url 开启超级模式, 框架会将 '=' 后面的数字作为 PathSize, 来确认最终需要被超级模式替换的 BaseUrl
+     */
+    const val IDENTIFICATION_PATH_SIZE = "#baseurl_path_size="
+    //多个baseurl就对应的不同returnCode 正常态的值
+    private var retSuccessMap: HashMap<String, List<String>>? = null
 
     @Synchronized
     fun builder(): ConfigBuilder {
@@ -81,8 +97,8 @@ object HulkConfig {
         HulkConfig.retSuccess = retSuccess
     }
 
-    fun getRetSuccessList(): List<String>? {
-        return retSuccessList
+    fun getRetSuccessList(): List<String> {
+        return retSuccessList ?: ArrayList<String>()
     }
 
     fun setRetSuccessList(retSuccessList: List<String>?) {
@@ -146,7 +162,7 @@ object HulkConfig {
     }
 
     fun getRetCodeInterceptors(): List<IReturnCodeErrorInterceptor> {
-        return retCodeInterceptors!!
+        return retCodeInterceptors as MutableList<IReturnCodeErrorInterceptor>
     }
 
     fun setRetCodeInterceptors(retCodeInterceptors: MutableList<IReturnCodeErrorInterceptor>?) {
@@ -177,8 +193,32 @@ object HulkConfig {
         HulkConfig.configBuilder = configBuilder
     }
 
+    fun getMDomainNameHub(): HashMap<String, HttpUrl>? {
+        return mDomainNameHub
+    }
+
+    fun setMDomainNameHub(mDomainNameHub: HashMap<String, HttpUrl>?) {
+        HulkConfig.mDomainNameHub = mDomainNameHub
+    }
+
+    fun getMoreBaseUrl(): Boolean {
+        return isMoreBaseUrl
+    }
+
+    fun getDomainName(): String {
+        return DOMAIN_NAME
+    }
+
+    fun getDomainNameHeader(): String {
+        return DOMAIN_NAME_HEADER
+    }
+
+    fun getRetSuccessMap(): HashMap<String, List<String>>? {
+        return retSuccessMap
+    }
+
     class ConfigBuilder {
-        fun setRetrofit(retrofit: Retrofit?): ConfigBuilder {
+        fun setRetrofit(retrofit: Retrofit): ConfigBuilder {
             HulkConfig.retrofit = retrofit
             return this
         }
@@ -238,7 +278,7 @@ object HulkConfig {
             if (okHttpInterceptors == null) {
                 okHttpInterceptors = ArrayList()
             }
-            okHttpInterceptors!!.add(okHttpInterceptor)
+            okHttpInterceptors?.add(okHttpInterceptor)
             return this
         }
 
@@ -249,7 +289,7 @@ object HulkConfig {
             if (mSwitch) if (okHttpInterceptors == null) {
                 okHttpInterceptors = ArrayList()
             }
-            okHttpInterceptors!!.add(interceptor)
+            okHttpInterceptors?.add(interceptor)
             return this
         }
 
@@ -257,7 +297,7 @@ object HulkConfig {
             if (retCodeInterceptors == null) {
                 retCodeInterceptors = ArrayList()
             }
-            retCodeInterceptors!!.add(retCodeInterceptor)
+            retCodeInterceptors?.add(retCodeInterceptor)
             return this
         }
 
@@ -265,7 +305,7 @@ object HulkConfig {
             if (versionDifInterceptors == null) {
                 versionDifInterceptors = ArrayList()
             }
-            versionDifInterceptors!!.add(versionDifInterceptor)
+            versionDifInterceptors?.add(versionDifInterceptor)
             return this
         }
 
@@ -276,6 +316,29 @@ object HulkConfig {
 
         fun setConfigBuilder(configBuilder: ConfigBuilder?): ConfigBuilder {
             HulkConfig.configBuilder = configBuilder
+            return this
+        }
+
+        fun addDomain(domainName: String, domainUrl: String): ConfigBuilder {
+            if (mDomainNameHub == null) {
+                mDomainNameHub = HashMap()
+            }
+            domainUrl.toHttpUrlOrNull()?.let { mDomainNameHub?.put(domainName, it) }
+            //设置为多baseurl
+            isMoreBaseUrl = true
+            return this
+        }
+
+        //        fun getRetSuccessMap(): HashMap<String, List<String>> {
+//            return retSuccessMap
+//        }
+        fun addRetSuccess(domainNameKey: String, retSuccess: String): ConfigBuilder {
+            if (retSuccessMap == null) {
+                retSuccessMap = HashMap()
+            }
+            val retSuccessList =
+                Arrays.asList(*retSuccess.split(",").toTypedArray())
+            retSuccessMap?.put(domainNameKey, retSuccessList)
             return this
         }
 

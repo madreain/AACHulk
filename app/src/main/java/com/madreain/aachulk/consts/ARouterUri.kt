@@ -18,5 +18,7 @@ object ARouterUri {
     const val Main2Activity = "/aachulk/ui/Main2Activity"
     const val MultiActivity = "/aachulk/ui/MultiActivity"
     const val EventBusActivity = "/aachulk/ui/EventBusActivity"
+    const val ChangeBaseUrlActivity = "/aachulk/ui/ChangeBaseUrlActivity"
+    const val ChangeBaseUrlTwoActivity = "/aachulk/ui/ChangeBaseUrlTwoActivity"
 
 }

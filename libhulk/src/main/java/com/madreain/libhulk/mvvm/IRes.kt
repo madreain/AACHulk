@@ -9,7 +9,7 @@ package com.madreain.libhulk.mvvm
 interface IRes<T> {
     fun getMsg(): String?
 
-    fun getCode(): String?
+    fun getCode(): String
 
     fun getResult(): T
 

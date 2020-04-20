@@ -30,7 +30,7 @@ class ActivityUtils {
      * @param activity
      */
     fun addActivity(activity: Activity) {
-        activityStack!!.add(activity)
+        activityStack?.add(activity)
     }
 
     /**
@@ -39,7 +39,7 @@ class ActivityUtils {
      * @param activity
      */
     fun remove(activity: Activity?) {
-        activityStack!!.remove(activity)
+        activityStack?.remove(activity)
     }
 
     /**
@@ -50,7 +50,7 @@ class ActivityUtils {
     fun finish(activity: Activity?) {
         if (activity != null) {
             activity.finish()
-            activityStack!!.remove(activity)
+            activityStack?.remove(activity)
         }
     }
 
@@ -71,8 +71,8 @@ class ActivityUtils {
     }
 
     fun finishAll() {
-        while (activityStack!!.size != 0) {
-            finish(activityStack!!.peek())
+        while (activityStack?.size != 0) {
+            finish(activityStack?.peek())
         }
         //        MobclickAgent.onKillProcess(Utils.getContext());
     }
@@ -98,8 +98,8 @@ class ActivityUtils {
                 a.finish()
             }
         }
-        activityStack!!.clear()
-        activityStack!!.add(activity)
+        activityStack?.clear()
+        activityStack?.add(activity)
     }
 
     /**
@@ -123,12 +123,12 @@ class ActivityUtils {
      */
     fun backTo(clz: Class<out Activity?>) {
         if (activityStack!!.size > 0) {
-            var activity = activityStack!!.peek()
+            var activity = activityStack?.peek()
             while (activity != null && clz != activity.javaClass) {
                 activity.finish()
-                activityStack!!.remove(activity)
+                activityStack?.remove(activity)
                 if (activityStack!!.size > 0) {
-                    activity = activityStack!!.peek()
+                    activity = activityStack?.peek()
                 }
             }
         }
@@ -141,7 +141,7 @@ class ActivityUtils {
      * @return
      */
     fun isTopActivity(activity: Activity): Boolean {
-        return activityStack!!.size != 0 && activityStack!!.peek() === activity
+        return activityStack!!.size != 0 && activityStack?.peek() === activity
     }
 
     companion object {

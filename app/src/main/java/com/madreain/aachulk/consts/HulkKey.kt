@@ -16,5 +16,10 @@ object HulkKey {
     const val CommonExternalArea = "commonExternalArea"
     //arouter参数传递
     const val CustomKey = "CustomKey"
+    //多个baseUrl
+    const val WANANDROID_DOMAIN_NAME: String = "wanandroid"
+    const val WANANDROID_API: String = "https://www.wanandroid.com"
+    const val GANK_DOMAIN_NAME: String = "gank"
+    const val GANK_API: String = "https://gank.io"
 
 }

@@ -76,7 +76,7 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ActivityUtils.get()!!.addActivity(this)
+        ActivityUtils.get()?.addActivity(this)
         if (HulkConfig.isArouterOpen()) {
             ARouter.getInstance().inject(this)
         }
@@ -96,17 +96,17 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
     /***
      * view
      */
-    protected open fun initVaryViewHelperController(): IVaryViewHelperController? {
+    protected open fun initVaryViewHelperController(): IVaryViewHelperController {
         return VaryViewHelperController(getReplaceView())
     }
 
     private fun initRefresh() {
         if (getSmartRefreshLayout() != null) {
-            getSmartRefreshLayout()!!.isEnabled = mRefreshEnable
+            getSmartRefreshLayout()?.isEnabled = mRefreshEnable
             //不具备加载功能
-            getSmartRefreshLayout()!!.setEnableLoadMore(false)
+            getSmartRefreshLayout()?.setEnableLoadMore(false)
             if (mRefreshEnable) {
-                getSmartRefreshLayout()!!.setOnRefreshListener {
+                getSmartRefreshLayout()?.setOnRefreshListener {
                     refreshData()
                 }
             }
@@ -151,7 +151,7 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
      */
     private fun registerViewChange() {
         mViewModel.viewChange.showLoading.observe(this, Observer {
-            if (!viewController!!.isHasRestore) {
+            if (!viewController?.isHasRestore!!) {
                 showLoading()
             }
         })
@@ -174,10 +174,10 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
             showNetworkError(it, mViewModel.listener)
         })
         mViewModel.viewChange.restore.observe(this, Observer {
-            viewController!!.restore()
+            viewController?.restore()
             //代表有设置刷新
             if (getSmartRefreshLayout() != null) {
-                getSmartRefreshLayout()!!.finishRefresh()
+                getSmartRefreshLayout()?.finishRefresh()
             }
         })
     }
@@ -216,12 +216,12 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         try {
             if (dialog == null) {
                 dialog = ProgressDialog(this)
-                dialog!!.setCancelable(cancelable)
-                dialog!!.setCanceledOnTouchOutside(cancelable)
-                dialog!!.setOnCancelListener(onCancelListener)
+                dialog?.setCancelable(cancelable)
+                dialog?.setCanceledOnTouchOutside(cancelable)
+                dialog?.setOnCancelListener(onCancelListener)
             }
-            if (!TextUtils.isEmpty(msg)) dialog!!.setMessage(msg)
-            dialog!!.show()
+            if (!TextUtils.isEmpty(msg)) dialog?.setMessage(msg)
+            dialog?.show()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -231,28 +231,28 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
      * 消失
      */
     override fun dismissDialog() {
-        if (dialog != null && dialog!!.isShowing) dialog!!.dismiss()
+        if (dialog != null && dialog!!.isShowing) dialog?.dismiss()
     }
 
     /**
      * loading
      */
     override fun showLoading() {
-        viewController!!.showLoading()
+        viewController?.showLoading()
     }
 
     /***
      * loading 带文字
      */
     override fun showLoading(msg: String?) {
-        viewController!!.showLoading(msg)
+        viewController?.showLoading(msg)
     }
 
     /**
      * 无数据，空白页
      */
     override fun showEmpty(emptyMsg: String?) {
-        viewController!!.showEmpty(emptyMsg)
+        viewController?.showEmpty(emptyMsg)
     }
 
     /**
@@ -262,14 +262,14 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         emptyMsg: String?,
         listener: View.OnClickListener?
     ) {
-        viewController!!.showEmpty(emptyMsg, listener)
+        viewController?.showEmpty(emptyMsg, listener)
     }
 
     /**
      * 网络错误
      */
     override fun showNetworkError(listener: View.OnClickListener?) {
-        viewController!!.showNetworkError(listener)
+        viewController?.showNetworkError(listener)
     }
 
     /**
@@ -279,7 +279,7 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         msg: String?,
         listener: View.OnClickListener?
     ) {
-        viewController!!.showNetworkError(msg, listener)
+        viewController?.showNetworkError(msg, listener)
     }
 
     /**
@@ -292,18 +292,18 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         btnText: String?,
         listener: View.OnClickListener?
     ) {
-        viewController!!.showCustomView(drawableInt, title, msg, btnText, listener)
+        viewController?.showCustomView(drawableInt, title, msg, btnText, listener)
     }
 
     /**
      * 恢复
      */
     override fun restore() {
-        viewController!!.restore()
+        viewController?.restore()
     }
 
     override val isHasRestore: Boolean
-        get() = viewController!!.isHasRestore
+        get() = viewController?.isHasRestore!!
 
     /**
      * toast
@@ -333,7 +333,7 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         //不为空才可以刷新
         if (getSmartRefreshLayout() != null) {
             mRefreshEnable = refreshEnable
-            getSmartRefreshLayout()!!.isEnabled = mRefreshEnable
+            getSmartRefreshLayout()?.isEnabled = mRefreshEnable
         }
     }
 
@@ -344,9 +344,9 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
     override fun onDestroy() {
         super.onDestroy()
         //activity出栈
-        ActivityUtils.get()!!.remove(this)
+        ActivityUtils.get()?.remove(this)
         //event注销
-        if (HulkConfig.isEventBusOpen()){
+        if (HulkConfig.isEventBusOpen()) {
             EventBusUtils.unRegister(this)
         }
         //相关销毁，相关事件置空
@@ -360,8 +360,8 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
             dialog == null
         }
         if (getSmartRefreshLayout() != null) {
-            getSmartRefreshLayout()!!.setOnRefreshListener(null)
-            getSmartRefreshLayout()!!.setOnLoadMoreListener(null)
+            getSmartRefreshLayout()?.setOnRefreshListener(null)
+            getSmartRefreshLayout()?.setOnLoadMoreListener(null)
             getSmartRefreshLayout() == null
         }
     }

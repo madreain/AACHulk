@@ -10,6 +10,7 @@ import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.madreain.libhulk.config.HulkConfig
+import com.madreain.libhulk.http.interceptor.BaseUrlInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -30,6 +31,11 @@ class ApiClient {
      */
     fun getOkHttpClient(interceptors: List<Interceptor?>?): OkHttpClient {
         val builder = OkHttpClient.Builder()
+        //处理新增加的多个baseurl,当设置了多个baseurl再做这个的处理
+        if (HulkConfig.getMoreBaseUrl()) {
+            builder.addInterceptor(BaseUrlInterceptor())
+        }
+        //这个是通用设置的
         if (interceptors != null) {
             for (interceptor in interceptors) {
                 builder.addInterceptor(interceptor!!)

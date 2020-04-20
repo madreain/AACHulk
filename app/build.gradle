@@ -22,6 +22,8 @@ android {
         //定义网络请求成功返回码 baseurl  日志打印  切换环境  在代码中BuildConfig.BASE_URL去使用
         buildConfigField "String", "CODE_SUCCESS", getCodeSuccess()
         buildConfigField "String", "CODELIST_SUCCESS", getCodeListSuccess()
+        buildConfigField "String", "WANANDROID_CODELIST_SUCCESS", getWanAndroidCodeListSuccess()
+        buildConfigField "String", "GANK_CODELIST_SUCCESS", getGankCodeListSuccess()
         buildConfigField "String", "BASE_URL", getBaseUrl()
         buildConfigField "boolean", "OPEN_LOG", getOpenLog()
         buildConfigField "boolean", "OPEN_CHANGE", getOpenChange()
@@ -75,11 +77,19 @@ def getCodeListSuccess() {
     return "\"" + String.valueOf(CODELIST_SUCCESS) + "\""
 }
 
+def getWanAndroidCodeListSuccess() {
+    return "\"" + String.valueOf(WANANDROID_CODELIST_SUCCESS) + "\""
+}
+
+def getGankCodeListSuccess() {
+    return "\"" + String.valueOf(GANK_CODELIST_SUCCESS) + "\""
+}
+
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     //hulk引入
-//    api project(':libhulk')
-    api rootProject.ext.dependencies["aachulk"]
+    api project(':libhulk')
+//    api rootProject.ext.dependencies["aachulk"]
     //arouter
     api rootProject.ext.dependencies["arouter"]
     kapt rootProject.ext.dependencies["arouter-compiler"]

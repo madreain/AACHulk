@@ -54,18 +54,14 @@ class VaryViewHelper(
             init()
         }
         mcurrentView = view
-        if (parentView!!.getChildAt(viewIndex) != view) {
+        if (parentView?.getChildAt(viewIndex) != view) {
             if (view.parent != null) {
                 val parent: ViewGroup = view.parent as ViewGroup
                 parent.removeView(view)
             }
-            parentView!!.removeViewAt(viewIndex)
-            parentView!!.addView(view, viewIndex, params)
+            parentView?.removeViewAt(viewIndex)
+            parentView?.addView(view, viewIndex, params)
         }
-        //java.lang.IllegalStateException:
-        // Views added to a FragmentContainerView must be associated with a Fragment.
-        // View androidx.constraintlayout.widget.ConstraintLayout
-        // is not associated with a Fragment.
     }
 
     /**
@@ -92,9 +88,12 @@ class VaryViewHelper(
             } else {
                 replaceView.rootView.findViewById(R.id.content)
             }
-        val count = parentView!!.childCount
+        var count = parentView?.childCount
+        if (count == null) {
+            count = 0
+        }
         for (index in 0 until count) {
-            if (replaceView === parentView!!.getChildAt(index)) {
+            if (replaceView === parentView?.getChildAt(index)) {
                 viewIndex = index
                 break
             }

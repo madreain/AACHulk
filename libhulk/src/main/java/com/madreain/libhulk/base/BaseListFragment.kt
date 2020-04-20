@@ -151,7 +151,7 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      */
     private fun registerViewChange() {
         mViewModel.viewChange.showLoading.observe(this, Observer {
-            if (!viewController!!.isHasRestore) {
+            if (!viewController?.isHasRestore!!) {
                 showLoading()
             }
         })
@@ -174,7 +174,7 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
             showNetworkError(it, mViewModel.listener)
         })
         mViewModel.viewChange.restore.observe(this, Observer {
-            viewController!!.restore()
+            viewController?.restore()
         })
         mViewModel.viewChange.refreshComplete.observe(this, Observer {
             refreshComplete()
@@ -187,7 +187,7 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
     private fun registerDataChange() {
         mViewModel.mResult = MutableLiveData<T>()
         //数据变化的监听
-        mViewModel.mResult!!.observe(this, Observer {
+        mViewModel.mResult?.observe(this, Observer {
             showListData(it as MutableList<T>, pageNum)
         })
     }
@@ -225,12 +225,12 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
         try {
             if (dialog == null) {
                 dialog = ProgressDialog(context)
-                dialog!!.setCancelable(cancelable)
-                dialog!!.setCanceledOnTouchOutside(cancelable)
-                dialog!!.setOnCancelListener(onCancelListener)
+                dialog?.setCancelable(cancelable)
+                dialog?.setCanceledOnTouchOutside(cancelable)
+                dialog?.setOnCancelListener(onCancelListener)
             }
-            if (!TextUtils.isEmpty(msg)) dialog!!.setMessage(msg)
-            dialog!!.show()
+            if (!TextUtils.isEmpty(msg)) dialog?.setMessage(msg)
+            dialog?.show()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -240,21 +240,21 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      * 消失
      */
     override fun dismissDialog() {
-        if (dialog != null && dialog!!.isShowing) dialog!!.dismiss()
+        if (dialog != null && dialog?.isShowing!!) dialog?.dismiss()
     }
 
     /**
      * loading
      */
     override fun showLoading() {
-        viewController!!.showLoading()
+        viewController?.showLoading()
     }
 
     /***
      * loading 带文字
      */
     override fun showLoading(msg: String?) {
-        viewController!!.showLoading(msg)
+        viewController?.showLoading(msg)
     }
 
     /**
@@ -262,7 +262,7 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      */
     override fun showEmpty(content: String?) {
         //加载当前page 出现List 为empty的情况--需要判断是否是第一页或者不是第一页
-        viewController!!.showEmpty(content)
+        viewController?.showEmpty(content)
     }
 
     override fun showEmpty(
@@ -275,11 +275,11 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
         } else {
             pageNum = 1
             if (mRefreshEnable) {
-                getSmartRefreshLayout()!!.isEnabled = true
+                getSmartRefreshLayout()?.isEnabled = true
             }
-            getSmartRefreshLayout()!!.finishRefresh()
+            getSmartRefreshLayout()?.finishRefresh()
             adapter!!.data.clear()
-            viewController!!.showEmpty(content, clickListener)
+            viewController?.showEmpty(content, clickListener)
         }
     }
 
@@ -287,7 +287,7 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      * 网络错误
      */
     override fun showNetworkError(listener: View.OnClickListener?) {
-        viewController!!.showNetworkError(listener)
+        viewController?.showNetworkError(listener)
     }
 
     /**
@@ -302,11 +302,11 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
         } else {
             pageNum = 1
             if (mRefreshEnable) {
-                getSmartRefreshLayout()!!.isEnabled = true
+                getSmartRefreshLayout()?.isEnabled = true
             }
-            getSmartRefreshLayout()!!.finishRefresh()
-            adapter!!.data.clear()
-            viewController!!.showNetworkError(msg, listener)
+            getSmartRefreshLayout()?.finishRefresh()
+            adapter?.data!!.clear()
+            viewController?.showNetworkError(msg, listener)
         }
     }
 
@@ -320,14 +320,14 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
         btnText: String?,
         listener: View.OnClickListener?
     ) {
-        viewController!!.showCustomView(drawableInt, title, msg, btnText, listener)
+        viewController?.showCustomView(drawableInt, title, msg, btnText, listener)
     }
 
     /**
      * 恢复
      */
     override fun restore() {
-        viewController!!.restore()
+        viewController?.restore()
     }
 
     override val isHasRestore: Boolean
@@ -362,7 +362,7 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      */
     open fun setLoadMoreEnable(moreEnable: Boolean) {
         mLoadMoreEnable = moreEnable
-        getSmartRefreshLayout()!!.setEnableLoadMore(mLoadMoreEnable)
+        getSmartRefreshLayout()?.setEnableLoadMore(mLoadMoreEnable)
     }
 
     /**
@@ -370,7 +370,7 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      */
     open fun setRefreshEnable(refreshEnable: Boolean) {
         mRefreshEnable = refreshEnable
-        getSmartRefreshLayout()!!.isEnabled = mRefreshEnable
+        getSmartRefreshLayout()?.isEnabled = mRefreshEnable
     }
 
 
@@ -380,18 +380,18 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
     private fun initRefreshLoadMore() {
         getAdapter()
         //设置相关设置
-        getRecyclerView()!!.layoutManager = getLayoutManager()
-        getRecyclerView()!!.adapter = adapter
-        getSmartRefreshLayout()!!.isEnabled = mRefreshEnable
+        getRecyclerView()?.layoutManager = getLayoutManager()
+        getRecyclerView()?.adapter = adapter
+        getSmartRefreshLayout()?.isEnabled = mRefreshEnable
         if (mRefreshEnable) {
-            getSmartRefreshLayout()!!.setOnRefreshListener {
+            getSmartRefreshLayout()?.setOnRefreshListener {
                 loadPageNum = 1
                 pageNum = 1
                 loadPageListData(pageNum)
             }
         }
         if (mLoadMoreEnable) {
-            getSmartRefreshLayout()!!.setOnLoadMoreListener {
+            getSmartRefreshLayout()?.setOnLoadMoreListener {
                 loadPageNum = pageNum + 1
                 pageNum = pageNum + 1
                 loadPageListData(pageNum)
@@ -403,8 +403,8 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      * 自动刷新
      */
     open fun autoRefresh() {
-        if (ListUtils.getCount(adapter!!.data) > 0) {
-            getSmartRefreshLayout()!!.autoRefresh()
+        if (ListUtils.getCount(adapter?.data) > 0) {
+            getSmartRefreshLayout()?.autoRefresh()
         } else {
             showLoading()
             loadPageListData(1)
@@ -417,14 +417,14 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
     override fun showListData(datas: List<T>?, pageNum: Int) {
         this.pageNum = pageNum
         if (mRefreshEnable) {
-            getSmartRefreshLayout()!!.isEnabled = true
+            getSmartRefreshLayout()?.isEnabled = true
         }
         if (pageNum == 1) {
-            getSmartRefreshLayout()!!.finishRefresh()
-            adapter!!.setNewData(datas as MutableList<T>)
+            getSmartRefreshLayout()?.finishRefresh()
+            adapter?.setNewData(datas as MutableList<T>)
         } else {
-            getSmartRefreshLayout()!!.finishLoadMore()
-            adapter!!.addData(datas!!)
+            getSmartRefreshLayout()?.finishLoadMore()
+            adapter?.addData(datas!!)
         }
     }
 
@@ -433,9 +433,9 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      */
     open fun showNoMore() {
         if (mRefreshEnable) {
-            getSmartRefreshLayout()!!.isEnabled = true
+            getSmartRefreshLayout()?.isEnabled = true
         }
-        getSmartRefreshLayout()!!.finishLoadMoreWithNoMoreData()
+        getSmartRefreshLayout()?.finishLoadMoreWithNoMoreData()
     }
 
     /**
@@ -443,17 +443,17 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
      */
     open fun showLoadMoreError() {
         if (mRefreshEnable) {
-            getSmartRefreshLayout()!!.isEnabled = true
+            getSmartRefreshLayout()?.isEnabled = true
         }
-        getSmartRefreshLayout()!!.finishLoadMore(false)
+        getSmartRefreshLayout()?.finishLoadMore(false)
     }
 
     /**
      * 刷新完成
      */
     override fun refreshComplete() {
-        getSmartRefreshLayout()!!.finishLoadMore()
-        getSmartRefreshLayout()!!.finishRefresh()
+        getSmartRefreshLayout()?.finishLoadMore()
+        getSmartRefreshLayout()?.finishRefresh()
     }
 
     override fun onDestroy() {
@@ -476,8 +476,8 @@ abstract class BaseListFragment<VM : BaseListViewModel<*>, DB : ViewDataBinding,
             adapter == null
         }
         if (getSmartRefreshLayout() != null) {
-            getSmartRefreshLayout()!!.setOnRefreshListener(null)
-            getSmartRefreshLayout()!!.setOnLoadMoreListener(null)
+            getSmartRefreshLayout()?.setOnRefreshListener(null)
+            getSmartRefreshLayout()?.setOnLoadMoreListener(null)
             getSmartRefreshLayout() == null
         }
     }

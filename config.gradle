@@ -100,5 +100,8 @@ ext {
     CODE_SUCCESS = "1"
     //增删改查返回网络请求成功，因为不支持集合，这里采用,分割
     CODELIST_SUCCESS = "1,0"
+    //多个baseurl的返回code
+    WANANDROID_CODELIST_SUCCESS = "0"
+    GANK_CODELIST_SUCCESS = "100"
 
 }

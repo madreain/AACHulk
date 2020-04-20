@@ -109,6 +109,14 @@ class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
                 EventBusUtils.post(EventBusData("我是一个EventBus测试"))
             }, 1000)
         }
+        //多个baseurl
+        tv_more.setOnClickListener {
+            ARouter.getInstance().build(ARouterUri.ChangeBaseUrlActivity).navigation()
+        }
+        //多个baseurl
+        tv_more2.setOnClickListener {
+            ARouter.getInstance().build(ARouterUri.ChangeBaseUrlTwoActivity).navigation()
+        }
     }
 
     override fun getSmartRefreshLayout(): SmartRefreshLayout? {

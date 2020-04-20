@@ -2,6 +2,7 @@ package com.madreain.aachulk
 
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
+import com.madreain.aachulk.consts.HulkKey
 import com.madreain.aachulk.interceptor.RequestHeaderInterceptor
 import com.madreain.aachulk.interceptor.SessionInterceptor
 import com.madreain.libhulk.base.HulkApplication
@@ -25,9 +26,15 @@ class AACHulkApplication : HulkApplication() {
 
     override fun initHulkConfig() { //配置项
         HulkConfig.builder() //这里只需要选择设置一个
-            .setRetSuccess(BuildConfig.CODE_SUCCESS)
+//            .setRetSuccess(BuildConfig.CODE_SUCCESS)
             .setRetSuccessList(BuildConfig.CODELIST_SUCCESS)
+            //设置多baseurl的retcode
+            .addRetSuccess(HulkKey.WANANDROID_DOMAIN_NAME, BuildConfig.WANANDROID_CODELIST_SUCCESS)
+            .addRetSuccess(HulkKey.GANK_DOMAIN_NAME, BuildConfig.GANK_CODELIST_SUCCESS)
             .setBaseUrl(BuildConfig.BASE_URL)
+            //设置多baseurl
+            .addDomain(HulkKey.WANANDROID_DOMAIN_NAME, HulkKey.WANANDROID_API)
+            .addDomain(HulkKey.GANK_DOMAIN_NAME, HulkKey.GANK_API)
             .setLogOpen(BuildConfig.OPEN_LOG)
             .setArouterOpen(BuildConfig.OPEN_AROUTER)
             .setEventBusOpen(BuildConfig.OPEN_EVENTBUS)

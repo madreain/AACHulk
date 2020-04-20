@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.madreain.libhulk.config.HulkConfig
 import com.madreain.libhulk.em.RequestDisplay
-import com.madreain.libhulk.http.ResponseThrowable
 import com.madreain.libhulk.http.exception.NetWorkException
 import com.madreain.libhulk.http.exception.ResultException
 import com.madreain.libhulk.http.exception.ReturnCodeException
+import com.madreain.libhulk.http.exception.ReturnCodeNullException
 import com.madreain.libhulk.http.interceptor.IReturnCodeErrorInterceptor
 import com.madreain.libhulk.utils.NetworkUtils
 import kotlinx.coroutines.*
@@ -33,6 +33,7 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
     //默认相关错误提示
     private val emptyMsg: String = "暂无数据"
     private val errorMsg: String = "网络错误"
+    private val codeNullMsg: String = "未设置成功状态码"
     //重试的监听
     var listener: View.OnClickListener? = null
     /**
@@ -48,7 +49,7 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
      */
     fun getApiService(): API {
         if (apiService == null) {
-            apiService = HulkConfig.getRetrofit()!!.create(
+            apiService = HulkConfig.getRetrofit()?.create(
                 (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<API>
             )
         }
@@ -120,6 +121,8 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                         (it as ReturnCodeException).returnCode,
                         it.message,
                         { reTry() })
+                } else if (it is ReturnCodeNullException) {
+                    onNetWorkError({ reTry() }, codeNullMsg)
                 } else if (it is ResultException) {
                     onTEmpty({ reTry() })
                 } else {
@@ -131,6 +134,8 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
         complete: () -> Unit = {},
         //重试
         reTry: () -> Unit = {},
+        //当前请求的CurrentDomainName,默认的DOMAIN_NAME，也可自行设置
+        currentDomainName: String = HulkConfig.DOMAIN_NAME,
         //接口操作交互类型
         type: RequestDisplay = RequestDisplay.NULL,
         //分页数
@@ -161,7 +166,7 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                 { withContext(Dispatchers.IO) { block() } },
                 { res ->
                     //接口成功返回
-                    executeResponse(res) { success(it) }
+                    executeResponse(res, currentDomainName) { success(it) }
                 },
                 {
                     //接口失败返回
@@ -181,25 +186,76 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
      */
     private suspend fun <T> executeResponse(
         response: IRes<T>,
+        currentDomainName: String,
         success: suspend CoroutineScope.(T) -> Unit
     ) {
         coroutineScope {
-            //接口成功返回后判断是否是增删改查成功，不满足的话，返回异常
-            if (HulkConfig.getRetSuccessList() != null) {
+            //多baseurl
+            if (HulkConfig.getMoreBaseUrl() && currentDomainName != HulkConfig.DOMAIN_NAME) {
+                //获取当前baseurl对应的成功码
+                val retSuccessList =
+                    HulkConfig.getRetSuccessMap()?.get(currentDomainName)
+                //当前对应的baseurl对应的code
+                if (retSuccessList != null) {
+                    //状态码正确
+                    if (retSuccessList.contains(response.getCode())) {
+                        //数据为空，或者list.size=0
+                        if (response.getResult() == null || response.getResult().toString().equals("[]")) {
+                            //完成的回调所有弹窗消失
+                            if (pageNo == 1) {
+                                //返回结果null
+                                throw ResultException(
+                                    response.getMsg()
+                                )
+                            } else {
+                                viewChange.refreshComplete.call()
+                                viewChange.showTips.value = emptyMsg
+                            }
+                        } else {
+                            //接口数据赋值
+                            mResult?.value = response.getResult()
+                            success(response.getResult())
+                            if (pageNo == 1) {
+                                //完成的回调所有弹窗消失
+                                viewChange.dismissDialog.call()
+                                viewChange.restore.call()
+                            } else {
+                                viewChange.refreshComplete.call()
+                            }
+                        }
+                    } else {
+                        //状态码错误
+                        throw ReturnCodeException(
+                            response.getCode(),
+                            response.getMsg()
+                        )
+                    }
+                } else {
+                    //未设置状态码
+                    throw ReturnCodeNullException(
+                        response.getCode(),
+                        response.getMsg()
+                    )
+                }
+                //接口多状态码的返回 接口成功返回后判断是否是增删改查成功，不满足的话，返回异常
+            } else if (HulkConfig.getRetSuccessList() != null) {
                 //成功
-                if (HulkConfig.getRetSuccessList()!!.contains(response.getCode())) {
+                if (HulkConfig.getRetSuccessList().contains(response.getCode())) {
+                    //数据为空，或者list.size=0
                     if (response.getResult() == null || response.getResult().toString().equals("[]")) {
                         //完成的回调所有弹窗消失
                         if (pageNo == 1) {
-                            viewChange.dismissDialog.call()
-                            viewChange.showEmpty.call()
+                            //返回结果null
+                            throw ResultException(
+                                response.getMsg()
+                            )
                         } else {
                             viewChange.refreshComplete.call()
                             viewChange.showTips.value = emptyMsg
                         }
                     } else {
                         //接口数据赋值
-                        mResult!!.value = response.getResult()
+                        mResult?.value = response.getResult()
                         success(response.getResult())
                         if (pageNo == 1) {
                             //完成的回调所有弹窗消失
@@ -211,12 +267,13 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                     }
                 } else {
                     //状态码错误
-                    throw ResponseThrowable(
-                        response.getCode()!!,
-                        response.getMsg()!!
+                    throw ReturnCodeException(
+                        response.getCode(),
+                        response.getMsg()
                     )
                 }
-            } else {
+                //接口单状态码
+            } else if (HulkConfig.getRetSuccess() != null) {
                 //成功
                 if (response.getCode().equals(HulkConfig.getRetSuccess())) {
                     if (response.getResult() == null || response.getResult().toString().equals("[]")) {
@@ -230,7 +287,7 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                         }
                     } else {
                         //接口数据赋值
-                        mResult!!.value = response.getResult()
+                        mResult?.value = response.getResult()
                         success(response.getResult())
                         if (pageNo == 1) {
                             //完成的回调所有弹窗消失
@@ -242,11 +299,17 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                     }
                 } else {
                     //状态码错误
-                    throw ResponseThrowable(
-                        response.getCode()!!,
-                        response.getMsg()!!
+                    throw ReturnCodeException(
+                        response.getCode(),
+                        response.getMsg()
                     )
                 }
+            } else {
+                //未设置状态码
+                throw ReturnCodeNullException(
+                    response.getCode(),
+                    response.getMsg()
+                )
             }
         }
     }
@@ -299,18 +362,19 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
     }
 
     /**
-     * 网络异常
+     * 网络异常，状态码异常，未设置成功状态码
      */
     private fun onNetWorkError(
         reTry: () -> Unit = {
-        }
+        },
+        merrorMsg: String = errorMsg
     ) {
         when (type) {
             RequestDisplay.NULL -> {
 
             }
             RequestDisplay.TOAST -> {
-                viewChange.showToast.value = errorMsg
+                viewChange.showToast.value = merrorMsg
                 viewChange.dismissDialog.call()
             }
             RequestDisplay.REPLACE -> {
@@ -318,11 +382,11 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                     this.listener = View.OnClickListener {
                         reTry()
                     }
-                    viewChange.showNetworkError.value = errorMsg
+                    viewChange.showNetworkError.value = merrorMsg
                 } else {
                     viewChange.refreshComplete.call()
                     viewChange.restore.call()
-                    viewChange.showTips.value = errorMsg
+                    viewChange.showTips.value = merrorMsg
                 }
             }
         }

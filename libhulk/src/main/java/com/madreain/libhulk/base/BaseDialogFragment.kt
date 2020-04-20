@@ -116,11 +116,11 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
 
     private fun initRefresh() {
         if (getSmartRefreshLayout() != null) {
-            getSmartRefreshLayout()!!.isEnabled = mRefreshEnable
+            getSmartRefreshLayout()?.isEnabled = mRefreshEnable
             //不具备加载功能
-            getSmartRefreshLayout()!!.setEnableLoadMore(false)
+            getSmartRefreshLayout()?.setEnableLoadMore(false)
             if (mRefreshEnable) {
-                getSmartRefreshLayout()!!.setOnRefreshListener {
+                getSmartRefreshLayout()?.setOnRefreshListener {
                     refreshData()
                 }
             }
@@ -148,7 +148,7 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
      */
     private fun registerViewChange() {
         mViewModel.viewChange.showLoading.observe(this, Observer {
-            if (!viewController!!.isHasRestore) {
+            if (!viewController?.isHasRestore!!) {
                 showLoading()
             }
         })
@@ -171,10 +171,10 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
             showNetworkError(it, mViewModel.listener)
         })
         mViewModel.viewChange.restore.observe(this, Observer {
-            viewController!!.restore()
+            viewController?.restore()
             //代表有设置刷新
             if (getSmartRefreshLayout() != null) {
-                getSmartRefreshLayout()!!.finishRefresh()
+                getSmartRefreshLayout()?.finishRefresh()
             }
         })
     }
@@ -210,49 +210,49 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
         try {
             if (dialog == null) {
                 dialog = ProgressDialog(context)
-                dialog!!.setCancelable(cancelable)
-                dialog!!.setCanceledOnTouchOutside(cancelable)
-                dialog!!.setOnCancelListener(onCancelListener)
+                dialog?.setCancelable(cancelable)
+                dialog?.setCanceledOnTouchOutside(cancelable)
+                dialog?.setOnCancelListener(onCancelListener)
             }
-            if (!TextUtils.isEmpty(msg)) dialog!!.setMessage(msg)
-            dialog!!.show()
+            if (!TextUtils.isEmpty(msg)) dialog?.setMessage(msg)
+            dialog?.show()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     override fun dismissDialog() {
-        if (dialog != null && dialog!!.isShowing) dialog!!.dismiss()
+        if (dialog != null && dialog!!.isShowing) dialog?.dismiss()
     }
 
     override fun showLoading() {
-        viewController!!.showLoading()
+        viewController?.showLoading()
     }
 
     override fun showLoading(msg: String?) {
-        viewController!!.showLoading(msg)
+        viewController?.showLoading(msg)
     }
 
     override fun showEmpty(content: String?) {
-        viewController!!.showEmpty(content)
+        viewController?.showEmpty(content)
     }
 
     override fun showEmpty(
         content: String?,
         clickListener: View.OnClickListener?
     ) {
-        viewController!!.showEmpty(content, clickListener)
+        viewController?.showEmpty(content, clickListener)
     }
 
     override fun showNetworkError(listener: View.OnClickListener?) {
-        viewController!!.showNetworkError(listener)
+        viewController?.showNetworkError(listener)
     }
 
     override fun showNetworkError(
         msg: String?,
         listener: View.OnClickListener?
     ) {
-        viewController!!.showNetworkError(msg, listener)
+        viewController?.showNetworkError(msg, listener)
     }
 
     override fun showCustomView(
@@ -262,11 +262,11 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
         btnText: String?,
         listener: View.OnClickListener?
     ) {
-        viewController!!.showCustomView(drawableInt, title, msg, btnText, listener)
+        viewController?.showCustomView(drawableInt, title, msg, btnText, listener)
     }
 
     override fun restore() {
-        viewController!!.restore()
+        viewController?.restore()
     }
 
     override val isHasRestore: Boolean
@@ -297,7 +297,7 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
         //不为空才可以刷新
         if (getSmartRefreshLayout() != null) {
             mRefreshEnable = refreshEnable
-            getSmartRefreshLayout()!!.isEnabled = mRefreshEnable
+            getSmartRefreshLayout()?.isEnabled = mRefreshEnable
         }
     }
 
@@ -319,8 +319,8 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
             dialog == null
         }
         if (getSmartRefreshLayout() != null) {
-            getSmartRefreshLayout()!!.setOnRefreshListener(null)
-            getSmartRefreshLayout()!!.setOnLoadMoreListener(null)
+            getSmartRefreshLayout()?.setOnRefreshListener(null)
+            getSmartRefreshLayout()?.setOnLoadMoreListener(null)
             getSmartRefreshLayout() == null
         }
     }

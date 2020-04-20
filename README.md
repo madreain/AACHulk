@@ -10,7 +10,7 @@ AACHulk
 
 ## 功能介绍
 
-1.支持服务器地址、成功码、各种超时时间、各种拦截器、Arouter、EventBus等的配置
+1.支持多服务器地址、多成功码、各种超时时间、各种拦截器、Arouter、EventBus等的配置
 
 2.支持自定义各种非正常态View替换
 
@@ -67,7 +67,13 @@ api 'com.madreain:libhulk:1.0.0'
 HulkConfig.builder() //这里只需要选择设置一个
             .setRetSuccess(BuildConfig.CODE_SUCCESS)//单一的成功响应码
             .setRetSuccessList(BuildConfig.CODELIST_SUCCESS)////多种请求对应不同成功响应码
-            .setBaseUrl(BuildConfig.BASE_URL)//服务器地址
+            //设置多baseurl的retcode
+            .addRetSuccess(HulkKey.WANANDROID_DOMAIN_NAME, BuildConfig.WANANDROID_CODELIST_SUCCESS)
+            .addRetSuccess(HulkKey.GANK_DOMAIN_NAME, BuildConfig.GANK_CODELIST_SUCCESS)
+            .setBaseUrl(BuildConfig.BASE_URL)
+            //设置多baseurl
+            .addDomain(HulkKey.WANANDROID_DOMAIN_NAME, HulkKey.WANANDROID_API)
+            .addDomain(HulkKey.GANK_DOMAIN_NAME, HulkKey.GANK_API)
             .setLogOpen(BuildConfig.OPEN_LOG)//网络日志开关
             .setArouterOpen(BuildConfig.OPEN_AROUTER)//Arouter的开关
             .setEventBusOpen(BuildConfig.OPEN_EVENTBUS)//EventBus的开关
@@ -440,6 +446,52 @@ class SessionInterceptor : IReturnCodeErrorInterceptor {
 
 }
 ```
+
+3.多BaseUrl以及多状态码
+
+3.1  设置多BaseUrl
+
+```
+.addDomain(HulkKey.WANANDROID_DOMAIN_NAME, HulkKey.WANANDROID_API)
+```
+
+设置了多BaseUrl，就要设置对应的状态码，否则会报未设置状态码异常
+
+3.2  设置对应的状态码
+
+```
+.addRetSuccess(HulkKey.WANANDROID_DOMAIN_NAME, BuildConfig.WANANDROID_CODELIST_SUCCESS)
+
+```
+
+3.3 设置调用接口方法的currentDomainName
+
+```
+ fun getWxArticle() {
+        launchOnlyresult(
+            //调用接口方法
+            block = {
+                getApiService().getWxArticle()
+            },
+            //重试
+            reTry = {
+                //调用重试的方法
+                getWxArticle()
+            },
+            //成功
+            success = {
+                //成功回调
+            },
+            currentDomainName = HulkKey.WANANDROID_DOMAIN_NAME,
+            type = RequestDisplay.REPLACE
+        )
+    }
+```
+
+上面这些配置项的配置可参考demo进行自身项目的配置
+
+(多BaseUrl的设计思路参考的RetrofitUrlManager的实现方式)[https://github.com/JessYanCoding/RetrofitUrlManager]
+
 
 🌟🌟🌟
 推荐Carson_Ho大佬的[Kotlin：这是一份全面 & 详细的 类使用 的语法学习指南](https://blog.csdn.net/carson_ho/article/details/105356518)
