@@ -490,8 +490,7 @@ class SessionInterceptor : IReturnCodeErrorInterceptor {
 
 上面这些配置项的配置可参考demo进行自身项目的配置
 
-(多BaseUrl的设计思路参考的RetrofitUrlManager的实现方式)[https://github.com/JessYanCoding/RetrofitUrlManager]
-
+[多BaseUrl的设计思路参考的RetrofitUrlManager的实现方式](https://github.com/JessYanCoding/RetrofitUrlManager)
 
 🌟🌟🌟
 推荐Carson_Ho大佬的[Kotlin：这是一份全面 & 详细的 类使用 的语法学习指南](https://blog.csdn.net/carson_ho/article/details/105356518)
