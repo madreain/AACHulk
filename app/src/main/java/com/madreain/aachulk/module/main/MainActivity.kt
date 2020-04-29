@@ -67,10 +67,10 @@ class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
             bundle.putBoolean(HulkKey.CommonExternalArea, true)
             dialogFragment.setArguments(bundle)
             dialogFragment.setOnLeftRightClickListener(
-                { isRemind ->
+                onLeftClick = { isRemind ->
                     showToast("点击了左边按钮，是否不再提醒" + isRemind)
                 },
-                { isRemind ->
+                onRightClick = { isRemind ->
                     showToast("点击了右边按钮，是否不再提醒" + isRemind)
                 })
             dialogFragment.show(supportFragmentManager, DialogFragment::class.java.getName())
