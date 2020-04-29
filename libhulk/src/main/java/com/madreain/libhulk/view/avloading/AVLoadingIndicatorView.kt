@@ -107,7 +107,7 @@ class AVLoadingIndicatorView : View {
         set(d) {
             if (mIndicator !== d) {
                 if (mIndicator != null) {
-                    mIndicator!!.callback = null
+                    mIndicator?.callback = null
                     unscheduleDrawable(mIndicator)
                 }
                 mIndicator = d
@@ -134,8 +134,7 @@ class AVLoadingIndicatorView : View {
      */
     fun setIndicatorColor(color: Int) {
         mIndicatorColor = color
-//        mIndicator.setColor(color)
-        mIndicator!!.color = color
+        mIndicator?.color = color
     }
 
     /**
@@ -239,7 +238,7 @@ class AVLoadingIndicatorView : View {
 
     fun stopAnimation() {
         if (mIndicator is Animatable) {
-            mIndicator!!.stop()
+            mIndicator?.stop()
             mShouldStartAnimationDrawable = false
         }
         postInvalidate()
@@ -301,22 +300,24 @@ class AVLoadingIndicatorView : View {
         var left = 0
         if (mIndicator != null) { // Maintain aspect ratio. Certain kinds of animated drawables
 // get very confused otherwise.
-            val intrinsicWidth = mIndicator!!.intrinsicWidth
-            val intrinsicHeight = mIndicator!!.intrinsicHeight
-            val intrinsicAspect = intrinsicWidth.toFloat() / intrinsicHeight
-            val boundAspect = w.toFloat() / h
-            if (intrinsicAspect != boundAspect) {
-                if (boundAspect > intrinsicAspect) { // New width is larger. Make it smaller to match height.
-                    val width = (h * intrinsicAspect).toInt()
-                    left = (w - width) / 2
-                    right = left + width
-                } else { // New height is larger. Make it smaller to match width.
-                    val height = (w * (1 / intrinsicAspect)).toInt()
-                    top = (h - height) / 2
-                    bottom = top + height
+            mIndicator?.let {
+                val intrinsicWidth = it.intrinsicWidth
+                val intrinsicHeight = it.intrinsicHeight
+                val intrinsicAspect = intrinsicWidth.toFloat() / intrinsicHeight
+                val boundAspect = w.toFloat() / h
+                if (intrinsicAspect != boundAspect) {
+                    if (boundAspect > intrinsicAspect) { // New width is larger. Make it smaller to match height.
+                        val width = (h * intrinsicAspect).toInt()
+                        left = (w - width) / 2
+                        right = left + width
+                    } else { // New height is larger. Make it smaller to match width.
+                        val height = (w * (1 / intrinsicAspect)).toInt()
+                        top = (h - height) / 2
+                        bottom = top + height
+                    }
                 }
+                mIndicator?.setBounds(left, top, right, bottom)
             }
-            mIndicator!!.setBounds(left, top, right, bottom)
         }
     }
 
@@ -368,8 +369,10 @@ class AVLoadingIndicatorView : View {
 
     private fun updateDrawableState() {
         val state = drawableState
-        if (mIndicator != null && mIndicator!!.isStateful) {
-            mIndicator!!.state = state
+        mIndicator?.let {
+            if (it.isStateful) {
+                mIndicator?.state = state
+            }
         }
     }
 
@@ -377,7 +380,7 @@ class AVLoadingIndicatorView : View {
     override fun drawableHotspotChanged(x: Float, y: Float) {
         super.drawableHotspotChanged(x, y)
         if (mIndicator != null) {
-            mIndicator!!.setHotspot(x, y)
+            mIndicator?.setHotspot(x, y)
         }
     }
 

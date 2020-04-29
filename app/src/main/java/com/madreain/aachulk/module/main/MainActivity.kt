@@ -66,16 +66,13 @@ class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
             bundle.putString(HulkKey.CommonRemind, "不再提醒")
             bundle.putBoolean(HulkKey.CommonExternalArea, true)
             dialogFragment.setArguments(bundle)
-            dialogFragment.setOnLeftRightClickListener(object :
-                DialogFragment.onLeftRightClickListener {
-                override fun onLeftClick(isRemind: Boolean) {
+            dialogFragment.setOnLeftRightClickListener(
+                { isRemind ->
                     showToast("点击了左边按钮，是否不再提醒" + isRemind)
-                }
-
-                override fun onRightClick(isRemind: Boolean) {
+                },
+                { isRemind ->
                     showToast("点击了右边按钮，是否不再提醒" + isRemind)
-                }
-            })
+                })
             dialogFragment.show(supportFragmentManager, DialogFragment::class.java.getName())
         }
         //无数据

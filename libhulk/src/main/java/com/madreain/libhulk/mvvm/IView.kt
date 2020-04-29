@@ -63,18 +63,18 @@ interface IView : IVaryViewHelperController {
      * 获取activity
      * @return
      */
-    val hulkActivity: Activity
+    val hulkActivity: Activity?
 
     /**
      * 获取activity的context
      * @return
      */
-    val hulkContext: Context
+    val hulkContext: Context?
 
     /**
      * 获取app的context
      * @return
      */
-    val hulkAppContext: Context
+    val hulkAppContext: Context?
 
 }

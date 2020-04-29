@@ -78,7 +78,8 @@ ext {
             "topsnackbar"            : "com.androidadvance:topsnackbar:1.1.1",
             //eventbus
             "eventbus"               : "org.greenrobot:eventbus:3.2.0",
-            "aachulk"                : "com.madreain:libhulk:1.0.2",
+            //aachulk
+            "aachulk"                : "com.madreain:libhulk:1.0.3",
     ]
 
     /**

@@ -45,8 +45,8 @@ class AACHulkApplication : HulkApplication() {
             ) //okhttp请求日志开关+消息拦截器.md
             .addRetCodeInterceptors(SessionInterceptor()) // returnCode非正常态拦截器
             .setRetrofit(
-                ApiClient.instance!!.getRetrofit(
-                    ApiClient.instance!!.getOkHttpClient(
+                ApiClient.getInstance().getRetrofit(
+                    ApiClient.getInstance().getOkHttpClient(
                         HulkConfig.getOkHttpInterceptors()
                     )
                 )

@@ -33,7 +33,6 @@ class NetworkUtils {
     }
 
 
-
     /**
      * 打开网络设置界面
      *
@@ -86,11 +85,11 @@ class NetworkUtils {
     fun isAvailableByPing(): Boolean {
         val result: ShellUtils.CommandResult = ShellUtils.execCmd("ping -c 1 -w 1 223.5.5.5", false)
         val ret = result.result === 0
-        if (result.errorMsg != null) {
-            LogUtils.d("isAvailableByPing errorMsg", result.errorMsg!!)
+        result.errorMsg?.let {
+            LogUtils.d("isAvailableByPing errorMsg", it)
         }
-        if (result.successMsg != null) {
-            LogUtils.d("isAvailableByPing successMsg", result.successMsg!!)
+        result.successMsg?.let {
+            LogUtils.d("isAvailableByPing errorMsg", it)
         }
         return ret
     }

@@ -10,26 +10,14 @@ import com.madreain.libhulk.mvvm.IRes
  * description：
  */
 @Keep
-class BaseRes<T> : IRes<T> {
-    private var `data`: T? = null
-    private var code: String? = null
-    private var msg: String? = null
-    private var version: String? = null
-
-    override fun getResult(): T {
-        return data!!
-    }
-
-    override fun getVersion(): String {
-        return version!!
-    }
-
-    override fun getMsg(): String {
-        return msg!!
-    }
-
-    override fun getCode(): String {
-        return code!!
-    }
-
+data class BaseRes<T>(
+    val msg: String,
+    val code: String,
+    val `data`: T,
+    val version: String
+) : IRes<T> {
+    override fun getHulkMsg() = msg
+    override fun getHulkCode() = code
+    override fun getHulkResult() = data
+    override fun getHulkVersion() = version
 }

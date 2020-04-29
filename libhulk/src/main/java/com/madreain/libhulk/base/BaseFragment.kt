@@ -147,8 +147,10 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
      */
     private fun registerViewChange() {
         mViewModel.viewChange.showLoading.observe(this, Observer {
-            if (!viewController?.isHasRestore!!) {
-                showLoading()
+            viewController?.let {
+                if (!it.isHasRestore) {
+                    showLoading()
+                }
             }
         })
         mViewModel.viewChange.showDialogProgress.observe(this, Observer {
@@ -184,17 +186,19 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
      */
 
     override fun showTips(msg: String) {
-        val snackBar = TSnackbar.make(
-            activity!!.findViewById(android.R.id.content),
-            msg,
-            TSnackbar.LENGTH_SHORT
-        )
-        val snackBarView = snackBar.view
-        snackBarView.setBackgroundColor(resources.getColor(R.color.colorAccent))
-        val textView =
-            snackBarView.findViewById<TextView>(com.androidadvance.topsnackbar.R.id.snackbar_text)
-        textView.setTextColor(resources.getColor(R.color.m90EE90))
-        snackBar.show()
+        activity?.let {
+            val snackBar = TSnackbar.make(
+                it.findViewById(android.R.id.content),
+                msg,
+                TSnackbar.LENGTH_SHORT
+            )
+            val snackBarView = snackBar.view
+            snackBarView.setBackgroundColor(resources.getColor(R.color.colorAccent))
+            val textView =
+                snackBarView.findViewById<TextView>(com.androidadvance.topsnackbar.R.id.snackbar_text)
+            textView.setTextColor(resources.getColor(R.color.m90EE90))
+            snackBar.show()
+        }
     }
 
     override fun showDialogProgress(msg: String) {
@@ -221,7 +225,9 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
     }
 
     override fun dismissDialog() {
-        if (dialog != null && dialog!!.isShowing) dialog?.dismiss()
+        dialog?.let {
+            if (it.isShowing) it.dismiss()
+        }
     }
 
     override fun showLoading() {
@@ -269,24 +275,26 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
     }
 
     override val isHasRestore: Boolean
-        get() = viewController?.isHasRestore!!
+        get() = viewController?.isHasRestore ?: false
 
     override fun showToast(msg: String) {
         ToastUtils.showShortToastSafe(hulkActivity, msg)
     }
 
     override fun showToast(msg: Int) {
-        ToastUtils.show(hulkActivity, msg)
+        hulkActivity?.let {
+            ToastUtils.show(it, msg)
+        }
     }
 
-    override val hulkActivity: Activity
-        get() = activity!!
+    override val hulkActivity: Activity?
+        get() = activity
 
-    override val hulkContext: Context
-        get() = context!!
+    override val hulkContext: Context?
+        get() = context
 
-    override val hulkAppContext: Context
-        get() = activity!!.applicationContext
+    override val hulkAppContext: Context?
+        get() = activity?.applicationContext
 
 
     /**
@@ -303,7 +311,7 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
     override fun onDestroy() {
         super.onDestroy()
         //event注销
-        if (HulkConfig.isEventBusOpen()){
+        if (HulkConfig.isEventBusOpen()) {
             EventBusUtils.unRegister(this)
         }
         //相关销毁，相关事件置空

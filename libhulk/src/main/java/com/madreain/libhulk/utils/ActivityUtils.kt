@@ -55,11 +55,14 @@ class ActivityUtils {
     }
 
     fun isActivityExist(clz: Class<out Activity?>): Boolean {
-        return activityStack!!.contains(getActivity(clz))
+        activityStack?.let {
+            return it.contains(getActivity(clz))
+        }
+        return false
     }
 
-    val isEmpty: Boolean
-        get() = activityStack!!.isEmpty()
+    val isEmpty: Boolean?
+        get() = activityStack?.isEmpty()
 
     /**
      * 关闭指定界面
@@ -93,13 +96,15 @@ class ActivityUtils {
      * @param activity 当前Activity 不需要finish
      */
     fun finishOthers(activity: Activity?) {
-        for (a in activityStack!!) {
-            if (activity !== a && a != null) {
-                a.finish()
+        activityStack?.let {
+            for (a in it) {
+                if (activity !== a && a != null) {
+                    a.finish()
+                }
             }
+            it.clear()
+            it.add(activity)
         }
-        activityStack?.clear()
-        activityStack?.add(activity)
     }
 
     /**
@@ -108,9 +113,11 @@ class ActivityUtils {
      * @param clz Class
      */
     fun getActivity(clz: Class<out Activity?>): Activity? {
-        for (activity in activityStack!!) {
-            if (activity != null && activity.javaClass == clz) {
-                return activity
+        activityStack?.let {
+            for (activity in it) {
+                if (activity != null && activity.javaClass == clz) {
+                    return activity
+                }
             }
         }
         return null
@@ -122,16 +129,19 @@ class ActivityUtils {
      * @param clz Activity.class
      */
     fun backTo(clz: Class<out Activity?>) {
-        if (activityStack!!.size > 0) {
-            var activity = activityStack?.peek()
-            while (activity != null && clz != activity.javaClass) {
-                activity.finish()
-                activityStack?.remove(activity)
-                if (activityStack!!.size > 0) {
-                    activity = activityStack?.peek()
+        activityStack?.let {
+            if (it.size > 0) {
+                var activity = it.peek()
+                while (activity != null && clz != activity.javaClass) {
+                    activity.finish()
+                    it.remove(activity)
+                    if (it.size > 0) {
+                        activity = it.peek()
+                    }
                 }
             }
         }
+
     }
 
     /**
@@ -141,7 +151,10 @@ class ActivityUtils {
      * @return
      */
     fun isTopActivity(activity: Activity): Boolean {
-        return activityStack!!.size != 0 && activityStack?.peek() === activity
+        activityStack?.let {
+            return it.size != 0 && it.peek() === activity
+        }
+        return false
     }
 
     companion object {

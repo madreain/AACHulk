@@ -102,19 +102,21 @@ open class BaseUrlInterceptor : Interceptor {
                     pathSize = split[1].toInt()
                 }
             } else {
-                val split: Array<String> =
-                    fragment?.split(IDENTIFICATION_PATH_SIZE)!!.toTypedArray()
-                newFragment.append(split[0])
-                if (split.size > 1) {
-                    val index = split[1].indexOf("#")
-                    if (index != -1) {
-                        newFragment.append(split[1].substring(index, split[1].length))
-                        val substring = split[1].substring(0, index)
-                        if (!TextUtils.isEmpty(substring)) {
-                            pathSize = substring.toInt()
+                fragment?.let {
+                    val split: Array<String> =
+                        it.split(IDENTIFICATION_PATH_SIZE).toTypedArray()
+                    newFragment.append(split[0])
+                    if (split.size > 1) {
+                        val index = split[1].indexOf("#")
+                        if (index != -1) {
+                            newFragment.append(split[1].substring(index, split[1].length))
+                            val substring = split[1].substring(0, index)
+                            if (!TextUtils.isEmpty(substring)) {
+                                pathSize = substring.toInt()
+                            }
+                        } else {
+                            pathSize = split[1].toInt()
                         }
-                    } else {
-                        pathSize = split[1].toInt()
                     }
                 }
             }

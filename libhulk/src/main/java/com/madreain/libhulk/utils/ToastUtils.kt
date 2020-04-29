@@ -153,12 +153,12 @@ class ToastUtils private constructor() {
             if (isJumpWhenMore) cancelToast()
             if (sToast == null) {
                 sToast = Toast.makeText(context, text, duration)
-                sToast!!.setGravity(Gravity.CENTER, 0, 0)
+                sToast?.setGravity(Gravity.CENTER, 0, 0)
             } else {
-                sToast!!.setText(text)
-                sToast!!.duration = duration
+                sToast?.setText(text)
+                sToast?.duration = duration
             }
-            sToast!!.show()
+            sToast?.show()
         }
 
         /**
@@ -166,7 +166,7 @@ class ToastUtils private constructor() {
          */
         fun cancelToast() {
             if (sToast != null) {
-                sToast!!.cancel()
+                sToast?.cancel()
                 sToast = null
             }
         }

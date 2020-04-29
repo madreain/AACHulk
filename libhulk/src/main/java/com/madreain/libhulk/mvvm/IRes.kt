@@ -7,13 +7,8 @@ package com.madreain.libhulk.mvvm
  * description：
  */
 interface IRes<T> {
-    fun getMsg(): String?
-
-    fun getCode(): String
-
-    fun getResult(): T
-
-    fun getVersion(): String?
-
-
+    fun getHulkMsg(): String
+    fun getHulkCode(): String
+    fun getHulkResult(): T
+    fun getHulkVersion(): String
 }

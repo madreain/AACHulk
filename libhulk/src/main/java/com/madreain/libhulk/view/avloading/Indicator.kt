@@ -57,21 +57,23 @@ abstract class Indicator : Drawable(), Animatable {
     }
 
     private fun startAnimators() {
-        for (i in mAnimators!!.indices) {
-            val animator = mAnimators!![i]
-            //when the animator restart , add the updateListener again because they
+        mAnimators?.let {
+            for (i in it.indices) {
+                val animator = it[i]
+                //when the animator restart , add the updateListener again because they
 // was removed by animator stop .
-            val updateListener = mUpdateListeners[animator]
-            if (updateListener != null) {
-                animator.addUpdateListener(updateListener)
+                val updateListener = mUpdateListeners[animator]
+                if (updateListener != null) {
+                    animator.addUpdateListener(updateListener)
+                }
+                animator.start()
             }
-            animator.start()
         }
     }
 
     private fun stopAnimators() {
-        if (mAnimators != null) {
-            for (animator in mAnimators!!) {
+        mAnimators?.let {
+            for (animator in it) {
                 if (animator.isStarted) {
                     animator.removeAllUpdateListeners()
                     animator.end()
@@ -93,15 +95,19 @@ abstract class Indicator : Drawable(), Animatable {
 
     private val isStarted: Boolean
         get() {
-            for (animator in mAnimators!!) {
-                return animator.isStarted
+            mAnimators?.let {
+                for (animator in it) {
+                    return animator.isStarted
+                }
             }
             return false
         }
 
     override fun isRunning(): Boolean {
-        for (animator in mAnimators!!) {
-            return animator.isRunning
+        mAnimators?.let {
+            for (animator in it) {
+                return animator.isRunning
+            }
         }
         return false
     }

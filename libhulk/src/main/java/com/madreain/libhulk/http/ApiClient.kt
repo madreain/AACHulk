@@ -29,17 +29,15 @@ class ApiClient {
      * @param interceptors
      * @return
      */
-    fun getOkHttpClient(interceptors: List<Interceptor?>?): OkHttpClient {
+    fun getOkHttpClient(interceptors: List<Interceptor>): OkHttpClient {
         val builder = OkHttpClient.Builder()
         //处理新增加的多个baseurl,当设置了多个baseurl再做这个的处理
         if (HulkConfig.getMoreBaseUrl()) {
             builder.addInterceptor(BaseUrlInterceptor())
         }
         //这个是通用设置的
-        if (interceptors != null) {
-            for (interceptor in interceptors) {
-                builder.addInterceptor(interceptor!!)
-            }
+        for (interceptor in interceptors) {
+            builder.addInterceptor(interceptor)
         }
         return builder.connectTimeout(
             HulkConfig.getConnectTimeout(),
@@ -55,7 +53,7 @@ class ApiClient {
      * @param okHttpClient
      * @return
      */
-    fun getRetrofit(okHttpClient: OkHttpClient?): Retrofit {
+    fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(HulkConfig.getBaseUrl())
             .addConverterFactory(
@@ -104,17 +102,11 @@ class ApiClient {
     }
 
     companion object {
-        private var apiClient: ApiClient? = null
-        val instance: ApiClient?
-            get() {
-                if (apiClient == null) {
-                    synchronized(ApiClient::class.java) {
-                        if (apiClient == null) {
-                            apiClient = ApiClient()
-                        }
-                    }
-                }
-                return apiClient
-            }
+        fun getInstance() = SingletonHolder.INSTANCE
     }
+
+    private object SingletonHolder {
+        val INSTANCE = ApiClient()
+    }
+
 }

@@ -64,9 +64,9 @@ api 'com.madreain:libhulk:1.0.0'
 3.继承HulkApplication，配置相关配置项
 
 ```
-HulkConfig.builder() //这里只需要选择设置一个
-            .setRetSuccess(BuildConfig.CODE_SUCCESS)//单一的成功响应码
-            .setRetSuccessList(BuildConfig.CODELIST_SUCCESS)////多种请求对应不同成功响应码
+    HulkConfig.builder() //这里只需要选择设置一个
+//            .setRetSuccess(BuildConfig.CODE_SUCCESS)
+            .setRetSuccessList(BuildConfig.CODELIST_SUCCESS)
             //设置多baseurl的retcode
             .addRetSuccess(HulkKey.WANANDROID_DOMAIN_NAME, BuildConfig.WANANDROID_CODELIST_SUCCESS)
             .addRetSuccess(HulkKey.GANK_DOMAIN_NAME, BuildConfig.GANK_CODELIST_SUCCESS)
@@ -74,22 +74,22 @@ HulkConfig.builder() //这里只需要选择设置一个
             //设置多baseurl
             .addDomain(HulkKey.WANANDROID_DOMAIN_NAME, HulkKey.WANANDROID_API)
             .addDomain(HulkKey.GANK_DOMAIN_NAME, HulkKey.GANK_API)
-            .setLogOpen(BuildConfig.OPEN_LOG)//网络日志开关
-            .setArouterOpen(BuildConfig.OPEN_AROUTER)//Arouter的开关
-            .setEventBusOpen(BuildConfig.OPEN_EVENTBUS)//EventBus的开关
+            .setLogOpen(BuildConfig.OPEN_LOG)
+            .setArouterOpen(BuildConfig.OPEN_AROUTER)
+            .setEventBusOpen(BuildConfig.OPEN_EVENTBUS)
             .addOkHttpInterceptor(RequestHeaderInterceptor()) //请求头拦截器
             .addOkHttpInterceptor(
                 BuildConfig.OPEN_LOG,
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-            ) //okhttp请求日志开关+消息拦截器
+            ) //okhttp请求日志开关+消息拦截器.md
             .addRetCodeInterceptors(SessionInterceptor()) // returnCode非正常态拦截器
             .setRetrofit(
-                ApiClient.instance!!.getRetrofit(
-                    ApiClient.instance!!.getOkHttpClient(
+                ApiClient.getInstance().getRetrofit(
+                    ApiClient.getInstance().getOkHttpClient(
                         HulkConfig.getOkHttpInterceptors()
                     )
                 )
-            )//
+            )
             .build()
 ```
 上面这些配置项的配置可参考demo进行自身项目的配置

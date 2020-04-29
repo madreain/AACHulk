@@ -7,6 +7,7 @@ import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import retrofit2.Retrofit
+import java.lang.RuntimeException
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -73,133 +74,67 @@ object HulkConfig {
      *
      * @return
      */
-    fun getRetrofit(): Retrofit? {
-        return retrofit
+    fun getRetrofit(): Retrofit {
+        return retrofit ?: throw RuntimeException("retrofit is null")
     }
 
-    fun setRetrofit(retrofit: Retrofit?) {
-        HulkConfig.retrofit = retrofit
-    }
-
-    fun getBaseUrl(): String? {
-        return baseUrl
-    }
-
-    fun setBaseUrl(baseUrl: String?) {
-        HulkConfig.baseUrl = baseUrl
+    fun getBaseUrl(): String {
+        return baseUrl ?: throw RuntimeException("baseUrl is null")
     }
 
     fun getRetSuccess(): String? {
         return retSuccess
     }
 
-    fun setRetSuccess(retSuccess: String?) {
-        HulkConfig.retSuccess = retSuccess
-    }
-
     fun getRetSuccessList(): List<String> {
         return retSuccessList ?: ArrayList<String>()
-    }
-
-    fun setRetSuccessList(retSuccessList: List<String>?) {
-        HulkConfig.retSuccessList = retSuccessList
-    }
-
-    fun isLogOpen(): Boolean {
-        return logOpen
-    }
-
-    fun setLogOpen(logOpen: Boolean) {
-        HulkConfig.logOpen = logOpen
     }
 
     fun isEventBusOpen(): Boolean {
         return eventBusOpen
     }
 
-    fun setEventBusOpen(eventBusOpen: Boolean) {
-        HulkConfig.eventBusOpen = eventBusOpen
-    }
-
     fun isArouterOpen(): Boolean {
         return arouterOpen
-    }
-
-    fun setArouterOpen(arouterOpen: Boolean) {
-        HulkConfig.arouterOpen = arouterOpen
     }
 
     fun getConnectTimeout(): Long {
         return connectTimeout
     }
 
-    fun setConnectTimeout(connectTimeout: Long) {
-        HulkConfig.connectTimeout = connectTimeout
-    }
-
     fun getReadTimeout(): Long {
         return readTimeout
-    }
-
-    fun setReadTimeout(readTimeout: Long) {
-        HulkConfig.readTimeout = readTimeout
     }
 
     fun getWriteTimeout(): Long {
         return writeTimeout
     }
 
-    fun setWriteTimeout(writeTimeout: Long) {
-        HulkConfig.writeTimeout = writeTimeout
-    }
 
-    fun getOkHttpInterceptors(): List<Interceptor>? {
-        return okHttpInterceptors
-    }
-
-    fun setOkHttpInterceptors(okHttpInterceptors: MutableList<Interceptor>?) {
-        HulkConfig.okHttpInterceptors = okHttpInterceptors
+    fun getOkHttpInterceptors(): List<Interceptor> {
+        return okHttpInterceptors ?: ArrayList()
     }
 
     fun getRetCodeInterceptors(): List<IReturnCodeErrorInterceptor> {
         return retCodeInterceptors as MutableList<IReturnCodeErrorInterceptor>
     }
 
-    fun setRetCodeInterceptors(retCodeInterceptors: MutableList<IReturnCodeErrorInterceptor>?) {
-        HulkConfig.retCodeInterceptors = retCodeInterceptors
-    }
-
     fun getVersionDifInterceptors(): List<IVersionDifInterceptor>? {
         return versionDifInterceptors
-    }
-
-    fun setVersionDifInterceptors(versionDifInterceptors: MutableList<IVersionDifInterceptor>?) {
-        HulkConfig.versionDifInterceptors = versionDifInterceptors
     }
 
     fun isCacheOpen(): Boolean {
         return cacheOpen
     }
 
-    fun setCacheOpen(cacheOpen: Boolean) {
-        HulkConfig.cacheOpen = cacheOpen
-    }
-
     fun getConfigBuilder(): ConfigBuilder? {
         return configBuilder
-    }
-
-    fun setConfigBuilder(configBuilder: ConfigBuilder?) {
-        HulkConfig.configBuilder = configBuilder
     }
 
     fun getMDomainNameHub(): HashMap<String, HttpUrl>? {
         return mDomainNameHub
     }
 
-    fun setMDomainNameHub(mDomainNameHub: HashMap<String, HttpUrl>?) {
-        HulkConfig.mDomainNameHub = mDomainNameHub
-    }
 
     fun getMoreBaseUrl(): Boolean {
         return isMoreBaseUrl
@@ -218,7 +153,7 @@ object HulkConfig {
     }
 
     class ConfigBuilder {
-        fun setRetrofit(retrofit: Retrofit): ConfigBuilder {
+        fun setRetrofit(retrofit: Retrofit?): ConfigBuilder {
             HulkConfig.retrofit = retrofit
             return this
         }

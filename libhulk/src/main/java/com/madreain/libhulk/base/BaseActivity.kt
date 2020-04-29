@@ -151,8 +151,10 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
      */
     private fun registerViewChange() {
         mViewModel.viewChange.showLoading.observe(this, Observer {
-            if (!viewController?.isHasRestore!!) {
-                showLoading()
+            viewController?.let {
+                if (!it.isHasRestore) {
+                    showLoading()
+                }
             }
         })
         mViewModel.viewChange.showDialogProgress.observe(this, Observer {
@@ -231,7 +233,9 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
      * 消失
      */
     override fun dismissDialog() {
-        if (dialog != null && dialog!!.isShowing) dialog?.dismiss()
+        dialog?.let {
+            if (it.isShowing) it.dismiss()
+        }
     }
 
     /**
@@ -303,7 +307,7 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
     }
 
     override val isHasRestore: Boolean
-        get() = viewController?.isHasRestore!!
+        get() = viewController?.isHasRestore ?: false
 
     /**
      * toast

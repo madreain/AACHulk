@@ -16,6 +16,7 @@ import com.madreain.libhulk.utils.NetworkUtils
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.lang.RuntimeException
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -53,7 +54,7 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                 (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<API>
             )
         }
-        return apiService!!
+        return apiService ?: throw RuntimeException("Api service is null")
     }
 
     /**
@@ -198,14 +199,17 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                 //当前对应的baseurl对应的code
                 if (retSuccessList != null) {
                     //状态码正确
-                    if (retSuccessList.contains(response.getCode())) {
+                    if (retSuccessList.contains(response.getHulkCode())) {
                         //数据为空，或者list.size=0
-                        if (response.getResult() == null || response.getResult().toString().equals("[]")) {
+                        if (response.getHulkResult() == null || response.getHulkResult().toString().equals(
+                                "[]"
+                            )
+                        ) {
                             //完成的回调所有弹窗消失
                             if (pageNo == 1) {
                                 //返回结果null
                                 throw ResultException(
-                                    response.getMsg()
+                                    response.getHulkMsg()
                                 )
                             } else {
                                 viewChange.refreshComplete.call()
@@ -213,8 +217,8 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                             }
                         } else {
                             //接口数据赋值
-                            mResult?.value = response.getResult()
-                            success(response.getResult())
+                            mResult?.value = response.getHulkResult()
+                            success(response.getHulkResult())
                             if (pageNo == 1) {
                                 //完成的回调所有弹窗消失
                                 viewChange.dismissDialog.call()
@@ -226,28 +230,31 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                     } else {
                         //状态码错误
                         throw ReturnCodeException(
-                            response.getCode(),
-                            response.getMsg()
+                            response.getHulkCode(),
+                            response.getHulkMsg()
                         )
                     }
                 } else {
                     //未设置状态码
                     throw ReturnCodeNullException(
-                        response.getCode(),
-                        response.getMsg()
+                        response.getHulkCode(),
+                        response.getHulkMsg()
                     )
                 }
                 //接口多状态码的返回 接口成功返回后判断是否是增删改查成功，不满足的话，返回异常
             } else if (HulkConfig.getRetSuccessList() != null) {
                 //成功
-                if (HulkConfig.getRetSuccessList().contains(response.getCode())) {
+                if (HulkConfig.getRetSuccessList().contains(response.getHulkCode())) {
                     //数据为空，或者list.size=0
-                    if (response.getResult() == null || response.getResult().toString().equals("[]")) {
+                    if (response.getHulkResult() == null || response.getHulkResult().toString().equals(
+                            "[]"
+                        )
+                    ) {
                         //完成的回调所有弹窗消失
                         if (pageNo == 1) {
                             //返回结果null
                             throw ResultException(
-                                response.getMsg()
+                                response.getHulkMsg()
                             )
                         } else {
                             viewChange.refreshComplete.call()
@@ -255,8 +262,8 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                         }
                     } else {
                         //接口数据赋值
-                        mResult?.value = response.getResult()
-                        success(response.getResult())
+                        mResult?.value = response.getHulkResult()
+                        success(response.getHulkResult())
                         if (pageNo == 1) {
                             //完成的回调所有弹窗消失
                             viewChange.dismissDialog.call()
@@ -268,15 +275,18 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                 } else {
                     //状态码错误
                     throw ReturnCodeException(
-                        response.getCode(),
-                        response.getMsg()
+                        response.getHulkCode(),
+                        response.getHulkMsg()
                     )
                 }
                 //接口单状态码
             } else if (HulkConfig.getRetSuccess() != null) {
                 //成功
-                if (response.getCode().equals(HulkConfig.getRetSuccess())) {
-                    if (response.getResult() == null || response.getResult().toString().equals("[]")) {
+                if (response.getHulkCode().equals(HulkConfig.getRetSuccess())) {
+                    if (response.getHulkResult() == null || response.getHulkResult().toString().equals(
+                            "[]"
+                        )
+                    ) {
                         //完成的回调所有弹窗消失
                         if (pageNo == 1) {
                             viewChange.dismissDialog.call()
@@ -287,8 +297,8 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                         }
                     } else {
                         //接口数据赋值
-                        mResult?.value = response.getResult()
-                        success(response.getResult())
+                        mResult?.value = response.getHulkResult()
+                        success(response.getHulkResult())
                         if (pageNo == 1) {
                             //完成的回调所有弹窗消失
                             viewChange.dismissDialog.call()
@@ -300,15 +310,15 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
                 } else {
                     //状态码错误
                     throw ReturnCodeException(
-                        response.getCode(),
-                        response.getMsg()
+                        response.getHulkCode(),
+                        response.getHulkMsg()
                     )
                 }
             } else {
                 //未设置状态码
                 throw ReturnCodeNullException(
-                    response.getCode(),
-                    response.getMsg()
+                    response.getHulkCode(),
+                    response.getHulkMsg()
                 )
             }
         }

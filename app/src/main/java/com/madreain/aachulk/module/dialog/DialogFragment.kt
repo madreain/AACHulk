@@ -34,19 +34,21 @@ class DialogFragment : BaseDialogFragment<DialogViewModel, ViewDataBinding>() {
 
     override fun onStart() {
         super.onStart()
-        // 下面这些设置必须在此方法(onStart())中才有效
-        val window = dialog!!.window
-        // 如果不设置这句代码, 那么弹框就会与四边都有一定的距离
-        window.setBackgroundDrawableResource(android.R.color.transparent)
-        // 设置动画
-        window.setWindowAnimations(R.style.CommonDialog)
-        val params = window.attributes
-        //背景透明
-        params.dimAmount = 0.4f
-        params.gravity = Gravity.CENTER
-        // 如果不设置宽度,那么即使你在布局中设置宽度为 match_parent 也不会起作用
-        params.width = resources.displayMetrics.widthPixels
-        window.attributes = params
+        dialog?.let {
+            // 下面这些设置必须在此方法(onStart())中才有效
+            val window = it.window
+            // 如果不设置这句代码, 那么弹框就会与四边都有一定的距离
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            // 设置动画
+            window.setWindowAnimations(R.style.CommonDialog)
+            val params = window.attributes
+            //背景透明
+            params.dimAmount = 0.4f
+            params.gravity = Gravity.CENTER
+            // 如果不设置宽度,那么即使你在布局中设置宽度为 match_parent 也不会起作用
+            params.width = resources.displayMetrics.widthPixels
+            window.attributes = params
+        }
     }
 
     override fun init(savedInstanceState: Bundle?) {
@@ -105,39 +107,41 @@ class DialogFragment : BaseDialogFragment<DialogViewModel, ViewDataBinding>() {
         }
 //点击外部区域是否消失
         //点击外部区域是否消失
-        if (externalArea) {
-            dialog!!.setCanceledOnTouchOutside(false)
-        } else {
-            dialog!!.setCanceledOnTouchOutside(true)
+        dialog?.let {
+            if (externalArea) {
+                it.setCanceledOnTouchOutside(false)
+            } else {
+                it.setCanceledOnTouchOutside(true)
+            }
         }
         /**
          * 相关监听事件
          */
         tv_left.setOnClickListener {
-            if (monLeftRightClickListener != null) {
-                monLeftRightClickListener!!.onLeftClick(isRemind)
-            }
+            onLeftClick?.let { it1 -> it1(isRemind) }
             dismiss()
         }
         tv_right.setOnClickListener {
-            if (monLeftRightClickListener != null) {
-                monLeftRightClickListener!!.onRightClick(isRemind)
-            }
+            onRightClick?.let { it1 -> it1(isRemind) }
             dismiss()
         }
         tv_remind.setOnClickListener {
             //未选中到选中
             //未选中到选中
             if (!isRemind) {
-                DrawableUtils.setDrawableLeft(
-                    tv_remind,
-                    context!!.resources.getDrawable(R.drawable.ic_select)
-                )
+                context?.let {
+                    DrawableUtils.setDrawableLeft(
+                        tv_remind,
+                        it.resources.getDrawable(R.drawable.ic_select)
+                    )
+                }
             } else {
-                DrawableUtils.setDrawableLeft(
-                    tv_remind,
-                    context!!.resources.getDrawable(R.drawable.ic_unselect)
-                )
+                context?.let {
+                    DrawableUtils.setDrawableLeft(
+                        tv_remind,
+                        it.resources.getDrawable(R.drawable.ic_unselect)
+                    )
+                }
             }
             isRemind = !isRemind
         }
@@ -151,15 +155,15 @@ class DialogFragment : BaseDialogFragment<DialogViewModel, ViewDataBinding>() {
 
     }
 
-    private var monLeftRightClickListener: onLeftRightClickListener? = null
+    private var onLeftClick: ((isRemind: Boolean) -> Unit)? = null
+    private var onRightClick: ((isRemind: Boolean) -> Unit)? = null
 
-    interface onLeftRightClickListener {
-        fun onLeftClick(isRemind: Boolean)
-        fun onRightClick(isRemind: Boolean)
-    }
-
-    fun setOnLeftRightClickListener(onLeftRightClickListener: onLeftRightClickListener?) {
-        this.monLeftRightClickListener = onLeftRightClickListener
+    fun setOnLeftRightClickListener(
+        onLeftClick: (isRemind: Boolean) -> Unit,
+        onRightClick: (isRemind: Boolean) -> Unit
+    ) {
+        this.onLeftClick = onLeftClick
+        this.onRightClick = onRightClick
     }
 
 }
