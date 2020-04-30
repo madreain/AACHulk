@@ -12,6 +12,15 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
 
+        android.applicationVariants.all {
+            variant ->
+                variant.outputs.all {
+                    // 此处指定生成的apk文件名
+                    def newName = "aachulk_" + variant.buildType.name + "_v" + rootProject.ext.android["versionName"] + "_" + rootProject.ext.android["versionCode"] + ".apk"
+                    outputFileName = newName
+                }
+        }
+
         //ARouter添加的
         kapt {
             arguments {
@@ -33,6 +42,15 @@ android {
 
     dataBinding {
         enabled true
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'aachulk'
+            keyPassword 'aachulk'
+            storeFile file('jks/aachulk.jks')
+            storePassword 'aachulk'
+        }
     }
 
     buildTypes {
