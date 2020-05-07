@@ -494,3 +494,30 @@ class SessionInterceptor : IReturnCodeErrorInterceptor {
 
 🌟🌟🌟
 推荐Carson_Ho大佬的[Kotlin：这是一份全面 & 详细的 类使用 的语法学习指南](https://blog.csdn.net/carson_ho/article/details/105356518)
+
+## 感谢
+
+感谢本框架所使用到的所有三方库的作者，以及所有为开源做无私贡献的开发者和组织，使我们能更好的工作和学习,本人也会将业余时间回报给开源社区
+
+## 关于我
+
+* **Email**: <madreain6@gmail.com>
+* **掘金**: <https://juejin.im/user/57ff05970e3dd90057e3e208>
+
+## License
+
+```
+   Copyright [2020] [madreain]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+```
