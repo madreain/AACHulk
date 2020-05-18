@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+group='https://github.com/madreain'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -78,7 +79,9 @@ dependencies {
     //topsnackbar
     api rootProject.ext.dependencies["topsnackbar"]
     //eventbus
-    api rootProject.ext.dependencies["eventbus"]
+//    api rootProject.ext.dependencies["eventbus"]
+    //LiveEventBus
+    api rootProject.ext.dependencies["LiveEventBus"]
 
 }
 

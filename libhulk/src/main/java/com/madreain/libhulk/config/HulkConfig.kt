@@ -46,8 +46,6 @@ object HulkConfig {
     private var configBuilder: ConfigBuilder? = null
     //是否开启arouter
     private var arouterOpen = true
-    //是否开启eventbus
-    private var eventBusOpen = true
     //设置多个BaseUrl，配合默认的DOMAIN_NAME
     private var mDomainNameHub: HashMap<String, HttpUrl>? = null
     private var isMoreBaseUrl = false
@@ -88,10 +86,6 @@ object HulkConfig {
 
     fun getRetSuccessList(): List<String> {
         return retSuccessList ?: ArrayList<String>()
-    }
-
-    fun isEventBusOpen(): Boolean {
-        return eventBusOpen
     }
 
     fun isArouterOpen(): Boolean {
@@ -181,11 +175,6 @@ object HulkConfig {
 
         fun setLogOpen(logOpen: Boolean): ConfigBuilder {
             HulkConfig.logOpen = logOpen
-            return this
-        }
-
-        fun setEventBusOpen(eventBusOpen: Boolean): ConfigBuilder {
-            HulkConfig.eventBusOpen = eventBusOpen
             return this
         }
 

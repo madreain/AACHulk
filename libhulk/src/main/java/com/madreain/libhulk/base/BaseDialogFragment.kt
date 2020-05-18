@@ -22,7 +22,6 @@ import com.madreain.hulk.R
 import com.madreain.libhulk.config.HulkConfig
 import com.madreain.libhulk.mvvm.BaseViewModel
 import com.madreain.libhulk.mvvm.IView
-import com.madreain.libhulk.utils.EventBusUtils
 import com.madreain.libhulk.utils.ToastUtils
 import com.madreain.libhulk.view.IVaryViewHelperController
 import com.madreain.libhulk.view.VaryViewHelperController
@@ -93,9 +92,6 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (HulkConfig.isArouterOpen()) {
             ARouter.getInstance().inject(this)
-        }
-        if (HulkConfig.isEventBusOpen()) {
-            EventBusUtils.register(this)
         }
         createViewModel()
         viewController = initVaryViewHelperController()
@@ -312,10 +308,6 @@ abstract class BaseDialogFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> :
 
     override fun onDestroy() {
         super.onDestroy()
-        //event注销
-        if (HulkConfig.isEventBusOpen()) {
-            EventBusUtils.unRegister(this)
-        }
         //相关销毁，相关事件置空
         if (mBinding != null) {
             mBinding == null

@@ -37,7 +37,6 @@ android {
         buildConfigField "boolean", "OPEN_LOG", getOpenLog()
         buildConfigField "boolean", "OPEN_CHANGE", getOpenChange()
         buildConfigField "boolean", "OPEN_AROUTER", getOpenARouter()
-        buildConfigField "boolean", "OPEN_EVENTBUS", getOpenEventBus()
     }
 
     dataBinding {
@@ -78,10 +77,6 @@ def getOpenARouter() {
     return "${OPEN_AROUTER}"
 }
 
-def getOpenEventBus() {
-    return "${OPEN_EVENTBUS}"
-}
-
 def getBaseUrl() {
     //最后没有斜杠，需要手动拼接
     return "\"" + String.valueOf(BASE_URL).trim() + "/\""
@@ -106,8 +101,8 @@ def getGankCodeListSuccess() {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     //hulk引入
-//    api project(':libhulk')
-    api rootProject.ext.dependencies["aachulk"]
+    api project(':libhulk')
+//    api rootProject.ext.dependencies["aachulk"]
     //arouter
     api rootProject.ext.dependencies["arouter"]
     kapt rootProject.ext.dependencies["arouter-compiler"]

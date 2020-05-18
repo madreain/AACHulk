@@ -77,9 +77,10 @@ ext {
             //view
             "topsnackbar"            : "com.androidadvance:topsnackbar:1.1.1",
             //eventbus
-            "eventbus"               : "org.greenrobot:eventbus:3.2.0",
+//            "eventbus"               : "org.greenrobot:eventbus:3.2.0",
+            "LiveEventBus"           : "com.jeremyliao:live-event-bus-x:1.6.1",
             //aachulk
-            "aachulk"                : "com.madreain:libhulk:1.0.3",
+            "aachulk"                : "com.madreain:libhulk:1.0.4",
     ]
 
     /**
@@ -93,8 +94,6 @@ ext {
 //    OPEN_CHANGE = false
     //开启arouter
     OPEN_AROUTER = true
-    //开启eventbus
-    OPEN_EVENTBUS = true
     //baseurl
     BASE_URL = "https://www.mxnzp.com"
     //统一返回网络请求成功

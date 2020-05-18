@@ -37,7 +37,6 @@ class AACHulkApplication : HulkApplication() {
             .addDomain(HulkKey.GANK_DOMAIN_NAME, HulkKey.GANK_API)
             .setLogOpen(BuildConfig.OPEN_LOG)
             .setArouterOpen(BuildConfig.OPEN_AROUTER)
-            .setEventBusOpen(BuildConfig.OPEN_EVENTBUS)
             .addOkHttpInterceptor(RequestHeaderInterceptor()) //请求头拦截器
             .addOkHttpInterceptor(
                 BuildConfig.OPEN_LOG,

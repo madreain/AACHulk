@@ -10,7 +10,7 @@ AACHulk
 
 ## 功能介绍
 
-1.支持多服务器地址、多成功码、各种超时时间、各种拦截器、Arouter、EventBus等的配置
+1.支持多服务器地址、多成功码、各种超时时间、各种拦截器、Arouter等的配置
 
 2.支持自定义各种非正常态View替换
 
@@ -28,8 +28,7 @@ AACHulk
 2. [`Retrofit` 为Android和Java提供安全的HTTP客户端](https://github.com/square/retrofit)
 3. [`BaseRecyclerViewAdapterHelper` 功能强大、灵活的万能适配器](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
 4. [`SmartRefreshLayout` Android智能下拉刷新框架](https://github.com/scwang90/SmartRefreshLayout)
-5. [`EventBus` Android和Java的事件总线，简化了活动、片段、线程、服务等之间的通信。代码越少，质量越好](https://github.com/greenrobot/EventBus)
-6. [`ARouter` 帮助 Android App 进行组件化改造的路由框架](https://github.com/alibaba/ARouter)
+5. [`ARouter` 帮助 Android App 进行组件化改造的路由框架](https://github.com/alibaba/ARouter)
 
 ## 基础功能
 
@@ -76,7 +75,6 @@ api 'com.madreain:libhulk:1.0.0'
             .addDomain(HulkKey.GANK_DOMAIN_NAME, HulkKey.GANK_API)
             .setLogOpen(BuildConfig.OPEN_LOG)
             .setArouterOpen(BuildConfig.OPEN_AROUTER)
-            .setEventBusOpen(BuildConfig.OPEN_EVENTBUS)
             .addOkHttpInterceptor(RequestHeaderInterceptor()) //请求头拦截器
             .addOkHttpInterceptor(
                 BuildConfig.OPEN_LOG,
@@ -491,6 +489,16 @@ class SessionInterceptor : IReturnCodeErrorInterceptor {
 上面这些配置项的配置可参考demo进行自身项目的配置
 
 [多BaseUrl的设计思路参考的RetrofitUrlManager的实现方式](https://github.com/JessYanCoding/RetrofitUrlManager)
+
+4.消息总线
+
+针对大家提出的问题，这里采用了LiveEventBus(缺点:不支持线程分发)去替换原先的EventBus，去掉了在HulkConfig设置setEventBusOpen的开关设置，大家可根据自身项目去选择适合自己的消息总线
+
+[`LiveEventBus` 消息总线，基于LiveData，具有生命周期感知能力，支持Sticky，支持AndroidX，支持跨进程，支持跨APP](https://github.com/JeremyLiao/LiveEventBus)
+
+具体实现方法参考官方文档
+
+## 相关资料
 
 🌟🌟🌟
 推荐Carson_Ho大佬的[Kotlin：这是一份全面 & 详细的 类使用 的语法学习指南](https://blog.csdn.net/carson_ho/article/details/105356518)

@@ -21,7 +21,6 @@ import com.madreain.libhulk.config.HulkConfig
 import com.madreain.libhulk.mvvm.BaseViewModel
 import com.madreain.libhulk.mvvm.IView
 import com.madreain.libhulk.utils.ActivityUtils
-import com.madreain.libhulk.utils.EventBusUtils
 import com.madreain.libhulk.utils.ToastUtils
 import com.madreain.libhulk.view.IVaryViewHelperController
 import com.madreain.libhulk.view.VaryViewHelperController
@@ -79,9 +78,6 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         ActivityUtils.get()?.addActivity(this)
         if (HulkConfig.isArouterOpen()) {
             ARouter.getInstance().inject(this)
-        }
-        if (HulkConfig.isEventBusOpen()) {
-            EventBusUtils.register(this)
         }
         super.onCreate(savedInstanceState)
         initViewDataBinding()
@@ -349,10 +345,6 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         super.onDestroy()
         //activity出栈
         ActivityUtils.get()?.remove(this)
-        //event注销
-        if (HulkConfig.isEventBusOpen()) {
-            EventBusUtils.unRegister(this)
-        }
         //相关销毁，相关事件置空
         if (mBinding != null) {
             mBinding == null
