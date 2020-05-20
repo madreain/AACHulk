@@ -13,8 +13,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
 //        classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlin_version"
 //        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
-        //jitpack
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         //上传到jcenter的相关配置
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
