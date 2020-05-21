@@ -38,6 +38,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
+
 }
 
 dependencies {
