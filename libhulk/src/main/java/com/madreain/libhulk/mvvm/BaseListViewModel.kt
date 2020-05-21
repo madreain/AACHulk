@@ -58,6 +58,12 @@ abstract class BaseListViewModel<API> : ViewModel(), LifecycleObserver {
     }
 
     /**
+     * 开始执行方法
+     */
+    protected abstract fun onStart()
+
+
+    /**
      * 网络相关工具
      */
     val networkUtils: NetworkUtils by lazy { NetworkUtils() }
