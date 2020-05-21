@@ -57,7 +57,7 @@ allprojects {
 在主项目app的build.grade加入
 
 ```
-api 'com.madreain:libhulk:1.0.0'
+api 'com.madreain:libhulk:1.0.4'
 ```
 
 3.继承HulkApplication，配置相关配置项
