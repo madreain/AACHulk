@@ -36,7 +36,7 @@ abstract class Indicator : Drawable(), Animatable {
         return PixelFormat.OPAQUE
     }
 
-    override fun setColorFilter(colorFilter: ColorFilter) {}
+    override fun setColorFilter(colorFilter: ColorFilter?) {}
     override fun draw(canvas: Canvas) {
         draw(canvas, mPaint)
     }

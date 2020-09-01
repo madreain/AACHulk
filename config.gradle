@@ -3,11 +3,11 @@ ext {
     //查看错误信息 ./gradlew compileDebug --stacktrace -info      ./gradlew compileDebugSource --stacktrace -info
     //应用配置
     android = [
-            compileSdkVersion: 28,
-            buildToolsVersion: "28.0.0",
+            compileSdkVersion: 29,
+            buildToolsVersion: "29.0.3",
             minSdkVersion    : 16,
-            targetSdkVersion : 28,
-            kotlinVersion    : "1.3.50",
+            targetSdkVersion : 29,
+            kotlinVersion    : "1.3.71",
             versionCode      : 1,
             versionName      : "1.0.0",
             applicationId    : "com.madreain.aachulk"
@@ -80,7 +80,7 @@ ext {
 //            "eventbus"               : "org.greenrobot:eventbus:3.2.0",
             "LiveEventBus"           : "com.jeremyliao:live-event-bus-x:1.6.1",
             //aachulk
-            "aachulk"                : "com.madreain:libhulk:1.0.4",
+//            "aachulk"                : "com.madreain:libhulk:1.0.4",
     ]
 
     /**

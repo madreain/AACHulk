@@ -32,7 +32,7 @@ class BallPulseIndicator : Indicator() {
             val translateX = x + radius * 2 * i + circleSpacing * i
             canvas.translate(translateX, y)
             canvas.scale(scaleFloats[i], scaleFloats[i])
-            canvas.drawCircle(0f, 0f, radius, paint)
+            paint?.let { canvas.drawCircle(0f, 0f, radius, it) }
             canvas.restore()
         }
     }

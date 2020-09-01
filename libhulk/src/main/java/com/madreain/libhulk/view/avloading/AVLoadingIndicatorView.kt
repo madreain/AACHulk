@@ -94,7 +94,7 @@ class AVLoadingIndicatorView : View {
             R.styleable.AVLoadingIndicatorView_indicatorColor,
             Color.WHITE
         )
-        setIndicator(indicatorName)
+        indicatorName?.let { setIndicator(it) }
         if (mIndicator == null) {
             indicator = DEFAULT_INDICATOR
         }
@@ -151,7 +151,7 @@ class AVLoadingIndicatorView : View {
         }
         val drawableClassName = StringBuilder()
         if (!indicatorName.contains(".")) {
-            val defaultPackageName = javaClass.getPackage().name
+            val defaultPackageName = javaClass.getPackage()?.name
             drawableClassName.append(defaultPackageName)
                 .append(".indicators")
                 .append(".")

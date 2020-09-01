@@ -37,17 +37,19 @@ class DialogFragment : BaseDialogFragment<DialogViewModel, ViewDataBinding>() {
         dialog?.let {
             // 下面这些设置必须在此方法(onStart())中才有效
             val window = it.window
-            // 如果不设置这句代码, 那么弹框就会与四边都有一定的距离
-            window.setBackgroundDrawableResource(android.R.color.transparent)
-            // 设置动画
-            window.setWindowAnimations(R.style.CommonDialog)
-            val params = window.attributes
-            //背景透明
-            params.dimAmount = 0.4f
-            params.gravity = Gravity.CENTER
-            // 如果不设置宽度,那么即使你在布局中设置宽度为 match_parent 也不会起作用
-            params.width = resources.displayMetrics.widthPixels
-            window.attributes = params
+            window?.let {
+                // 如果不设置这句代码, 那么弹框就会与四边都有一定的距离
+                it.setBackgroundDrawableResource(android.R.color.transparent)
+                // 设置动画
+                it.setWindowAnimations(R.style.CommonDialog)
+                val params = it.attributes
+                //背景透明
+                params.dimAmount = 0.4f
+                params.gravity = Gravity.CENTER
+                // 如果不设置宽度,那么即使你在布局中设置宽度为 match_parent 也不会起作用
+                params.width = resources.displayMetrics.widthPixels
+                it.attributes = params
+            }
         }
     }
 
