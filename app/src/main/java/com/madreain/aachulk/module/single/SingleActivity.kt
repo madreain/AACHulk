@@ -40,8 +40,8 @@ class SingleActivity : BaseActivity<SingleViewModel, ActivitySingleBinding>() {
         mViewModel.onStart()
         //接口请求的数据变化
         mViewModel.result.observe(this, Observer {
-            mBinding!!.singleDataS = it
-            mBinding!!.singleData = it[0]
+            mBinding?.singleDataS = it
+            mBinding?.singleData = it[0]
         })
     }
 

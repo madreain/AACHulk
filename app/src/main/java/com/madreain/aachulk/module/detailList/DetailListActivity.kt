@@ -43,9 +43,9 @@ class DetailListActivity :
         //请求接口
         mViewModel.searchCity("中国", 1)
         //增加头部
-        adapter!!.addHeaderView(LayoutInflater.from(this).inflate(R.layout.head_detail, null))
+        adapter?.addHeaderView(LayoutInflater.from(this).inflate(R.layout.head_detail, null))
         //增加底部
-        adapter!!.addFooterView(LayoutInflater.from(this).inflate(R.layout.footer_detail, null))
+        adapter?.addFooterView(LayoutInflater.from(this).inflate(R.layout.footer_detail, null))
     }
 
     /**

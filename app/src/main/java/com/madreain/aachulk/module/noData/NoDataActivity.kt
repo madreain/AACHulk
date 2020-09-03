@@ -40,8 +40,8 @@ class NoDataActivity : BaseActivity<NoDataViewModel, ActivityNodataBinding>() {
         mViewModel.searchCity("广德")
         //接口请求的数据变化
         mViewModel.result.observe(this, Observer {
-            mBinding!!.listDataS = it
-            mBinding!!.listData = it[0]
+            mBinding?.listDataS = it
+            mBinding?.listData = it[0]
         })
     }
 

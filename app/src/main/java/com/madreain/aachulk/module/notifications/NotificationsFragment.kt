@@ -23,7 +23,7 @@ class NotificationsFragment : BaseFragment<NotificationsViewModel, FragmentNotif
         mViewModel.onStart()
         mViewModel.result.observe(
             this, Observer {
-                mBinding!!.notificationsData = it[0]
+                mBinding?.notificationsData = it[0]
             })
     }
 

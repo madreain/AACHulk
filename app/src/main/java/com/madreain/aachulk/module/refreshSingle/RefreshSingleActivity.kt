@@ -40,8 +40,8 @@ class RefreshSingleActivity : BaseActivity<RefreshSingleViewModel, ActivityRefre
         mViewModel.onStart()
         //接口请求的数据变化
         mViewModel.result.observe(this, Observer {
-            mBinding!!.refreshSingleDataS = it
-            mBinding!!.refreshSingleData = it[0]
+            mBinding?.refreshSingleDataS = it
+            mBinding?.refreshSingleData = it[0]
         })
     }
 

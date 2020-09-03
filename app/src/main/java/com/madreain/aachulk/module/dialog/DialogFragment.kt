@@ -55,9 +55,7 @@ class DialogFragment : BaseDialogFragment<DialogViewModel, ViewDataBinding>() {
 
     override fun init(savedInstanceState: Bundle?) {
         // 去掉默认的标题
-        // 去掉默认的标题
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        //数据的获取
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         //数据的获取
         val bundle = arguments
         if (bundle != null) {
