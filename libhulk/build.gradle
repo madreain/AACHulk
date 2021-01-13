@@ -56,8 +56,6 @@ dependencies {
     api rootProject.ext.dependencies["constraintlayout"]
     //ktx扩展库
     api rootProject.ext.dependencies["ktx"]
-//    api rootProject.ext.dependencies["ktx-stdlib"]
-    api rootProject.ext.dependencies["ktx-jdk"]
     api rootProject.ext.dependencies["ktx-coroutines"]
     api rootProject.ext.dependencies["ktx-coroutines-android"]
     //okhttp
