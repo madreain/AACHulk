@@ -21,7 +21,7 @@ class SingleViewModel : ViewModel() {
         }, onSuccess = {
             onSuccess(it)
         }, onError = {
-            ToastUtils.showLong(it.message)
+
         })
     }
 

@@ -3,7 +3,6 @@ package com.madreain.aachulk.module.custom
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
 import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -15,10 +14,7 @@ import com.madreain.aachulk.module.list.ListAdapter
 import com.madreain.aachulk.module.list.ListViewModel
 import com.madreain.aachulk.module.single.SingleData
 import com.madreain.aachulk.utils.ActionBarUtils
-import com.madreain.aachulk.view.CustomInitView
 import com.madreain.libhulk.components.base.BaseActivity
-import com.madreain.libhulk.components.base.IPageInit
-import com.madreain.libhulk.components.view.InitView
 import com.madreain.libhulk.components.view.list.ListResult
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -71,20 +67,6 @@ public class CustomActivity :
                 })
         }
         listView.autoRefreshNoAnimation()
-    }
-
-    /**
-     * 自定义错误、loading
-     */
-    override fun buildPageInit(): IPageInit? {
-        val initView = CustomInitView(this)
-        findViewById<FrameLayout>(android.R.id.content).addView(
-            initView,
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        initView.dismissLoadOrError()
-        return initView
     }
 
 }

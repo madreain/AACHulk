@@ -31,8 +31,7 @@ class ListViewModel : ViewModel() {
             onSuccess(it)
         }, onError = {
             onError(it)
-            ToastUtils.showLong(it.message)
-        })
+        },load = true)
     }
 
 }

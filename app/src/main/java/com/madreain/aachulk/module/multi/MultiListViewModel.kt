@@ -30,7 +30,6 @@ class MultiListViewModel : ViewModel() {
             onSuccess(it)
         }, onError = {
             onError(it)
-            ToastUtils.showLong(it.message)
         })
     }
 
