@@ -73,3 +73,6 @@ dependencies {
     //utilcodex
     api rootProject.ext.dependencies["utilcodex"]
 }
+
+//上传到jcenter
+apply from: "jcenter.gradle"
