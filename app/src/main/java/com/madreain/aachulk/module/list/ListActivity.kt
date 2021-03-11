@@ -2,15 +2,14 @@ package com.madreain.aachulk.module.list
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.madreain.aachulk.R
-import com.madreain.aachulk.consts.ARouterUri
-import com.madreain.aachulk.databinding.ActivityListBinding
+import com.madreain.aachulk.consts.RouteUrls
+import com.madreain.aachulk.module.single.SingleData
 import com.madreain.aachulk.utils.ActionBarUtils
-import com.madreain.libhulk.base.BaseListActivity
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.madreain.libhulk.components.base.BaseActivity
+import com.madreain.libhulk.components.view.list.ListResult
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -20,17 +19,11 @@ import kotlinx.android.synthetic.main.toolbar.*
  * module：
  * description：
  */
-@Route(path = ARouterUri.ListActivity)
+@Route(path = RouteUrls.List)
 class ListActivity :
-    BaseListActivity<ListViewModel, ActivityListBinding, ListAdapter, ListData>() {
+    BaseActivity(R.layout.activity_list) {
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_list
-    }
-
-    override fun getReplaceView(): View {
-        return smartRefreshLayout
-    }
+    private val listViewModel by viewModels<ListViewModel>()
 
     override fun init(savedInstanceState: Bundle?) {
         //ActionBar相关设置
@@ -38,31 +31,30 @@ class ListActivity :
             onBackPressed()
         })
         ActionBarUtils.setToolBarTitleText(toolbar, "List数据展示界面")
-        //请求接口
-        mViewModel.searchCity("中国", 1)
+
+        val listAdapter = ListAdapter()
+        listView.setAdapter(listAdapter)
+//        listView.setRefreshEnable(false)
+//        listView.setEnableLoadMore(false)
+        listView.setOnDataLoadListener { page, isFirst ->
+            //请求接口
+            listViewModel.searchCity(this, "中国",
+                onSuccess = {
+                    listView.attachData(
+                        ListResult(
+                            true,
+                            it,
+                            listViewModel.nextPage
+                        )
+                    )
+                }, onError = {
+                    listView.attachData(
+                        ListResult<SingleData>(false, null, null)
+                    )
+                })
+        }
+        listView.autoRefreshNoAnimation()
     }
 
-    /**
-     * list相关方法
-     */
-    override fun loadPageListData(pageNo: Int) {
-        mViewModel.searchCity("中国", pageNo)
-    }
-
-    override fun getSmartRefreshLayout(): SmartRefreshLayout {
-        return smartRefreshLayout
-    }
-
-    override fun getRecyclerView(): RecyclerView {
-        return recyclerView
-    }
-
-    override fun getLayoutManager(): RecyclerView.LayoutManager {
-        return LinearLayoutManager(this)
-    }
-
-    override fun getAdapter() {
-        adapter = ListAdapter()
-    }
 
 }

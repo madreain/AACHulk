@@ -2,48 +2,44 @@ package com.madreain.aachulk.module.dashboard
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.madreain.aachulk.R
-import com.madreain.libhulk.base.BaseListFragment
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import kotlinx.android.synthetic.main.fragment_dashboard.*
+import com.madreain.aachulk.module.list.ListAdapter
+import com.madreain.aachulk.module.list.ListViewModel
+import com.madreain.aachulk.module.single.SingleData
+import com.madreain.libhulk.components.base.BaseFragment
+import com.madreain.libhulk.components.view.list.ListResult
+import kotlinx.android.synthetic.main.activity_list.*
 
 class DashboardFragment :
-    BaseListFragment<DashboardViewModel, ViewDataBinding, DashboardAdapter, DashboardData>() {
+    BaseFragment(R.layout.fragment_dashboard) {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_dashboard
-    }
+    private val listViewModel by viewModels<ListViewModel>()
 
-    override fun getReplaceView(): View {
-        return layout_dashboard
-    }
 
-    override fun init(savedInstanceState: Bundle?) {
-        //请求接口
-        mViewModel.searDashboardchCity("中国", 1)
-    }
+    override fun init(view: View, savedInstanceState: Bundle?) {
 
-    override fun getSmartRefreshLayout(): SmartRefreshLayout? {
-        return smartRefreshLayout
-    }
-
-    override fun loadPageListData(pageNo: Int) {
-        mViewModel.searDashboardchCity("中国", pageNo)
-    }
-
-    override fun getRecyclerView(): RecyclerView? {
-        return recyclerView
-    }
-
-    override fun getLayoutManager(): RecyclerView.LayoutManager? {
-        return LinearLayoutManager(context)
-    }
-
-    override fun getAdapter() {
-        adapter = DashboardAdapter()
+        val listAdapter = ListAdapter()
+        listView.setAdapter(listAdapter)
+        listView.setOnDataLoadListener { page, isFirst ->
+            //请求接口
+            listViewModel.searchCity(this, "中国",
+                onSuccess = {
+                    listView.attachData(
+                        ListResult(
+                            true,
+                            it,
+                            listViewModel.nextPage
+                        )
+                    )
+                }, onError = {
+                    listView.attachData(
+                        ListResult<SingleData>(false, null, null)
+                    )
+                })
+        }
+        listView.autoRefreshNoAnimation()
     }
 
 }

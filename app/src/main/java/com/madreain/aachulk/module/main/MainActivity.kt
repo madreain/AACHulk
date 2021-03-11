@@ -2,127 +2,82 @@ package com.madreain.aachulk.module.main
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.ViewDataBinding
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
-import com.jeremyliao.liveeventbus.LiveEventBus
+import com.blankj.utilcode.util.ToastUtils
 import com.madreain.aachulk.R
-import com.madreain.aachulk.consts.ARouterUri
-import com.madreain.aachulk.consts.HulkKey
-import com.madreain.aachulk.consts.LiveEventBusKey
-import com.madreain.aachulk.module.EventBus.EventBusData
-import com.madreain.aachulk.module.dialog.DialogFragment
+import com.madreain.aachulk.consts.RouteKeys
+import com.madreain.aachulk.consts.RouteUrls
 import com.madreain.aachulk.utils.ActionBarUtils
-import com.madreain.libhulk.base.BaseActivity
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.madreain.libhulk.click.OnClick
+import com.madreain.libhulk.components.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-@Route(path = ARouterUri.MainActivity)
-class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
-
-    override fun getReplaceView(): View {
-        return main_layout
-    }
+@Route(path = RouteUrls.Main)
+class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun init(savedInstanceState: Bundle?) {
         ActionBarUtils.setToolBarTitleText(toolbar, "AACHulk项目展示")
-        //single展示
-        tv_single.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, SingleActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.SingleActivity).navigation()
-        }
-        //single刷新功能展示
-        tv_refresh_single.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, RefreshSingleActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.RefreshSingleActivity).navigation()
-        }
-        //list展示
-        tv_list.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, ListActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.ListActivity).navigation()
-        }
-        //Detaillist展示
-        tv_detail_list.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, DetailListActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.DetailListActivity).navigation()
-        }
-        //Detaillist展示
-        tv_main2.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, Main2Activity::class.java))
-            ARouter.getInstance().build(ARouterUri.Main2Activity).navigation()
-        }
-        //dialog
-        tv_dialog.setOnClickListener {
-            val dialogFragment = DialogFragment()
-            val bundle = Bundle()
-            bundle.putString(HulkKey.CommonTitle, "提示标题")
-            bundle.putString(HulkKey.CommonDesc, "提示内容")
-            bundle.putString(HulkKey.CommonLeft, "取消")
-            bundle.putString(HulkKey.CommonRight, "确定")
-            bundle.putString(HulkKey.CommonRemind, "不再提醒")
-            bundle.putBoolean(HulkKey.CommonExternalArea, true)
-            dialogFragment.setArguments(bundle)
-            dialogFragment.setOnLeftRightClickListener(
-                onLeftClick = { isRemind ->
-                    showToast("点击了左边按钮，是否不再提醒" + isRemind)
-                },
-                onRightClick = { isRemind ->
-                    showToast("点击了右边按钮，是否不再提醒" + isRemind)
-                })
-            dialogFragment.show(supportFragmentManager, DialogFragment::class.java.getName())
-        }
-        //无数据
-        tv_nodata.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, NoDataActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.NoDataActivity).navigation()
-        }
-        //无数据list
-        tv_nodatalist.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, NoDataListActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.NoDataListActivity).navigation()
-        }
-        //自定义view替换
-        tv_custom.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, CustomActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.CustomActivity)
-                .withString(HulkKey.CustomKey, "测试Arouter")
-                .navigation()
-        }
-        //多布局展示
-        tv_multi.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, MultiActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.MultiActivity).navigation()
-        }
         //EventBus
         tv_event.setOnClickListener {
-            //            startActivity(Intent(hulkActivity, EventBusActivity::class.java))
-            ARouter.getInstance().build(ARouterUri.EventBusActivity).navigation()
+            route(RouteUrls.EventBus)
             //传递参数
-            LiveEventBus
-                .get(LiveEventBusKey.AACKey)
-                .postDelay("我是一个EventBus测试",1000)
+//            LiveEventBus
+//                .get(LiveEventBusKey.AACKey)
+//                .postDelay("我是一个EventBus测试", 1000)
         }
         //多个baseurl
         tv_more.setOnClickListener {
-            ARouter.getInstance().build(ARouterUri.ChangeBaseUrlActivity).navigation()
+            route(RouteUrls.ChangeBaseUrl)
         }
         //多个baseurl
         tv_more2.setOnClickListener {
-            ARouter.getInstance().build(ARouterUri.ChangeBaseUrlTwoActivity).navigation()
+            route(RouteUrls.ChangeBaseUrlTwo)
         }
     }
 
-    override fun getSmartRefreshLayout(): SmartRefreshLayout? {
-        return null
-    }
-
-    override fun refreshData() {
-
+    @OnClick(
+        [R.id.tvSingle, R.id.tvList, R.id.tvDetailList, R.id.tvMain2, R.id.tvDialog, R.id.tvNodata, R.id.tvCustom, R.id.tvMulti],
+        true
+    )
+    fun onClick(view: View) {
+        when (view.id) {
+            //single展示
+            R.id.tvSingle -> {
+                route(RouteUrls.Single)
+            }
+            //list展示
+            R.id.tvList -> {
+                route(RouteUrls.List)
+            }
+            //Detaillist展示
+            R.id.tvDetailList -> {
+                route(RouteUrls.DetailList)
+            }
+            R.id.tvMain2 -> {
+                route(RouteUrls.Main2)
+            }
+            //dialog
+            R.id.tvDialog -> {
+                ToastUtils.showLong("参考xpopup的官网使用")
+                //这里可参考xpopup的官网使用
+                //注意要修改maxWidth，需在init方法中的 super.init()之前设置popupInfo.maxWidth = ConvertUtils.dp2px(300f)
+            }
+            //无数据
+            R.id.tvNodata -> {
+                route(RouteUrls.NoDataList)
+            }
+            //自定义view替换
+            R.id.tvCustom -> {
+                route(RouteUrls.Custom, routeHook = {
+                    it.withString(RouteKeys.CustomKey, "测试Arouter")
+                })
+            }
+            //多布局展示
+            R.id.tvMulti -> {
+                route(RouteUrls.Multi)
+            }
+        }
     }
 
 }

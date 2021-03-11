@@ -1,0 +1,6 @@
+ext {
+
+    test = [
+            BUILD_VERSION: "1",
+    ]
+}

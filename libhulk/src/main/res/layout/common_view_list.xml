@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/smartRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never"
+    app:srlFooterTranslationViewId="@+id/recyclerView">
+
+    <com.madreain.libhulk.components.view.list.ListRefreshHeader
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_srlSpinnerStyle="FixedBehind" />
+
+    <FrameLayout
+        android:id="@+id/refreshBody"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
+
+        <FrameLayout
+            android:id="@+id/refreshEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <com.madreain.libhulk.components.view.list.ListFooter
+        android:id="@+id/refreshFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

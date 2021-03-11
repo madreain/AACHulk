@@ -3,103 +3,112 @@ ext {
     //查看错误信息 ./gradlew compileDebug --stacktrace -info      ./gradlew compileDebugSource --stacktrace -info
     //应用配置
     android = [
-            compileSdkVersion: 29,
-            buildToolsVersion: "29.0.3",
-            minSdkVersion    : 16,
-            targetSdkVersion : 29,
-            kotlinVersion    : "1.3.71",
-            versionCode      : 1,
-            versionName      : "1.0.0",
-            applicationId    : "com.madreain.aachulk"
-    ]
-
-    version = [
-            androidSupportSdkVersion: "28.0.0",
-            okhttpSdkVersion        : "4.4.1",
-            retrofitSdkVersion      : "2.7.2",
-            roomSdkVersion          : "1.1.1",
-            lifecycleSdkVersion     : "2.2.0-alpha01",
-            navigationVersion       : "2.2.1",
-
-//            glideSdkVersion         : "4.9.0",
-//            daggerSdkVersion       : "2.23.2",
-//            butterknifeSdkVersion   : "10.1.0",
-//            rxlifecycle2SdkVersion  : "3.0.0",
+            compileSdkVersion     : 29,
+            buildToolsVersion     : "29.0.3",
+            minSdkVersion         : 19,
+            targetSdkVersion      : 29,
+            kotlinVersion         : "1.3.71",
+            versionCode           : 1,
+            versionName           : "1.0.0",
+            applicationId         : "com.madreain.aachulk",
+            sdkSourceCompatibility: "1.8",
+            sdkTargetCompatibility: "1.8",
+            appSourceCompatibility: "1.8",
+            appTargetCompatibility: "1.8",
     ]
 
     dependencies = [
-
-            "appcompat"              : "androidx.appcompat:appcompat:1.0.0",
-            "material"               : "com.google.android.material:material:1.0.0",
-            "support-v4"             : "androidx.legacy:legacy-support-v4:1.0.0",
-            "cardview"               : "androidx.cardview:cardview:1.0.0",
-            "annotations"            : "androidx.annotation:annotation:1.0.0",
-            "navigation-fragment"    : "androidx.navigation:navigation-fragment:${version["navigationVersion"]}",
-            "navigation-ui"          : "androidx.navigation:navigation-ui:${version["navigationVersion"]}",
-            "navigation-fragment-ktx": "androidx.navigation:navigation-fragment-ktx:${version["navigationVersion"]}",
-            "navigation-ui-ktx"      : "androidx.navigation:navigation-ui-ktx:${version["navigationVersion"]}",
-            "recyclerview"           : "androidx.recyclerview:recyclerview:1.0.0",
-            "constraintlayout"       : "androidx.constraintlayout:constraintlayout:1.1.3",
-            "multidex"               : "androidx.multidex:multidex:2.0.0",
-            "vectordrawable"         : "androidx.vectordrawable:vectordrawable:1.1.0",
-
-            //ktx
-            "ktx"                    : "androidx.core:core-ktx:1.0.2",
-            "ktx-coroutines"         : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1",
-            "ktx-coroutines-android" : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1",
-
-            //network
-            "okhttp"                 : "com.squareup.okhttp3:okhttp:${version["okhttpSdkVersion"]}",
-            "okhttp-log"             : "com.squareup.okhttp3:logging-interceptor:${version["okhttpSdkVersion"]}",
-            //retrofit
-            "retrofit"               : "com.squareup.retrofit2:retrofit:${version["retrofitSdkVersion"]}",
-            "retrofit-converter-gson": "com.squareup.retrofit2:converter-gson:${version["retrofitSdkVersion"]}",
-            "retrofit-adapter-kt"    : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2",
-            //lifecycle
-            "lifecycle"              : "android.arch.lifecycle:extensions:${version["lifecycleSdkVersion"]}", //包含了 viewmodel 和 livedata
-            "lifecycle-ktx"          : "androidx.lifecycle:lifecycle-viewmodel-ktx:${version["lifecycleSdkVersion"]}",
-            "lifecycle-compiler"     : "android.arch.lifecycle:compiler:${version["lifecycleSdkVersion"]}",
-            //paging
-            "paging"                 : "androidx.paging:paging-runtime-ktx:2.1.0",
-            //room
-            "room"                   : "android.arch.persistence.room:runtime:${version["roomSdkVersion"]}",
-            "room-compiler"          : "android.arch.persistence.room:compiler:${version["roomSdkVersion"]}",
-            //arouter
-            "arouter"                : "com.alibaba:arouter-api:1.5.0",
-            "arouter-compiler"       : "com.alibaba:arouter-compiler:1.2.2",
-            //BaseRecyclerViewAdapterHelper
-            "brvah"                  : "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1",
-            //SmartRefreshLayout
-            "SmartRefreshLayout"     : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-15",
-            "SmartRefreshHeader"     : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-15",
-            //view
-            "topsnackbar"            : "com.androidadvance:topsnackbar:1.1.1",
-            //eventbus
-//            "eventbus"               : "org.greenrobot:eventbus:3.2.0",
-            "LiveEventBus"           : "com.jeremyliao:live-event-bus-x:1.6.1",
+            "appcompat"               : "androidx.appcompat:appcompat:1.2.0",
+            "core_ktx"                : "androidx.core:core-ktx:1.3.2",
+            "recyclerview"            : "androidx.recyclerview:recyclerview:1.1.0",
+            "constraintlayout"        : "androidx.constraintlayout:constraintlayout:2.0.4",
+            "lifecycle_common"        : "androidx.lifecycle:lifecycle-common-java8:2.2.0",
+            "lifecycle_viewmodel_ktx" : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0",
+            "lifecycle_runtime_ktx"   : "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0",
+            "lifecycle_livedata_ktx"  : "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0",
+            "activity"                : "androidx.activity:activity:1.1.0",
+            "fragment_ktx"            : "androidx.fragment:fragment-ktx:1.2.5",
+            //网络请求及其相关解析，适配器
+            "okhttp"                  : "com.squareup.okhttp3:okhttp:4.4.1",
+            "okhttp_log"              : "com.squareup.okhttp3:logging-interceptor:4.4.1",
+            "retrofit"                : "com.squareup.retrofit2:retrofit:2.7.2",
+            "retrofit_converter_gson" : "com.squareup.retrofit2:converter-gson:2.7.2",
+            "retrofit_adapter_kt"     : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2",
+            "stetho"                  : "com.facebook.stetho:stetho:1.5.0",
+            "stetho_okhttp3"          : "com.facebook.stetho:stetho-okhttp3:1.5.0",
+            //适配器，刷新加载请求头
+            "brvah"                   : "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4",
+            "refresh_layout"          : "com.scwang.smart:refresh-layout-kernel:2.0.1",
+            "refresh_header"          : "com.scwang.smart:refresh-header-classics:2.0.1",
+            //aouter
+            "arouter"                 : "com.alibaba:arouter-api:1.5.1",
+            "arouter_compiler"        : "com.alibaba:arouter-compiler:1.5.1",
+            //glide
+            "glide"                   : "com.github.bumptech.glide:glide:4.9.0",
+            "glide_compiler"          : "com.github.bumptech.glide:compiler:4.9.0",
+            //lottie
+            "lottie"                  : "com.airbnb.android:lottie:3.4.1",
+            //utilcodex
+            "utilcodex"               : "com.blankj:utilcodex:1.30.5",
+            //hilt
+            "hilt_android"            : "com.google.dagger:hilt-android:2.28-alpha",
+            "hilt_android_compiler"   : "com.google.dagger:hilt-android-compiler:2.28-alpha",
+            //hilt的扩展
+            "hilt_lifecycle_viewmodel": "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02",
+            "hilt_compiler"           : "androidx.hilt:hilt-compiler:1.0.0-alpha02",
+            //融云
+            "im_lib"                  : "cn.rongcloud.sdk:im_lib:4.1.0",
+            "im_kit"                  : "cn.rongcloud.sdk:im_kit:4.1.0",
+            //键盘
+            "panel_switch_helper"     : "com.effective.android:panelSwitchHelper-androidx:1.3.13",
+            //消息总线
+            "live_event_bus"          : "com.jeremyliao:live-event-bus-x:1.7.2",
+            //room数据存储
+            "roomruntime"             : 'androidx.room:room-runtime:2.2.6',
+            "roomcompiler"            : 'androidx.room:room-compiler:2.2.6',
+            "roomktx"                 : 'androidx.room:room-ktx:2.2.6',
+            "roomtesting"             : 'androidx.room:room-testing:2.2.6',
+            //popup
+            "xpopup"                  : "com.lxj:xpopup:2.2.21",
+            //roundedimageview
+            "roundedimageview"        : "com.makeramen:roundedimageview:2.3.0",
+            "snackbar"                : "com.androidadvance:topsnackbar:1.1.1",
+            "flowlayout"              : "com.hyman:flowlayout-lib:1.1.2",
+            "switchbutton"            : "com.kyleduo.switchbutton:library:2.0.0",
+            //iosocket
+            "iosocket"                : "io.socket:socket.io-client:1.0.0",
+            //multidex
+            "multidex"                : "androidx.multidex:multidex:2.0.1",
+            //meituan
+            "meituan"                 : "com.meituan.android.walle:library:1.1.7",
+            //MagicIndicator
+            "magicIndicator"          : "com.github.hackware1993:MagicIndicator:1.7.0",
             //aachulk
-            "aachulk"                : "com.madreain:libhulk:1.0.4",
+            "aachulk"                 : "com.madreain:libhulk:1.0.4",
     ]
 
-    /**
-     * 日志和环境配置
-     */
-    //开启日志
-    OPEN_LOG = true
-//    OPEN_LOG = false
-    //开启切换环境
-    OPEN_CHANGE = true
-//    OPEN_CHANGE = false
-    //开启arouter
-    OPEN_AROUTER = true
-    //baseurl
-    BASE_URL = "https://www.mxnzp.com"
-    //统一返回网络请求成功
-    CODE_SUCCESS = "1"
-    //增删改查返回网络请求成功，因为不支持集合，这里采用,分割
-    CODELIST_SUCCESS = "1,0"
-    //多个baseurl的返回code
-    WANANDROID_CODELIST_SUCCESS = "0"
-    GANK_CODELIST_SUCCESS = "100"
+    devConfigs = [
+            APP_NAME: "AACHulk开发版",
+            ENV     : "dev",//环境标志
+    ]
+    testConfigs = [
+            APP_NAME: "AACHulk测试版",
+            ENV     : "test",//环境标志
+    ]
+    releaseConfigs = [
+            APP_NAME: "AACHulk",
+            ENV     : "prod",//环境标志
+    ]
+
+    allConfigs = [
+            CODE_SUCCESS    : "1",
+            BASE_URL_DEV    : "https://www.mxnzp.com",//内网开发
+            BASE_URL_TEST   : "https://www.mxnzp.com",//外网测试
+            BASE_URL_RELEASE: "https://www.mxnzp.com",//正式
+            H5_URL_TEST     : "https://www.mxnzp.com",//h5地址测试
+            H5_URL_RELEASE  : "https://www.mxnzp.com",//h5地址正式
+            H5_URL_AUDIT    : "https://www.mxnzp.com",//h5地址审核
+            MOCK_URL        : "https://www.mxnzp.com",//Mock地址
+    ]
 
 }

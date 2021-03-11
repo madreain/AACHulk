@@ -2,9 +2,7 @@ package com.madreain.aachulk.module.main2
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.annotation.IdRes
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
@@ -12,26 +10,17 @@ import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.madreain.aachulk.R
-import com.madreain.aachulk.consts.ARouterUri
+import com.madreain.aachulk.consts.RouteUrls
 import com.madreain.aachulk.module.dashboard.DashboardFragment
 import com.madreain.aachulk.module.home.HomeFragment
-import com.madreain.aachulk.module.main.MainViewModel
 import com.madreain.aachulk.module.notifications.NotificationsFragment
-import com.madreain.libhulk.base.BaseActivity
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.madreain.libhulk.components.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main2.*
 
-@Route(path = ARouterUri.Main2Activity)
-class Main2Activity : BaseActivity<MainViewModel, ViewDataBinding>(),
+@Route(path = RouteUrls.Main2)
+class Main2Activity : BaseActivity(R.layout.activity_main2),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main2
-    }
-
-    override fun getReplaceView(): View {
-        return viewpager
-    }
 
     override fun init(savedInstanceState: Bundle?) {
         navigation.setOnNavigationItemSelectedListener(this)
@@ -57,13 +46,6 @@ class Main2Activity : BaseActivity<MainViewModel, ViewDataBinding>(),
 
     }
 
-    override fun getSmartRefreshLayout(): SmartRefreshLayout? {
-        return null
-    }
-
-    override fun refreshData() {
-
-    }
 
     /**
      * BottomNavigationView的选中

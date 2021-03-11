@@ -3,91 +3,73 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.madreain'
-
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode rootProject.ext.android["versionCode"]
-        versionName rootProject.ext.android["versionName"]
-        //ARouter添加的
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-        }
 
-    }
-
-    dataBinding {
-        enabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
+        debug {
+
+        }
+        lytest {
+
+        }
         release {
+
+        }
+        all {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    kapt {
+//        correctErrorTypes true
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
     }
-
-    packagingOptions {
-        exclude 'META-INF/proguard/coroutines.pro'
-    }
-
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
-
-    //androidx
-    api rootProject.ext.dependencies["support-v4"]
-    api rootProject.ext.dependencies["appcompat"]
-    api rootProject.ext.dependencies["material"]
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    //基础的
     api rootProject.ext.dependencies["recyclerview"]
-    api rootProject.ext.dependencies["annotations"]
+    api rootProject.ext.dependencies["appcompat"]
+    api rootProject.ext.dependencies["core_ktx"]
     api rootProject.ext.dependencies["constraintlayout"]
-    //ktx扩展库
-    api rootProject.ext.dependencies["ktx"]
-    api rootProject.ext.dependencies["ktx-coroutines"]
-    api rootProject.ext.dependencies["ktx-coroutines-android"]
-    //okhttp
+    api rootProject.ext.dependencies["lifecycle_common"]
+    api rootProject.ext.dependencies["lifecycle_viewmodel_ktx"]
+    api rootProject.ext.dependencies["lifecycle_runtime_ktx"]
+    api rootProject.ext.dependencies["lifecycle_livedata_ktx"]
+    //网络请求及其相关解析，适配器
     api rootProject.ext.dependencies["okhttp"]
-    api rootProject.ext.dependencies["okhttp-log"]
-    //retrofit
+    api rootProject.ext.dependencies["okhttp_log"]
     api rootProject.ext.dependencies["retrofit"]
-    api rootProject.ext.dependencies["retrofit-converter-gson"]
-    api rootProject.ext.dependencies["retrofit-adapter-kt"]
-    //room
-//    api rootProject.ext.dependencies["room"]
-//    kapt rootProject.ext.dependencies["room-compiler"]
-    //lifecycle
-    api rootProject.ext.dependencies["lifecycle"]
-    api rootProject.ext.dependencies["lifecycle-ktx"]
-    kapt rootProject.ext.dependencies["lifecycle-compiler"]
-    //arouter
-    api rootProject.ext.dependencies["arouter"]
-    kapt rootProject.ext.dependencies["arouter-compiler"]
-    //brvah
+    api rootProject.ext.dependencies["retrofit_converter_gson"]
+    api rootProject.ext.dependencies["retrofit_adapter_kt"]
+    api rootProject.ext.dependencies["lifecycle_livedata_ktx"]
     api rootProject.ext.dependencies["brvah"]
-    //SmartRefreshLayout
-    api rootProject.ext.dependencies["SmartRefreshLayout"]
-    api rootProject.ext.dependencies["SmartRefreshHeader"]
-    //topsnackbar
-    api rootProject.ext.dependencies["topsnackbar"]
-    //eventbus
-//    api rootProject.ext.dependencies["eventbus"]
-    //LiveEventBus
-    api rootProject.ext.dependencies["LiveEventBus"]
-
+    api rootProject.ext.dependencies["refresh_layout"]
+    api rootProject.ext.dependencies["refresh_header"]
+    api rootProject.ext.dependencies["stetho"]
+    api rootProject.ext.dependencies["stetho_okhttp3"]
+    //arouter路由
+    api rootProject.ext.dependencies["arouter"]
+    kapt rootProject.ext.dependencies["arouter_compiler"]
+    //glide
+    api rootProject.ext.dependencies["glide"]
+    kapt rootProject.ext.dependencies["glide_compiler"]
+    //lottie
+    api rootProject.ext.dependencies["lottie"]
+    //utilcodex
+    api rootProject.ext.dependencies["utilcodex"]
 }
-
-//上传到jcenter
-apply from: "jcenter.gradle"

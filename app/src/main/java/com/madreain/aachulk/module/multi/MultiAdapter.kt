@@ -1,12 +1,11 @@
 package com.madreain.aachulk.module.multi;
 
-import androidx.databinding.DataBindingUtil
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.madreain.aachulk.R
-import com.madreain.aachulk.databinding.ItemActivityMulti2Binding
-import com.madreain.aachulk.databinding.ItemActivityMultiBinding
-import com.madreain.aachulk.databinding.ItemListBinding
-import com.madreain.libhulk.base.BaseMultiAdapter
-import com.madreain.libhulk.view.baseviewholder.HulkViewHolder
+import kotlinx.android.synthetic.main.item_activity_multi.view.*
+import kotlinx.android.synthetic.main.item_activity_multi.view.tv
+import kotlinx.android.synthetic.main.item_activity_multi2.view.*
 import java.util.*
 
 /**
@@ -16,43 +15,26 @@ import java.util.*
  * description：
  */
 
-public class MultiAdapter : BaseMultiAdapter<MultiListData>(ArrayList()) {
+public class MultiAdapter : BaseMultiItemQuickAdapter<MultiListData, BaseViewHolder>(ArrayList()) {
 
-
-    override fun onItemViewHolderCreated(viewHolder: HulkViewHolder, viewType: Int) {
-        when (viewType) {
-            MultiListData.type_1 -> {
-                DataBindingUtil.bind<ItemActivityMultiBinding>(viewHolder.itemView)
-            }
-            MultiListData.type_2 -> {
-                DataBindingUtil.bind<ItemActivityMulti2Binding>(viewHolder.itemView)
-            }
-        }
+    init {
+        addItemType(MultiListData.type_1, R.layout.item_activity_multi)
+        addItemType(MultiListData.type_2, R.layout.item_activity_multi2)
     }
 
     /**
      * 布局
      */
-    override fun convert(helper: HulkViewHolder, item: MultiListData) {
+    override fun convert(helper: BaseViewHolder, item: MultiListData) {
         when (item.itemType) {
             MultiListData.type_1 -> {
-                val itemListBinding = helper.getBinding<ItemActivityMultiBinding>()
-                if (itemListBinding != null) {
-                    itemListBinding.multiListData = item
-                }
+                helper.itemView.tv.text = item.name
             }
             MultiListData.type_2 -> {
-                val itemListBinding = helper.getBinding<ItemActivityMulti2Binding>()
-                if (itemListBinding != null) {
-                    itemListBinding.multiListData = item
-                }
+                helper.itemView.tv.text = item.name
             }
         }
     }
 
-    override fun addItemType() {
-        addItemType(MultiListData.type_1, R.layout.item_activity_multi)
-        addItemType(MultiListData.type_2, R.layout.item_activity_multi2)
-    }
 
 }

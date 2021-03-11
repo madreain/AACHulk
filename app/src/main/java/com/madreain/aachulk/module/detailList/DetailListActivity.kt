@@ -4,16 +4,16 @@ package com.madreain.aachulk.module.detailList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.madreain.aachulk.R
-import com.madreain.aachulk.consts.ARouterUri
-import com.madreain.aachulk.databinding.ActivityDetailListBinding
+import com.madreain.aachulk.consts.RouteUrls
+import com.madreain.aachulk.module.list.ListViewModel
+import com.madreain.aachulk.module.single.SingleData
 import com.madreain.aachulk.utils.ActionBarUtils
-import com.madreain.libhulk.base.BaseListActivity
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import kotlinx.android.synthetic.main.activity_list.*
+import com.madreain.libhulk.components.base.BaseActivity
+import com.madreain.libhulk.components.view.list.ListResult
+import kotlinx.android.synthetic.main.activity_detail_list.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 /**
@@ -22,17 +22,11 @@ import kotlinx.android.synthetic.main.toolbar.*
  * module：
  * description：
  */
-@Route(path = ARouterUri.DetailListActivity)
+@Route(path = RouteUrls.DetailList)
 class DetailListActivity :
-    BaseListActivity<DetailListViewModel, ActivityDetailListBinding, DetailListAdapter, DetailListData>() {
+    BaseActivity(R.layout.activity_detail_list) {
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_detail_list
-    }
-
-    override fun getReplaceView(): View {
-        return smartRefreshLayout
-    }
+    private val listViewModel by viewModels<ListViewModel>()
 
     override fun init(savedInstanceState: Bundle?) {
         //ActionBar相关设置
@@ -41,34 +35,35 @@ class DetailListActivity :
         })
         ActionBarUtils.setToolBarTitleText(toolbar, "DetailList带头部底部的数据展示界面")
         //请求接口
-        mViewModel.searchCity("中国", 1)
+        val detailListAdapter = DetailListAdapter()
+        listView.setAdapter(detailListAdapter)
+        listView.setOnDataLoadListener { page, isFirst ->
+            //请求接口
+            listViewModel.searchCity(this, "中国",
+                onSuccess = {
+                    listView.attachData(
+                        ListResult(
+                            true,
+                            it,
+                            listViewModel.nextPage
+                        )
+                    )
+                }, onError = {
+                    listView.attachData(
+                        ListResult<SingleData>(false, null, null)
+                    )
+                })
+        }
+        listView.autoRefreshNoAnimation()
         //增加头部
-        adapter?.addHeaderView(LayoutInflater.from(this).inflate(R.layout.head_detail, null))
+        detailListAdapter.addHeaderView(
+            LayoutInflater.from(this).inflate(R.layout.head_detail, null)
+        )
         //增加底部
-        adapter?.addFooterView(LayoutInflater.from(this).inflate(R.layout.footer_detail, null))
+        detailListAdapter.addFooterView(
+            LayoutInflater.from(this).inflate(R.layout.footer_detail, null)
+        )
     }
 
-    /**
-     * list相关方法
-     */
-    override fun loadPageListData(pageNo: Int) {
-        mViewModel.searchCity("中国", pageNo)
-    }
-
-    override fun getSmartRefreshLayout(): SmartRefreshLayout {
-        return smartRefreshLayout
-    }
-
-    override fun getRecyclerView(): RecyclerView {
-        return recyclerView
-    }
-
-    override fun getLayoutManager(): RecyclerView.LayoutManager {
-        return LinearLayoutManager(this)
-    }
-
-    override fun getAdapter() {
-        adapter = DetailListAdapter()
-    }
 
 }

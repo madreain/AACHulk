@@ -1,22 +1,21 @@
 package com.madreain.aachulk.module.custom
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.blankj.utilcode.util.ToastUtils
 import com.madreain.aachulk.R
-import com.madreain.aachulk.consts.ARouterUri
-import com.madreain.aachulk.consts.HulkKey
-import com.madreain.aachulk.databinding.ActivityListBinding
+import com.madreain.aachulk.consts.RouteKeys
+import com.madreain.aachulk.consts.RouteUrls
 import com.madreain.aachulk.module.list.ListAdapter
-import com.madreain.aachulk.module.list.ListData
+import com.madreain.aachulk.module.list.ListViewModel
+import com.madreain.aachulk.module.single.SingleData
 import com.madreain.aachulk.utils.ActionBarUtils
-import com.madreain.aachulk.view.MyVaryViewHelperController
-import com.madreain.libhulk.base.BaseListActivity
-import com.madreain.libhulk.view.IVaryViewHelperController
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.madreain.libhulk.components.base.BaseActivity
+import com.madreain.libhulk.components.view.list.ListResult
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -26,62 +25,47 @@ import kotlinx.android.synthetic.main.toolbar.*
  * module：
  * description：
  */
-@Route(path = ARouterUri.CustomActivity)
+@Route(path = RouteUrls.Custom)
 public class CustomActivity :
-    BaseListActivity<CustomViewModel, ActivityListBinding, ListAdapter, ListData>() {
+    BaseActivity(R.layout.activity_list) {
 
-    @Autowired(name = HulkKey.CustomKey)
+    @Autowired(name = RouteKeys.CustomKey)
     @JvmField
     var customValue: String? = null
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_list
-    }
-
-    override fun getReplaceView(): View {
-        return smartRefreshLayout
-    }
+    private val listViewModel by viewModels<ListViewModel>()
 
     override fun init(savedInstanceState: Bundle?) {
-        showToast("这是Arouter传递过来的值: " + customValue)
+        ToastUtils.showLong("这是Arouter传递过来的值: " + customValue)
         //ActionBar相关设置
         ActionBarUtils.setSupportActionBarWithBack(toolbar, null, View.OnClickListener {
             onBackPressed()
         })
         ActionBarUtils.setToolBarTitleText(toolbar, "自定义view展示,这里只修改了自定义的loading")
-        //请求接口
-        mViewModel.searchCity("中国", 1)
-    }
-
-    /**
-     * list相关方法
-     */
-    override fun loadPageListData(pageNo: Int) {
-        mViewModel.searchCity("中国", pageNo)
-    }
-
-    override fun getSmartRefreshLayout(): SmartRefreshLayout {
-        return smartRefreshLayout
-    }
-
-    override fun getRecyclerView(): RecyclerView {
-        return recyclerView
-    }
-
-    override fun getLayoutManager(): RecyclerView.LayoutManager {
-        return LinearLayoutManager(this)
-    }
-
-    override fun getAdapter() {
-        adapter = ListAdapter()
-    }
-
-    /**
-     * 自定义相关不同状态展示的view,这里只是修改了loading的效果不同，可根据每个项目的实际情况
-     * @return
-     */
-    override fun initVaryViewHelperController(): IVaryViewHelperController? {
-        return MyVaryViewHelperController(getReplaceView())
+        listView.setEmpty(
+            LayoutInflater.from(this)
+                .inflate(R.layout.custom_view_empty_page, null)
+        )
+        val listAdapter = ListAdapter()
+        listView.setAdapter(listAdapter)
+        listView.setOnDataLoadListener { page, isFirst ->
+            //请求接口
+            listViewModel.searchCity(this, "广德",
+                onSuccess = {
+                    listView.attachData(
+                        ListResult(
+                            true,
+                            it,
+                            listViewModel.nextPage
+                        )
+                    )
+                }, onError = {
+                    listView.attachData(
+                        ListResult<SingleData>(false, null, null)
+                    )
+                })
+        }
+        listView.autoRefreshNoAnimation()
     }
 
 

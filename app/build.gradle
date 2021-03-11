@@ -2,9 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
     defaultConfig {
         applicationId rootProject.ext.android["applicationId"]
         minSdkVersion rootProject.ext.android["minSdkVersion"]
@@ -12,12 +14,27 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //添加到此处
+        multiDexEnabled true
+
         android.applicationVariants.all {
             variant ->
                 variant.outputs.all {
-                    // 此处指定生成的apk文件名
-                    def newName = "aachulk_" + variant.buildType.name + "_v" + rootProject.ext.android["versionName"] + "_" + rootProject.ext.android["versionCode"] + ".apk"
-                    outputFileName = newName
+                    if (variant.buildType.name == "debug") {
+                        // 此处指定生成的apk文件名
+                        def newName = "aachulk" + "_v" + rootProject.ext.android["versionName"] + ".dev" + rootProject.ext.test["BUILD_VERSION"] + ".apk"
+                        outputFileName = newName
+                    } else if (variant.buildType.name == "lytest") {
+                        // 此处指定生成的apk文件名
+                        def newName = "aachulk" + "_v" + rootProject.ext.android["versionName"] + ".beta" + rootProject.ext.test["BUILD_VERSION"] + ".apk"
+                        outputFileName = newName
+                    } else {
+                        // 此处指定生成的apk文件名
+                        def newName = "aachulk" + "_v" + rootProject.ext.android["versionName"] + ".apk"
+                        outputFileName = newName
+                    }
                 }
         }
 
@@ -28,90 +45,122 @@ android {
             }
         }
 
-        //定义网络请求成功返回码 baseurl  日志打印  切换环境  在代码中BuildConfig.BASE_URL去使用
-        buildConfigField "String", "CODE_SUCCESS", getCodeSuccess()
-        buildConfigField "String", "CODELIST_SUCCESS", getCodeListSuccess()
-        buildConfigField "String", "WANANDROID_CODELIST_SUCCESS", getWanAndroidCodeListSuccess()
-        buildConfigField "String", "GANK_CODELIST_SUCCESS", getGankCodeListSuccess()
-        buildConfigField "String", "BASE_URL", getBaseUrl()
-        buildConfigField "boolean", "OPEN_LOG", getOpenLog()
-        buildConfigField "boolean", "OPEN_CHANGE", getOpenChange()
-        buildConfigField "boolean", "OPEN_AROUTER", getOpenARouter()
-    }
-
-    dataBinding {
-        enabled true
     }
 
     signingConfigs {
         release {
-            keyAlias 'aachulk'
-            keyPassword 'aachulk'
-            storeFile file('jks/aachulk.jks')
-            storePassword 'aachulk'
+            File strFile = new File("../key/aachulk.jks")
+            storeFile file(strFile)
+            storePassword "aachulk"
+            keyPassword "aachulk"
+            keyAlias "aachulk"
         }
     }
 
     buildTypes {
+        debug {
+            debuggable true
+//            resValue 'string', 'app_name', "${rootProject.ext.devConfigs["APP_NAME"]}"
+            buildConfigField "String", "BASE_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["BASE_URL_DEV"]).trim()}/\").toString()"
+            buildConfigField "String", "ENV", "\"${rootProject.ext.devConfigs["ENV"]}\""
+            buildConfigField "String", "H5_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["H5_URL_TEST"]).trim()}/\").toString()"
+            buildConfigField "String", "SOCKET_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["SOCKET_URL_TEST"]).trim()}\").toString()"
+
+        }
         release {
+            debuggable false
+//            resValue 'string', 'app_name', "${rootProject.ext.releaseConfigs["APP_NAME"]}"
+            buildConfigField "String", "BASE_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["BASE_URL_RELEASE"]).trim()}/\").toString()"
+            buildConfigField "String", "ENV", "\"${rootProject.ext.releaseConfigs["ENV"]}\""
+            buildConfigField "String", "H5_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["H5_URL_RELEASE"]).trim()}/\").toString()"
+            buildConfigField "String", "SOCKET_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["SOCKET_URL_RELEASE"]).trim()}\").toString()"
+
+        }
+        lytest {
+            debuggable true
+//            resValue 'string', 'app_name', "${rootProject.ext.testConfigs["APP_NAME"]}"
+            buildConfigField "String", "BASE_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["BASE_URL_TEST"]).trim()}/\").toString()"
+            buildConfigField "String", "ENV", "\"${rootProject.ext.testConfigs["ENV"]}\""
+            buildConfigField "String", "H5_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["H5_URL_TEST"]).trim()}/\").toString()"
+            buildConfigField "String", "SOCKET_URL", "new StringBuilder(\"${String.valueOf(rootProject.ext.allConfigs["SOCKET_URL_TEST"]).trim()}\").toString()"
+
+        }
+
+        all {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "MOCK_URL", "\"${String.valueOf(rootProject.ext.allConfigs["MOCK_URL"]).trim()}/\""
+            buildConfigField "String", "BUILD_VERSION", "\"${rootProject.ext.test["BUILD_VERSION"]}\""
+
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    packagingOptions {
-        exclude 'META-INF/proguard/coroutines.pro'
+    kotlinOptions { jvmTarget = "1.8" }
+
+    kapt {
+//        correctErrorTypes true
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
 }
 
-//相关配置的获取方法及其处理
-def getOpenLog() {
-    return "${OPEN_LOG}"
-}
-
-def getOpenChange() {
-    return "${OPEN_CHANGE}"
-}
-
-def getOpenARouter() {
-    return "${OPEN_AROUTER}"
-}
-
-def getBaseUrl() {
-    //最后没有斜杠，需要手动拼接
-    return "\"" + String.valueOf(BASE_URL).trim() + "/\""
-}
-
-def getCodeSuccess() {
-    return "\"" + String.valueOf(CODE_SUCCESS) + "\""
-}
-
-def getCodeListSuccess() {
-    return "\"" + String.valueOf(CODELIST_SUCCESS) + "\""
-}
-
-def getWanAndroidCodeListSuccess() {
-    return "\"" + String.valueOf(WANANDROID_CODELIST_SUCCESS) + "\""
-}
-
-def getGankCodeListSuccess() {
-    return "\"" + String.valueOf(GANK_CODELIST_SUCCESS) + "\""
-}
-
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
     //hulk引入
-    api project(':libhulk')
+    api project(path: ':libhulk')
 //    api rootProject.ext.dependencies["aachulk"]
-    //arouter
+    //通用类
     api rootProject.ext.dependencies["arouter"]
-    kapt rootProject.ext.dependencies["arouter-compiler"]
+    kapt rootProject.ext.dependencies["arouter_compiler"]
+    kapt rootProject.ext.dependencies["glide_compiler"]
+    api rootProject.ext.dependencies["activity"]
+    api rootProject.ext.dependencies["fragment_ktx"]
+    //hilt
+    api rootProject.ext.dependencies["hilt_android"]
+    kapt rootProject.ext.dependencies["hilt_android_compiler"]
+    api rootProject.ext.dependencies["hilt_lifecycle_viewmodel"]
+    kapt rootProject.ext.dependencies["hilt_compiler"]
+    //键盘
+    api rootProject.ext.dependencies["panel_switch_helper"]
+    //消息总线
+    api rootProject.ext.dependencies["live_event_bus"]
+    //room数据存储
+    api rootProject.ext.dependencies["roomruntime"]
+    kapt rootProject.ext.dependencies["roomcompiler"]
+    api rootProject.ext.dependencies["roomktx"]
+    api rootProject.ext.dependencies["roomtesting"]
+    //xpopup
+    api rootProject.ext.dependencies["xpopup"]
+    //roundedimageview
+    api rootProject.ext.dependencies["roundedimageview"]
+    //snackbar
+    api rootProject.ext.dependencies["snackbar"]
+    //flowlayout
+    api rootProject.ext.dependencies["flowlayout"]
+    //switchbutton
+    api rootProject.ext.dependencies["switchbutton"]
+    //iosocket
+    api rootProject.ext.dependencies["iosocket"]
+    //multidex
+    api rootProject.ext.dependencies["multidex"]
+    //meituan
+    api rootProject.ext.dependencies["meituan"]
+    //magicIndicator
+    api rootProject.ext.dependencies["magicIndicator"]
 
 }
+
 
 

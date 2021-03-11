@@ -1,9 +1,11 @@
 package com.madreain.aachulk.module.single
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.blankj.utilcode.util.ToastUtils
 import com.madreain.aachulk.module.api.ApiService
-import com.madreain.libhulk.em.RequestDisplay
-import com.madreain.libhulk.mvvm.BaseViewModel
+import com.madreain.libhulk.components.base.IPage
+import com.madreain.libhulk.network.NetHelper
 
 /**
  * @author madreain
@@ -11,32 +13,17 @@ import com.madreain.libhulk.mvvm.BaseViewModel
  * module：
  * description：
  */
-class SingleViewModel : BaseViewModel<ApiService>() {
+class SingleViewModel : ViewModel() {
 
-    public override fun onStart() {
-        cityList()
+
+    fun cityList(page: IPage, onSuccess: (data: List<SingleData>?) -> Unit) {
+        NetHelper.request(page, block = {
+            NetHelper.getService(ApiService::class.java).getCityList().asResult()
+        }, onSuccess = {
+            onSuccess(it)
+        }, onError = {
+            ToastUtils.showLong(it.message)
+        })
     }
-
-    var result = MutableLiveData<List<SingleData>>()
-    private fun cityList() {
-        launchOnlyresult(
-            //调用接口方法
-            block = {
-                getApiService().getCityList()
-            },
-            //重试
-            reTry = {
-                //调用重试的方法
-                cityList()
-            },
-            //成功
-            success = {
-                //成功回调
-                result.value = it
-                //通知ui刷新
-            }, type = RequestDisplay.REPLACE
-        )
-    }
-
 
 }

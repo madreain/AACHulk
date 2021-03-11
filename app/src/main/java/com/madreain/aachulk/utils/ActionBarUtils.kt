@@ -3,8 +3,8 @@ package com.madreain.aachulk.utils
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import com.madreain.hulk.R
-import com.madreain.libhulk.utils.StringUtils
+import com.blankj.utilcode.util.StringUtils
+import com.madreain.aachulk.R
 
 /**
  * @author madreain
@@ -30,7 +30,7 @@ class ActionBarUtils {
             toolbar.title = ""
             toolbar.setNavigationIcon(
                 if (backIconId == null) {
-                    R.mipmap.hulk_back
+                    R.drawable.hulk_back
                 } else {
                     backIconId
                 }

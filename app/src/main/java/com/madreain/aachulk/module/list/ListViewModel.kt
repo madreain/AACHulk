@@ -1,8 +1,11 @@
 package com.madreain.aachulk.module.list
 
+import androidx.lifecycle.ViewModel
+import com.blankj.utilcode.util.ToastUtils
 import com.madreain.aachulk.module.api.ApiService
-import com.madreain.libhulk.em.RequestDisplay
-import com.madreain.libhulk.mvvm.BaseListViewModel
+import com.madreain.aachulk.module.single.SingleData
+import com.madreain.libhulk.components.base.IPage
+import com.madreain.libhulk.network.NetHelper
 
 /**
  * @author madreain
@@ -10,28 +13,26 @@ import com.madreain.libhulk.mvvm.BaseListViewModel
  * module：
  * description：
  */
-class ListViewModel : BaseListViewModel<ApiService>() {
+class ListViewModel : ViewModel() {
 
-    public override fun onStart() {
+    //接口不带分页做的假的
+    var nextPage: Long = 1
 
-    }
-
-    fun searchCity(city: String, pageNo: Int) {
-        launchOnlyresult(
-            //调用接口方法
-            block = {
-                getApiService().searchCity(city)
-            },
-            //重试
-            reTry = {
-                //调用重试的方法
-                searchCity(city, pageNo)
-            },
-            //成功
-            success = {
-                //成功回调
-            }, type = RequestDisplay.REPLACE, pageNo = pageNo
-        )
+    fun searchCity(
+        page: IPage,
+        city: String,
+        onSuccess: (data: List<SingleData>?) -> Unit={},
+        onError: (e: Throwable) -> Unit = {}
+    ) {
+        nextPage++
+        NetHelper.request(page, block = {
+            NetHelper.getService(ApiService::class.java).searchCity(city).asResult()
+        }, onSuccess = {
+            onSuccess(it)
+        }, onError = {
+            onError(it)
+            ToastUtils.showLong(it.message)
+        })
     }
 
 }

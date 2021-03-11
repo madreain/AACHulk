@@ -2,18 +2,17 @@ package com.madreain.aachulk.module.noDataList
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.madreain.aachulk.R
-import com.madreain.aachulk.consts.ARouterUri
-import com.madreain.aachulk.databinding.ActivityNodataBinding
-import com.madreain.aachulk.module.list.ListData
+import com.madreain.aachulk.consts.RouteUrls
+import com.madreain.aachulk.module.list.ListAdapter
+import com.madreain.aachulk.module.list.ListViewModel
+import com.madreain.aachulk.module.single.SingleData
 import com.madreain.aachulk.utils.ActionBarUtils
-import com.madreain.libhulk.base.BaseListActivity
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.madreain.libhulk.components.base.BaseActivity
+import com.madreain.libhulk.components.view.list.ListResult
 import kotlinx.android.synthetic.main.activity_nodatalist.*
-import kotlinx.android.synthetic.main.activity_single.layout
 import kotlinx.android.synthetic.main.toolbar.*
 
 /**
@@ -22,17 +21,11 @@ import kotlinx.android.synthetic.main.toolbar.*
  * module：
  * description：
  */
-@Route(path = ARouterUri.NoDataListActivity)
+@Route(path = RouteUrls.NoDataList)
 class NoDataListActivity :
-    BaseListActivity<NoDataListViewModel, ActivityNodataBinding, NoDataListAdapter, ListData>() {
+    BaseActivity(R.layout.activity_nodatalist) {
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_nodatalist
-    }
-
-    override fun getReplaceView(): View {
-        return layout
-    }
+    private val listViewModel by viewModels<ListViewModel>()
 
     override fun init(savedInstanceState: Bundle?) {
         //ActionBar相关设置
@@ -40,35 +33,26 @@ class NoDataListActivity :
             onBackPressed()
         })
         ActionBarUtils.setToolBarTitleText(toolbar, "刷新有数据，加载更多无数据展示界面")
-        //请求接口
-        mViewModel.searchCity("浙江", 1)
-    }
-
-    /**
-     * 设置SmartRefreshLayout
-     */
-    override fun getSmartRefreshLayout(): SmartRefreshLayout? {
-        return smartRefreshLayout
-    }
-
-
-    override fun loadPageListData(pageNo: Int) {
-        if (pageNo == 1) {
-            mViewModel.searchCity("浙江", 1)
-        } else
-            mViewModel.searchCity("广德", pageNo)
-    }
-
-    override fun getRecyclerView(): RecyclerView? {
-        return recyclerView
-    }
-
-    override fun getLayoutManager(): RecyclerView.LayoutManager? {
-        return LinearLayoutManager(this)
-    }
-
-    override fun getAdapter() {
-        adapter = NoDataListAdapter()
+        val listAdapter = ListAdapter()
+        listView.setAdapter(listAdapter)
+        listView.setOnDataLoadListener { page, isFirst ->
+            //请求接口
+            listViewModel.searchCity(this, if (isFirst) "浙江" else "广德",
+                onSuccess = {
+                    listView.attachData(
+                        ListResult(
+                            true,
+                            it,
+                            listViewModel.nextPage
+                        )
+                    )
+                }, onError = {
+                    listView.attachData(
+                        ListResult<SingleData>(false, null, null)
+                    )
+                })
+        }
+        listView.autoRefreshNoAnimation()
     }
 
 }

@@ -9,7 +9,7 @@ import androidx.annotation.Keep
  * description：
  */
 @Keep
-class SingleData {
-    var code: String? = null
-    var name: String? = null
-}
+data class SingleData(
+    var code: String,
+    var name: String
+)

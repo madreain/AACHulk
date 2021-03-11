@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-        <variable
-            name="multiListData"
-            type="com.madreain.aachulk.module.multi.MultiListData" />
-
-
-    </data>
-
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/m1D7BEA"
-        android:text="@{multiListData.name}" />
-</layout>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/m1D7BEA"
+    android:gravity="center"
+    />

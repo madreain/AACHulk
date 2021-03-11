@@ -1,10 +1,10 @@
 package com.madreain.aachulk.module.detailList
 
-import androidx.databinding.DataBindingUtil
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.madreain.aachulk.R
-import com.madreain.aachulk.databinding.ItemDetailListBinding
-import com.madreain.libhulk.base.BaseAdapter
-import com.madreain.libhulk.view.baseviewholder.HulkViewHolder
+import com.madreain.aachulk.module.single.SingleData
+import com.madreain.libhulk.components.base.BaseAdapter
+import kotlinx.android.synthetic.main.item_list.view.*
 import java.util.*
 
 /**
@@ -13,17 +13,10 @@ import java.util.*
  * module：
  * description：
  */
-class DetailListAdapter : BaseAdapter<DetailListData>(R.layout.item_detail_list, ArrayList()) {
+class DetailListAdapter : BaseAdapter<SingleData>(R.layout.item_list, ArrayList()) {
 
-    override fun onItemViewHolderCreated(viewHolder: HulkViewHolder, viewType: Int) {
-        DataBindingUtil.bind<ItemDetailListBinding>(viewHolder.itemView)
-    }
-
-    override fun convert(helper: HulkViewHolder, item: DetailListData) {
-        val itemListBinding = helper.getBinding<ItemDetailListBinding>()
-        if (itemListBinding != null) {
-            itemListBinding.detailListData = item
-        }
+    override fun convert(helper: BaseViewHolder, item: SingleData) {
+        helper.itemView.tv.text = item.toString()
     }
 
 }
