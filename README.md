@@ -164,11 +164,10 @@ class SingleViewModel : ViewModel() {
 
 1.自定义各种非正常态View替换
 
-重写buildPageInit方法，创建IPageInit，可以通过重写实现IPageInit自定义
+重写buildPageInit方法，创建IPageInit，可以通过重写实现IPageInit方法，去创建适合自己app的默认界面、异常错误界面
 
-```
+封装好的带下拉刷新和加载更多的ListView支持setEmpty设置不同的空界面展示
 
-```
 
 2.拦截器
 
@@ -247,58 +246,17 @@ class SessionInterceptor : ErrorInterceptor(-100) {
 }
 ```
 
-3.多BaseUrl以及多状态码
-
-3.1  设置多BaseUrl
-
-```
-.addDomain(HulkKey.WANANDROID_DOMAIN_NAME, HulkKey.WANANDROID_API)
-```
-
-设置了多BaseUrl，就要设置对应的状态码，否则会报未设置状态码异常
-
-3.2  设置对应的状态码
-
-```
-.addRetSuccess(HulkKey.WANANDROID_DOMAIN_NAME, BuildConfig.WANANDROID_CODELIST_SUCCESS)
-
-```
-
-3.3 设置调用接口方法的currentDomainName
-
-```
- fun getWxArticle() {
-        launchOnlyresult(
-            //调用接口方法
-            block = {
-                getApiService().getWxArticle()
-            },
-            //重试
-            reTry = {
-                //调用重试的方法
-                getWxArticle()
-            },
-            //成功
-            success = {
-                //成功回调
-            },
-            currentDomainName = HulkKey.WANANDROID_DOMAIN_NAME,
-            type = RequestDisplay.REPLACE
-        )
-    }
-```
-
-上面这些配置项的配置可参考demo进行自身项目的配置
-
-[多BaseUrl的设计思路参考的RetrofitUrlManager的实现方式](https://github.com/JessYanCoding/RetrofitUrlManager)
-
-4.消息总线
+3.消息总线
 
 针对大家提出的问题，这里采用了LiveEventBus(缺点:不支持线程分发)去替换原先的EventBus，去掉了在HulkConfig设置setEventBusOpen的开关设置，大家可根据自身项目去选择适合自己的消息总线
 
 [`LiveEventBus` 消息总线，基于LiveData，具有生命周期感知能力，支持Sticky，支持AndroidX，支持跨进程，支持跨APP](https://github.com/JeremyLiao/LiveEventBus)
 
 具体实现方法参考官方文档
+
+4.Lottie的使用
+
+刷新头、loading的样式都使用了强大的动画库Lottie，这样可根据app让ui设计出酷炫且适合的动画
 
 ## 相关资料
 

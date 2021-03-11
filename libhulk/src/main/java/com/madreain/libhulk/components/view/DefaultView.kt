@@ -8,14 +8,14 @@ import android.widget.FrameLayout
 import com.madreain.libhulk.R
 import com.madreain.libhulk.components.base.IPageInit
 import com.madreain.libhulk.extensions.clickDelay
-import kotlinx.android.synthetic.main.view_init.view.*
+import kotlinx.android.synthetic.main.deault_view.view.*
 
-class InitView : FrameLayout, IPageInit {
+class DefaultView : FrameLayout, IPageInit {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     init {
-        val content = LayoutInflater.from(context).inflate(R.layout.view_init, this, false)
+        val content = LayoutInflater.from(context).inflate(R.layout.deault_view, this, false)
         addView(content)
     }
 
@@ -37,7 +37,7 @@ class InitView : FrameLayout, IPageInit {
         visibility = View.VISIBLE
         lavLoading.visibility = View.GONE
         tvError.text = msg ?: "请求错误"
-        tvError.clickDelay {
+        tvRefresh.clickDelay {
             retry?.invoke()
         }
         layoutError.visibility = View.VISIBLE

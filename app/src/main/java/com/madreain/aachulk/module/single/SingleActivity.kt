@@ -30,9 +30,12 @@ class SingleActivity : BaseActivity(R.layout.activity_single) {
         ActionBarUtils.setToolBarTitleText(toolbar, "单数据展示界面")
         //请求接口
         singleViewModel.cityList(this, onSuccess = {
+            tv.visibility = View.VISIBLE
             it?.let {
                 tv.text = it[0].name
             }
+        }, onError = {
+            tv.visibility = View.GONE
         })
     }
 

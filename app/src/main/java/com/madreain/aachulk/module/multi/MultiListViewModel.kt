@@ -30,7 +30,7 @@ class MultiListViewModel : ViewModel() {
             onSuccess(it)
         }, onError = {
             onError(it)
-        })
+        },load = true)
     }
 
 }

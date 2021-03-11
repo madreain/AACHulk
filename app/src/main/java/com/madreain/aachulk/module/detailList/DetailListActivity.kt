@@ -41,6 +41,16 @@ class DetailListActivity :
             //请求接口
             listViewModel.searchCity(this, "中国",
                 onSuccess = {
+                    if (isFirst) {
+                        //增加头部
+                        detailListAdapter.addHeaderView(
+                            LayoutInflater.from(this).inflate(R.layout.head_detail, null)
+                        )
+                        //增加底部
+                        detailListAdapter.addFooterView(
+                            LayoutInflater.from(this).inflate(R.layout.footer_detail, null)
+                        )
+                    }
                     listView.attachData(
                         ListResult(
                             true,
@@ -55,14 +65,7 @@ class DetailListActivity :
                 })
         }
         listView.autoRefreshNoAnimation()
-        //增加头部
-        detailListAdapter.addHeaderView(
-            LayoutInflater.from(this).inflate(R.layout.head_detail, null)
-        )
-        //增加底部
-        detailListAdapter.addFooterView(
-            LayoutInflater.from(this).inflate(R.layout.footer_detail, null)
-        )
+
     }
 
 

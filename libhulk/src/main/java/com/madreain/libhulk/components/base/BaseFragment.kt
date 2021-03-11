@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
 import com.madreain.libhulk.click.ClickInject
-import com.madreain.libhulk.components.view.InitView
+import com.madreain.libhulk.components.view.DefaultView
 
 abstract class BaseFragment : Fragment, IPage {
 
@@ -98,7 +98,7 @@ abstract class BaseFragment : Fragment, IPage {
      * 创建IPageInit，可以通过重写实现IPageInit自定义
      */
     open fun buildPageInit(): IPageInit? {
-        val initView = InitView(requireContext())
+        val initView = DefaultView(requireContext())
         rootFrameLayout?.addView(
             initView,
             FrameLayout.LayoutParams.MATCH_PARENT,
