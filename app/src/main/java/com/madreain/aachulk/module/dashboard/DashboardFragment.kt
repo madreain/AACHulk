@@ -2,7 +2,6 @@ package com.madreain.aachulk.module.dashboard
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import com.madreain.aachulk.R
 import com.madreain.aachulk.module.list.ListAdapter

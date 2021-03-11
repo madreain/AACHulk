@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.ToastUtils
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.madreain.aachulk.R
+import com.madreain.aachulk.consts.EventsKey
 import com.madreain.aachulk.consts.RouteKeys
 import com.madreain.aachulk.consts.RouteUrls
 import com.madreain.aachulk.utils.ActionBarUtils
@@ -18,26 +20,16 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun init(savedInstanceState: Bundle?) {
         ActionBarUtils.setToolBarTitleText(toolbar, "AACHulk项目展示")
-        //EventBus
-        tv_event.setOnClickListener {
-            route(RouteUrls.EventBus)
-            //传递参数
-//            LiveEventBus
-//                .get(LiveEventBusKey.AACKey)
-//                .postDelay("我是一个EventBus测试", 1000)
-        }
-        //多个baseurl
-        tv_more.setOnClickListener {
-            route(RouteUrls.ChangeBaseUrl)
-        }
-        //多个baseurl
-        tv_more2.setOnClickListener {
-            route(RouteUrls.ChangeBaseUrlTwo)
-        }
+        //LiveEventBus的接受
+        LiveEventBus
+            .get(EventsKey.EVENT_INCOMMING_MSG, String::class.java)
+            .observe(this, androidx.lifecycle.Observer {
+                tvEvent.text = it
+            })
     }
 
     @OnClick(
-        [R.id.tvSingle, R.id.tvList, R.id.tvDetailList, R.id.tvMain2, R.id.tvDialog, R.id.tvNodata, R.id.tvCustom, R.id.tvMulti],
+        [R.id.tvSingle, R.id.tvList, R.id.tvDetailList, R.id.tvMain2, R.id.tvDialog, R.id.tvNodata, R.id.tvCustom, R.id.tvMulti, R.id.tvEvent],
         true
     )
     fun onClick(view: View) {
@@ -76,6 +68,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             //多布局展示
             R.id.tvMulti -> {
                 route(RouteUrls.Multi)
+            }
+            //传递参数
+            R.id.tvEvent -> {
+                LiveEventBus
+                    .get(EventsKey.EVENT_INCOMMING_MSG)
+                    .postDelay("我是一个LiveEventBus测试" + Math.random(), 100)
             }
         }
     }

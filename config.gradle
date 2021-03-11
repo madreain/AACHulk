@@ -108,7 +108,7 @@ ext {
             H5_URL_TEST     : "https://www.mxnzp.com",//h5地址测试
             H5_URL_RELEASE  : "https://www.mxnzp.com",//h5地址正式
             H5_URL_AUDIT    : "https://www.mxnzp.com",//h5地址审核
-            MOCK_URL        : "https://www.mxnzp.com",//Mock地址
+            MOCK_URL        : "https://www.wanandroid.com",//Mock地址
     ]
 
 }

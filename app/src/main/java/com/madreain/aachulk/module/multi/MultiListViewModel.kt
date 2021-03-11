@@ -3,7 +3,6 @@ package com.madreain.aachulk.module.multi
 import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.ToastUtils
 import com.madreain.aachulk.module.api.ApiService
-import com.madreain.aachulk.module.single.SingleData
 import com.madreain.libhulk.components.base.IPage
 import com.madreain.libhulk.network.NetHelper
 

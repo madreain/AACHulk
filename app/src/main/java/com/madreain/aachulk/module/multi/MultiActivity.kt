@@ -7,8 +7,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.madreain.aachulk.R
 import com.madreain.aachulk.consts.RouteUrls
-import com.madreain.aachulk.module.list.ListAdapter
-import com.madreain.aachulk.module.list.ListViewModel
 import com.madreain.aachulk.module.single.SingleData
 import com.madreain.aachulk.utils.ActionBarUtils
 import com.madreain.libhulk.components.base.BaseActivity

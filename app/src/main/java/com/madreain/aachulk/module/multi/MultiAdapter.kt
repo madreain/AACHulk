@@ -3,9 +3,7 @@ package com.madreain.aachulk.module.multi;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.madreain.aachulk.R
-import kotlinx.android.synthetic.main.item_activity_multi.view.*
 import kotlinx.android.synthetic.main.item_activity_multi.view.tv
-import kotlinx.android.synthetic.main.item_activity_multi2.view.*
 import java.util.*
 
 /**

@@ -6,6 +6,5 @@ package com.madreain.aachulk.consts
 object H5Urls {
     const val PrivacyPolicy = "privacyPolicy"
     const val UserAgreement = "userAgreement"
-    const val Logout = "Logout"
 
 }

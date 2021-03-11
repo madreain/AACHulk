@@ -28,6 +28,7 @@ class MockInterceptor : Interceptor {
     }
 
     companion object {
+        //todo 这里写待调试的时候的需用用mock的url地址
         private val sMockUrls =
             listOf(
                 ""

@@ -1,6 +1,5 @@
 package com.madreain.aachulk.module.single
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.ToastUtils
 import com.madreain.aachulk.module.api.ApiService

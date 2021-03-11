@@ -1,15 +1,15 @@
-package com.madreain.libhulk.network.model
+package com.madreain.aachulk.module.base
 
-import com.madreain.libhulk.config.LibConfig
 import com.madreain.libhulk.network.exception.ReturnCodeException
 import com.madreain.libhulk.network.exception.ReturnEmptyException
+import com.madreain.libhulk.network.model.BaseResponseBean
 
 class ResponseBean<T>(code: Int?, message: String, private val data: T?) :
     BaseResponseBean(code, message) {
 
     fun asResult(): T {
         //成功
-        if (code == LibConfig.getRetSuccess()) {
+        if (code == 0) {
             if (data != null) {
                 return data
             } else {
@@ -25,7 +25,7 @@ class ResponseBean<T>(code: Int?, message: String, private val data: T?) :
 
     fun asResultNullable(): T? {
         //成功
-        if (code == LibConfig.getRetSuccess()) {
+        if (code == 0) {
             return data
         } else {
             //状态码错误

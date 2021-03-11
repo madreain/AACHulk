@@ -8,12 +8,8 @@ object RouteUrls {
     const val Single = "/data/single"
     const val List = "/data/list"
     const val DetailList = "/data/detailList"
-    const val NoData = "/data/noData"
     const val NoDataList = "/data/noDataList"
     const val Custom = "/data/custom"
     const val Main2 = "/data/main2"
     const val Multi = "/data/multi"
-    const val EventBus = "/data/eventBus"
-    const val ChangeBaseUrl = "/data/changeBaseUrl"
-    const val ChangeBaseUrlTwo = "/data/changeBaseUrlTwo"
 }
