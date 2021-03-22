@@ -119,8 +119,8 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
     //hulk引入
-    api project(path: ':libhulk')
-//    api rootProject.ext.dependencies["aachulk"]
+//    api project(path: ':libhulk')
+    api rootProject.ext.dependencies["aachulk"]
     //通用类
     api rootProject.ext.dependencies["arouter"]
     kapt rootProject.ext.dependencies["arouter_compiler"]
@@ -132,33 +132,14 @@ dependencies {
     kapt rootProject.ext.dependencies["hilt_android_compiler"]
     api rootProject.ext.dependencies["hilt_lifecycle_viewmodel"]
     kapt rootProject.ext.dependencies["hilt_compiler"]
-    //键盘
-    api rootProject.ext.dependencies["panel_switch_helper"]
     //消息总线
     api rootProject.ext.dependencies["live_event_bus"]
-    //room数据存储
-    api rootProject.ext.dependencies["roomruntime"]
-    kapt rootProject.ext.dependencies["roomcompiler"]
-    api rootProject.ext.dependencies["roomktx"]
-    api rootProject.ext.dependencies["roomtesting"]
     //xpopup
     api rootProject.ext.dependencies["xpopup"]
-    //roundedimageview
-    api rootProject.ext.dependencies["roundedimageview"]
     //snackbar
     api rootProject.ext.dependencies["snackbar"]
-    //flowlayout
-    api rootProject.ext.dependencies["flowlayout"]
-    //switchbutton
-    api rootProject.ext.dependencies["switchbutton"]
-    //iosocket
-    api rootProject.ext.dependencies["iosocket"]
     //multidex
     api rootProject.ext.dependencies["multidex"]
-    //meituan
-    api rootProject.ext.dependencies["meituan"]
-    //magicIndicator
-    api rootProject.ext.dependencies["magicIndicator"]
 
 }
 
